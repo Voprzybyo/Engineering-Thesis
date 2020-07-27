@@ -1,7 +1,12 @@
 
 #include "RIIM_UAPI.h"
-#include "App_NewImage_Leaf_SB.h"
 
+//Jaki program wgrac na Leaf Node
+#define PROG "LIGHT&BUTTON"
+
+#if PROG == "LIGHT&BUTTON"
+#include "App_Light_Button_Leaf_SB"
+#endif
 
 // Child node IP address (the node to receive the OTA) is hardcoded in 
 // this example. Please substitute it with your own IP address
