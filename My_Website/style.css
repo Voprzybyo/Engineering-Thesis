@@ -1,27 +1,11 @@
 body{
-background: gray;
+background: #1f1f1f;
 font-family: Verdana;
 font-size: 20px;
 color: white;
 
 }
 
-h1{
-font-size: 48px;
-}
-
-/*Hiperłącza*/
-a:link{
-	color:yellow;
-}
-
-a:visited{
-	color:yellow;
-}
-
-a:hover{
-	color:red;
-}
 
 
 container
@@ -31,8 +15,120 @@ margin-left:auto;
 margin-right:auto;
 }
 
-logo
+.rectangle
 {
-background-color:black;
+	width: 960px;
+	margin:20px;
+	text-align:center;
 }
 
+#nav
+{
+	float:left;
+	font-family:Verdana;
+
+	text-align:left;
+	width: 500px;
+}
+
+#content{
+	width: 400px;
+	float:left;
+}
+
+#logo
+{
+	float:left;
+	font-family:Verdana;
+	font-size:70px;
+	width:600px;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align:left;
+}
+
+#zegar
+{
+	float:left;
+	font-family:Verdana;
+	font-size:70px;
+	margin-top:10px;
+	margin-bottom:10px;
+	text-align:left;
+}
+
+
+
+
+.tile1
+{
+	margin:10px;
+	width:230px;
+	height:142px;
+	background-color: #3095d3;
+	float:left;
+	text-align:center;
+}
+.tile1:hover{
+	background-color: #2084c2;
+}
+
+
+
+
+
+.tile2
+{
+	margin:10px;
+	width:230px;
+	height:142px;
+	background-color: #666666;
+	float:left;
+	text-align:center;
+}
+
+.tile2:hover{
+	background-color: #555555;
+}
+
+.tile3
+{
+	margin:10px;
+	width:230px;
+	height:142px;
+	background-color: #93c748;
+	float:left;
+}
+
+.tile3:hover{
+	background-color: #82b637;
+}
+
+.tile4
+{
+	margin:10px;
+	width:480px;
+	height:142px;
+	background-color: #ee5a32;
+	font-size:26px;
+	text-align:center
+	line-height:150%
+}
+
+a.tilelink
+{
+	color: #ffffff;
+	text-decoration:none;
+	display:block;
+	width:230px;
+	height:142px;
+}
+
+
+.tile5
+{
+	margin:10px;
+	width:800px;
+	height:466px;
+	background-color: #666666;
+}

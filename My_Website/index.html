@@ -8,90 +8,67 @@
 	<meta name = "description" content = "Test" />
 	<meta name = "keywords" content = "Test2" /> 
 	<link rel = "stylesheet" href = "style.css" type = "text/css"/>
+	<link rel = "stylesheet" href = "css/fontello.css" type = "text/css"/>
 	
-	<style>
-	
-#container
-{
-width: 1330px;
-margin-left:auto;
-margin-right:auto;
-}
+	<script src="timer.js"></script>
 
-#logo
-{
-background-color: black;
-text-align:center;
-padding:15px;
-}
-
-#sublogo
-{
-background-color: gray;
-text-align:center;
-padding:20px;
-}
-
-#nav
-{
-background-color: blue;
-width:1310px;
-padding:10px;
-text-align:center;
-}
-
-#content
-{
-background-color: gray;
-text-align:center;
-padding:20px;
-width:1300px;
-}
-
-#footer
-{
-color:white;
-background-color: black;
-text-align:center;
-padding:15px;
-}
-
-</style>
-	
 </head>
 
-<body>
+<body onload="odliczanie();">
 
 
-
-
-
-
-
-<div id = "container">
-
-	<div id = "logo">
-	<h1> Pierwsza Strona </h1>
+	<div id = "container">
+	
+	<div class="rectangle">
+		<div id = "logo">Moja strona</div>
+		<div id="zegar">12:00:00</div>
+		<div style="clear:both;"></div>
 	</div>
 	
-	<div id = "sublogo">
-	Pierwsza strona do pracy inżynierskiej<br/>
-	</div>
 	
 	<div id = "nav">
-	NAV<br/>
-	</div>
+		<div class = "tile1">
+			<div class = "user">
+				<a href="omnie.html" class="tilelink">
+				<i class="icon-user"></i></br>
+				O mnie
+				</a>
+			</div>
+		</div>
+		<div class = "tile1">
+			<div class = "topic">
+			<a href="topic.html" class="tilelink">
+			<i class="icon-graduation-cap"></i></br>
+			Temat pracy
+			</a>
+			</div>
+		
+		</div>
+		<div style="clear:both;"></div>
+		
+		<div class="tile2">
+		<div class = "github">
+		<a href="https://github.com/Voprzybyo" target="_blank" class="tilelink">
+			<i class="icon-git-squared"></i></br>
+			GitHub
+		</a>
+			</div>
+		</div>
+		<div class="tile3">3</div>
+		<div style="clear:both;"></div>
+		
+		<div class="tile4">
+		<i>Icekuerce minus icekuercezero</i></br>
+		<p style="text-indent: 200px">~G. Krajewski</p>
+		</div>
+	</div>	
 	
 	<div id = "content">
-		<a href = "https://hexed.it" target = "_blank" title = "zobacz"> Zamiana kodu OTA na hex </a>
-
-		<br/><br/>
-		<img src="img/zorza.jpg"/>
-
+		<div class="tile5">5</div>
 	</div>
+	<div style = "clear:both;"></div>
 	
-</div>
-
-
+	<div class="rectangle">2020 Praca inżynierska</div>
+	</div>
 </body>
 </html>
