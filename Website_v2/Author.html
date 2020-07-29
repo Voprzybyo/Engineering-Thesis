@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html lang="pl">
+<head>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	
+	<title>Praca Inżynierska</title>
+	
+	<meta name="description" content="Praca Inżynierska 2020" />
+	<meta name="keywords" content="sieci bezprzewodowe, mesh, sensorowe" />
+	
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	
+	<link href="css/fontello.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="timer.js"></script>
+	
+</head>
+
+<body onload = "counting();">
+
+	<div class="wrapper">
+		<div class="header">
+		
+			<div class="img">
+				<img src="mesh.png" style="float: left;"/>
+			</div>
+			<div class="logo">
+				<span style="color: #00ccff">Sieć </span><span style="color: #DCDCDC">sensorowa</span></br>
+				<span style="font-size:20px">Praca Inżynierska </span>
+				<div style="clear:both;"></div>
+			</div>
+			
+			
+			<div id="clock"></div>
+			
+			
+			<script type="text/javascript">
+			document.getElementById("clock").innerHTML = day+"/"+month+"/"+year+"</br>"+hour+":"+minute+":"+second; 
+			</script>
+		</div>
+		<div class="nav">
+			<ol>
+				<li><a href="MainPage.html">Strona główna</a></li>
+				<li><a href="Topic.html">Temat pracy</a>
+				<li><a href="Devices.html">Sprzęt</a>					
+				<li><a href="Location.html">Lokalizacja</a>
+				<li><a href="Data.html">Zgromadzone dane</a>
+				<li><a href="Author.html">Autor</a></li>
+			</ol>
+		
+			
+		</div>
+		
+		<div class="content">
+			<p><i><b>Wojciech Przybyło</b></i> - student 4-go roku "Elektroniki i Telekomunikacji" na Akademii Górniczo-Hutniczej im. Stanisława Staszica w Krakowie</p>
+		</div>
+		
+		<div class="socials">
+			<div class="socialdivs">
+				<div class="fb">
+					<i class="icon-facebook"></i>
+				</div>
+				<div class="yt">
+					<i class="icon-youtube"></i>
+				</div>
+				<div class="tw">
+					<i class="icon-twitter"></i>
+				</div>
+				<div class="gplus">
+					<i class="icon-gplus"></i>
+				</div>
+				<div style="clear:both"></div>
+			</div>
+		</div>
+		
+		<div class="footer">Wojciech Przybyło - Praca inżynierska &copy; 2020 </div>
+	</div>
+	
+	<script src="jquery-3.5.1.min.js"></script>
+	
+	<script>
+
+	$(document).ready(function() {
+	var NavY = $('.nav').offset().top;
+	 
+	var stickyNav = function(){
+	var ScrollY = $(window).scrollTop();
+		  
+	if (ScrollY > NavY) { 
+		$('.nav').addClass('sticky');
+	} else {
+		$('.nav').removeClass('sticky'); 
+	}
+	};
+	 
+	stickyNav();
+	 
+	$(window).scroll(function() {
+		stickyNav();
+	});
+	});
+	
+</script>
+	
+</body>
+</html>
