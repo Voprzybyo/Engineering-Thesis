@@ -1,0 +1,21 @@
+{
+  "name": "Test1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "chart.js": "^2.9.2",
+    "express": "^4.17.1",
+    "jquery": "^3.4.1",
+    "node-fetch": "^2.6.0",
+    "sqlite3": "^4.1.0",
+    "xmlhttprequest": "^1.8.0"
+  }
+}
