@@ -142,6 +142,13 @@ body
 	text-align:center;
 }
 
+.ChartHeader
+{
+	font-size:36px;
+	padding:5px;
+	margin-top:50px;
+	text-align:center;
+}
 
 #temperature
 {
@@ -170,6 +177,7 @@ body
 	color:#00ccff;
 	float: left;
 }
+
 
 .button {
     display: inline-block;

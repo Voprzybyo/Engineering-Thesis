@@ -38,58 +38,19 @@ function getDataAll(choiceIn) {
     })
 
 }
-function createChartLeq() {
-   var ctx = document.getElementById('myChart1').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-}
 
-function DrawChart() {
-    $.get("/get_data_chart", function (data) {
+
+function DrawChartHum() {
+    $.get("/get_data_chart_hum", function (data) {
 		
 	var obj2 = JSON.parse(data);
-	var tem = obj2.Hum[6];
+	var tem = obj2.Hum[0];
 	var lebels = [];
     var data_chart = [];
-	alert(tem.value);
     /*extract data form raw input */
-    for(var i = 0; i < 50; ++i){
+    for(var i = 180; i >0; i-=2){
 		var tem = obj2.Hum[i];
-        lebels.push(i);
+        lebels.push(-i/2+30);
         data_chart.push(tem.value);
     }
 
@@ -99,7 +60,7 @@ function DrawChart() {
     }
 
     /*making a chart*/
-    var ctx = document.getElementById("myChart");
+    var ctx = document.getElementById("ChartHum");
     LAeqChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -108,29 +69,105 @@ function DrawChart() {
         data: {
             labels: lebels,
             datasets: [{
-                backgroundColor: 'rgb(10,100,54)',
-                borderColor: 'rgb(10,100,54)',
-                label: 'Leq',
-                lineTension: 0,
-                data: data_chart
+                backgroundColor: '#DCDCDC',
+                borderColor: '#00ccff',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chart,
+				fill:false,		
+				
             }]
         },
         options: {
             legend: {
                 display: false
+
             },
             title: {
                 display: true,
-                text: 'Wykres'
-            }
+				fontColor: 'white',
+				fontSize: 32
+            },
+			 scales: {
+            yAxes: [{
+                ticks: {
+					
+                    suggestedMin: 25,
+                    suggestedMax: 75
+                }
+            }]
+        }
         }
     });
 		
 		
     })
-
+	setTimeout("DrawChartHum()",20000);
 }
 
+function DrawChartTemp() {
+    $.get("/get_data_chart_temp", function (data) {
+		
+	var obj2 = JSON.parse(data);
+	var tem = obj2.Temp[0];
+	var lebels = [];
+    var data_chart = [];
+    /*extract data form raw input */
+    for(var i = 180; i >0; i-=2){
+		var tem = obj2.Temp[i];
+        lebels.push(-i/2+30);
+        data_chart.push(tem.value);
+    }
+
+    /*Destorying previous chart */
+    if(LAeqChart!=null){
+        LAeqChart.destroy();
+    }
+
+    /*making a chart*/
+    var ctx = document.getElementById("ChartTemp");
+    LAeqChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: '#DCDCDC',
+                borderColor: '#00ccff',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chart,
+				fill:false,		
+				
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+
+            },
+            title: {
+                display: true,
+				fontColor: 'white',
+				fontSize: 32
+            },
+			 scales: {
+            yAxes: [{
+                ticks: {
+					
+                    suggestedMin: 25,
+                    suggestedMax: 75
+                }
+            }]
+        }
+        }
+    });
+			
+    })
+	setTimeout("DrawChartTemp()",20000);
+}
 
 
 
