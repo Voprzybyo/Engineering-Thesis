@@ -25,7 +25,7 @@
 	
 </head>
 
-<body onload = "counting();getDataAll();">
+<body onload = "counting();">
 
 
 	<div class="wrapper">
@@ -57,6 +57,7 @@
 				<li><a href="Data.html">Zgromadzone dane</a>
 				<ul>
 						<li><a href="AllSensors.html">Czujniki</a></li>
+						<li><a href="Charts.html">Wykresy</a></li>
 	
 				</ul>
 				<li><a href="Author.html">Autor</a></li>
@@ -68,11 +69,50 @@
 		<div class="content">
 			<div class="location-text"><p>Dane w czasie rzeczywistym</p></div>
 			
-			<div class="inside">
-				<div id="tresc" > </div>
-			</div>
+			
+				<div id="tresc">
+				
+					<div class="ParameterName"> <span style="color: red;">Temperatura:</span></div>
+						<div class="ParameterValue">
+							<div id="temperature"><script type="text/javascript">getTemperature()</script> </div> 
+						</div>
+<div style="clear:both;"></div>
+
+					<div class="ParameterName"> <span style="color: #205DEE;">Wilgotność:</span></div>
+					<div class="ParameterValue">
+						<div id="humidity"><script type="text/javascript">getHumidity()</script> </div> 
+					</div>
+
+
+<div style="clear:both;"></div>
+
+					<div class="ParameterName"> <span style="color: #FF8900;">Nasłonecznienie:</span></div>
+					<div class="ParameterValue">
+						<div id="light"><script type="text/javascript">getLight()</script> </div> 
+					</div>
+					
+					
+<div style="clear:both;"></div>
+
+					<div class="ParameterName"> Zanieczyszczenie:</div>
+					<div class="ParameterValue">
+						<div id="voc"><script type="text/javascript">getVoc()</script> </div> 
+					</div>	
+
+<div style="clear:both;"></div>		
+
+					<div class="ParameterName"> Przycisk:</div>
+					<div class="ParameterValue">
+						<div id="boardButton"><script type="text/javascript">getButton()</script> </div> 
+					</div>				
+				</div>
+		
+			
+			
+			
+			
 			<p id ="Buttons">
-                    <button class="button" onclick="getDataAll()">Odśwież</button>
+                    <button class="button" onclick="getTemperature();getHumidity();getLight();getVoc();getButton();">Odśwież</button>
                 </p>
 				<div style="clear:both;"></div>
 				

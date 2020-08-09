@@ -1,24 +1,161 @@
-var deviceName = "agh-noise-measurement-unit-1";
-var timeSpan = "1h";
 
+var choice = 1;
+var LAeqChart = null;
 
-function getDataAll() {
-	
+function getDataAll(choiceIn) {
     $.get("/get_data", function (data) {
 	var obj = JSON.parse(data);
 	var temp1 = obj.Hum[0];
 	var temp2 = obj.Temp[0];
-document.getElementById("tresc").innerHTML = "Wilgotnosc: " + temp1.value + "%</br>"
-+"Temperatura: " + temp2.value + "st.";;
+	var temp3 = obj.Light[0];
+	var temp4 = obj.VOC[0];
+	var temp5 = obj.Button[0];
+	switch(choiceIn){
+		case 1:	
+			document.getElementById("temperature").innerHTML = temp2.value + " °C</br>";		
+			break;
+		case 2:		
+			document.getElementById("humidity").innerHTML = temp1.value + " %</br>";
+			break;
+		case 3:		
+			document.getElementById("light").innerHTML = temp3.value + " mV</br>";
+			break;
+		case 4:		
+			document.getElementById("voc").innerHTML = temp4.value + " (VOC)</br>";
+			break;
+		case 5:	
+				if(temp5.value == 0){
+			document.getElementById("boardButton").innerHTML = "Wciśnięty ";
+				}else{
+			document.getElementById("boardButton").innerHTML = "Nie wciśnięty ";		
+				}
+			break;
+		default:
 
+			break;
+	}
 		
     })
-	setTimeout("getDataAll()",1000);
+
+}
+function createChartLeq() {
+   var ctx = document.getElementById('myChart1').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
 }
 
-function getData3h() {
-    timeSpan = "3h";
-    getSoundData(deviceName, timeSpan);
+function DrawChart() {
+    $.get("/get_data_chart", function (data) {
+		
+	var obj2 = JSON.parse(data);
+	var tem = obj2.Hum[6];
+	var lebels = [];
+    var data_chart = [];
+	alert(tem.value);
+    /*extract data form raw input */
+    for(var i = 0; i < 50; ++i){
+		var tem = obj2.Hum[i];
+        lebels.push(i);
+        data_chart.push(tem.value);
+    }
+
+    /*Destorying previous chart */
+    if(LAeqChart!=null){
+        LAeqChart.destroy();
+    }
+
+    /*making a chart*/
+    var ctx = document.getElementById("myChart");
+    LAeqChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: 'rgb(10,100,54)',
+                borderColor: 'rgb(10,100,54)',
+                label: 'Leq',
+                lineTension: 0,
+                data: data_chart
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Wykres'
+            }
+        }
+    });
+		
+		
+    })
+
+}
+
+
+
+
+function getTemperature() {
+choice=1;
+getDataAll(choice);
+}
+
+function getHumidity() {
+choice=2;
+getDataAll(choice);
+}
+
+function getLight() {
+choice=3;
+getDataAll(choice);
+}
+
+function getVoc() {
+choice=4;
+getDataAll(choice);
+}
+function getButton() {
+choice=5;
+getDataAll(choice);
 }
 
 function getData6h() {

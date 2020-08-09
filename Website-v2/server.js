@@ -7,7 +7,7 @@ app.use(express.static(__dirname ) )
 
 app.get('/', function (request, response) {
     response.writeHead(200, {'Content-Type': 'text/html'});
-    fs.readFile('/frontend/Data.html', null, function (err, data) {
+    fs.readFile('/frontend/AllSensors.html', null, function (err, data) {
        if(err){
            response.write("Error occured during loading html file");
        }else{
@@ -22,12 +22,35 @@ app.get('/', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
 
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp" , 
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp,Light,Button,VOC" , 
 	{
         headers: 
 		{
             "Accept": "application/json",
-            "X-Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3by5wcnp5YnlvQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2RjNmQ0OTAtZDFjMC0xMWVhLThjMzYtODdhODUyZTM5NTJjIiwiZmlyc3ROYW1lIjoiV29qY2llY2giLCJsYXN0TmFtZSI6IlByenliecWCbyIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjdjMDgwZDkwLWQxYzAtMTFlYS04YzM2LTg3YTg1MmUzOTUyYyIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTU5Njg4MjI5NywiZXhwIjoxNTk4NjgyMjk3fQ.j4l4eJW2gf_W_UVBksxidz2XO4SUTOOglVv1gzPuzCrbq0200isfX4vrinGRYvYN2FTG5zv9sdb0zd5lDpv8HA"
+            "X-Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3by5wcnp5YnlvQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2RjNmQ0OTAtZDFjMC0xMWVhLThjMzYtODdhODUyZTM5NTJjIiwiZmlyc3ROYW1lIjoiV29qY2llY2giLCJsYXN0TmFtZSI6IlByenliecWCbyIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjdjMDgwZDkwLWQxYzAtMTFlYS04YzM2LTg3YTg1MmUzOTUyYyIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTU5Njk2OTQ0MywiZXhwIjoxNTk4NzY5NDQzfQ.P7tZrkFXNf50BCEkBC674J36TZCUh_LRGxOtHd2oIjliy7K9BKoMj6_wSxAQ3bd4scF4ByZYgPcTQZl7_zn2eQ"
+        }
+    })
+  .then(function (response) {
+            return response.json();
+        })
+  .then(function (data) {
+	  console.log(data);
+           return response.send(JSON.stringify(data));
+        });
+  
+})
+
+
+app.get('/get_data_chart', function (request, response) {
+
+    console.log("Pozyskiwanie danych z chmury");
+
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?limit=100&agg=NONE&useStrictDataTypes=false&keys=Hum&startTs=1596979174956&endTs=1596980502084" ,
+	{
+        headers: 
+		{
+            "Accept": "application/json",
+            "X-Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3by5wcnp5YnlvQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2RjNmQ0OTAtZDFjMC0xMWVhLThjMzYtODdhODUyZTM5NTJjIiwiZmlyc3ROYW1lIjoiV29qY2llY2giLCJsYXN0TmFtZSI6IlByenliecWCbyIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjdjMDgwZDkwLWQxYzAtMTFlYS04YzM2LTg3YTg1MmUzOTUyYyIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTU5Njk2OTQ0MywiZXhwIjoxNTk4NzY5NDQzfQ.P7tZrkFXNf50BCEkBC674J36TZCUh_LRGxOtHd2oIjliy7K9BKoMj6_wSxAQ3bd4scF4ByZYgPcTQZl7_zn2eQ"
         }
     })
   .then(function (response) {

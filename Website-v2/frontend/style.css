@@ -106,19 +106,61 @@ body
 {
 	width: 300px;
 	font-size: 48px;
-	margin-left: 150px;
+	margin-left: auto;
 	margin-right: auto;
 	float: left;
-	padding:10px;	
+	padding:20px;	
 }
-#tresc
+
+.ParameterName
 {
-	width: 300px;
+	width: 240px;
 	font-size: 32px;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top:10px;
-	margin-down:20px;
+	float: left;
+	padding:10px;
+	border-top: 1px solid #99ccff;
+	border-bottom: 1px solid #99ccff;
+	border-right: 1px solid #99ccff;
+	border-left: 1px solid #99ccff;
+	color:#DCDCDC;
+	text-align:center;
+}
+.ParameterValue
+{
+	width: 190px;
+	font-size: 32px;
+	margin-right: auto;
+	margin-left: 265px;
+	padding:10px;
+	border-top: 1px solid #99ccff;
+	border-bottom: 1px solid #99ccff;
+	border-right: 1px solid #99ccff;
+	border-left: 1px solid #99ccff;
+	color:#DCDCDC;
+	text-align:center;
+}
+
+
+#temperature
+{
+	color:red;
+}
+#humidity
+{
+	color:#205DEE;
+}
+#light
+{
+	color:#FF8900;
+}
+#tresc
+{
+	width: 480px;
+	font-size: 32px;
+	margin-right: auto;
+	margin-left: auto;
 	float: left;
 	padding:10px;
 	border-top: 1px solid #99ccff;
@@ -133,6 +175,7 @@ body
     display: inline-block;
     padding: 14px;
 	margin-left:200px;
+	margin-top:80px;
     font-size: 30px;
     cursor: pointer;
     text-align: center;
