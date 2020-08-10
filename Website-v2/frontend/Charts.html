@@ -15,7 +15,7 @@
 	
 	<link href="css/fontello.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="timer.js"></script>
-	
+	<script type="text/javascript" src="../backend/sticky.js"></script>
 	
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -26,7 +26,7 @@
 	
 </head>
 
-<body onload = "counting();">
+<body onload = "counting();sticky();">
 
 
 	<div class="wrapper">
@@ -68,14 +68,28 @@
 		</div>
 		
 		<div class="content">
-			<p>Wykresy</p>
-			<div class = "ChartHeader"> <span style="color: #205DEE;">Wilgotność powietrza</span></div>
-<canvas id="ChartHum" width="300" height="100"><script type="text/javascript">DrawChartHum()</script></canvas>
-
-<div class = "ChartHeader"> <span style="color: red;">Temperatura:</span></div>
-<canvas id="ChartTemp" width="300" height="100"><script type="text/javascript">DrawChartTemp()</script></canvas>
+			
+			
+			<div id="leftside"> 
+			<p style="text-align:center;">Menu</p>
+				<div id="sidemenu">
+				<div class = "sideMenuBlock"><a href="./SelectedCharts/Humidity.html" class="leftSideBlock"><span style="color: #205DEE;">Wilgotność</span></a></div>
+				<div class = "sideMenuBlock"><a href="./SelectedCharts/Temperature.html" class="leftSideBlock"> <span style="color: red;">Temperatura</span></a></div>
+				<div class = "sideMenuBlock"><a href="./SelectedCharts/Light.html" class="leftSideBlock"><span style="color: #FF8900;">Światło</span></a></div>
+				</div>
+			
+			</div>
+			
+			
+			
+			<div id="rightside"> 
+			
+			<== Wybierz dane do wykreślenia z panelu po lewej
 				
+			</div>
+		
 		</div>
+			<div style="clear:both;"></div>
 		
 		<div class="socials">
 			<div class="socialdivs">
@@ -100,29 +114,6 @@
 	
 	<script src="jquery-3.5.1.min.js"></script>
 	<script src="Chart.js"></script>
-	<script>
 
-	$(document).ready(function() {
-	var NavY = $('.nav').offset().top;
-	 
-	var stickyNav = function(){
-	var ScrollY = $(window).scrollTop();
-		  
-	if (ScrollY > NavY) { 
-		$('.nav').addClass('sticky');
-	} else {
-		$('.nav').removeClass('sticky'); 
-	}
-	};
-	 
-	stickyNav();
-	 
-	$(window).scroll(function() {
-		stickyNav();
-	});
-	});
-	
-</script>
-	
 </body>
 </html>

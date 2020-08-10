@@ -10,6 +10,7 @@ function getDataAll(choiceIn) {
 	var temp3 = obj.Light[0];
 	var temp4 = obj.VOC[0];
 	var temp5 = obj.Button[0];
+	
 	switch(choiceIn){
 		case 1:	
 			document.getElementById("temperature").innerHTML = temp2.value + " °C</br>";		
@@ -30,13 +31,16 @@ function getDataAll(choiceIn) {
 			document.getElementById("boardButton").innerHTML = "Nie wciśnięty ";		
 				}
 			break;
+		case 6:	
+		var s = new Date(temp1.ts).toLocaleTimeString("nb-NO")
+		document.getElementById("timest").innerHTML = s + "</br>";
 		default:
 
 			break;
 	}
 		
     })
-
+	setTimeout("getDataAll()",30000);
 }
 
 
@@ -48,9 +52,9 @@ function DrawChartHum() {
 	var lebels = [];
     var data_chart = [];
     /*extract data form raw input */
-    for(var i = 180; i >0; i-=2){
+    for(var i = 120; i >0; i-=2){
 		var tem = obj2.Hum[i];
-        lebels.push(-i/2+30);
+        lebels.push(-i/2);
         data_chart.push(tem.value);
     }
 
@@ -89,12 +93,28 @@ function DrawChartHum() {
 				fontSize: 32
             },
 			 scales: {
-            yAxes: [{
+           	xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min]'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: '#FF0000'
+            }
+          }
+        } ],
+            yAxes: [{				
                 ticks: {
-					
-                    suggestedMin: 25,
-                    suggestedMax: 75
-                }
+					suggestedMin: 25,		
+					suggestedMax: 75						
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[%]'
+				}
+				
             }]
         }
         }
@@ -135,7 +155,7 @@ function DrawChartTemp() {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
-                borderColor: '#00ccff',
+                borderColor: 'red',
                 label: 'test',
                 lineTension: 0.5,
                 data: data_chart,
@@ -154,12 +174,28 @@ function DrawChartTemp() {
 				fontSize: 32
             },
 			 scales: {
-            yAxes: [{
+	xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min]'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: '#FF0000'
+            }
+          }
+        } ],
+            yAxes: [{				
                 ticks: {
-					
-                    suggestedMin: 25,
-                    suggestedMax: 75
-                }
+					suggestedMin: 0,
+					suggestedMax: 40,						
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[°C]'
+				}
+				
             }]
         }
         }
@@ -167,6 +203,79 @@ function DrawChartTemp() {
 			
     })
 	setTimeout("DrawChartTemp()",20000);
+}
+
+
+function DrawChartLight() {
+    $.get("/get_data_chart_light", function (data) {
+		
+	var obj2 = JSON.parse(data);
+	var tem = obj2.Light[0];
+	var lebels = [];
+    var data_chart = [];
+    /*extract data form raw input */
+    for(var i = 120; i >0; i-=2){
+		var tem = obj2.Light[i];
+        lebels.push(-i/2);
+        data_chart.push(tem.value);
+    }
+
+
+    /*making a chart*/
+    var ctx = document.getElementById("ChartLight");
+    LAeqChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: '#DCDCDC',
+                borderColor: '#FF8900',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chart,
+				fill:false,		
+				
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+
+            },
+            title: {
+                display: true,
+				fontColor: 'white',
+				fontSize: 32
+            },
+			
+
+			 scales: {
+				xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min]'
+          },
+
+        } ],
+            yAxes: [{				
+                ticks: {
+					suggestedMin: 0,					
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[mV]'
+				}
+				
+            }]
+        }
+        }
+    });
+			
+    })
+	setTimeout("DrawChartLight()",20000);
 }
 
 
@@ -193,6 +302,12 @@ getDataAll(choice);
 function getButton() {
 choice=5;
 getDataAll(choice);
+}
+function getTimeSt() {
+choice=6;
+getDataAll(choice);
+setTimeout("getTimeSt()",30000);
+
 }
 
 function getData6h() {
