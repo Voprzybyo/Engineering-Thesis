@@ -84,10 +84,22 @@
 			
 			<div id="rightside"> 
 			
-			<div class = "ChartHeader"> <span style="color: #FF8900;">Nasłonecznienie</span></div>
-<canvas id="ChartLight" width="300" height="100"><script type="text/javascript">DrawChartLight()</script></canvas>
+			<div class = "ChartHeader"> <span style="color: #FF8900;">Światło</span></div>
+			<div id="buttonPanel">
+			 <p id ="Buttons">
+                    <button class="button" onclick="getData1h('light')">1h</button>
+                    <button class="button" onclick="getData3h('light')">3h</button>
+                    <button class="button" onclick="getData6h('light')">6h</button>
+                </p>
+			</div>
 
+				<canvas id="ChartLight"></canvas>
 				
+			<div id="updateTime">
+			<div> Ostatnia aktualizacja:</div> 
+			
+			<div id="timest"><script type="text/javascript">getTimeSt()</script> </div> 
+			</div>
 			</div>
 		
 		</div>
@@ -116,29 +128,7 @@
 	
 	<script src="jquery-3.5.1.min.js"></script>
 	<script src="Chart.js"></script>
-	<script>
 
-	$(document).ready(function() {
-	var NavY = $('.nav').offset().top;
-	 
-	var stickyNav = function(){
-	var ScrollY = $(window).scrollTop();
-		  
-	if (ScrollY > NavY) { 
-		$('.nav').addClass('sticky');
-	} else {
-		$('.nav').removeClass('sticky'); 
-	}
-	};
-	 
-	stickyNav();
-	 
-	$(window).scroll(function() {
-		stickyNav();
-	});
-	});
-	
-</script>
 	
 </body>
 </html>

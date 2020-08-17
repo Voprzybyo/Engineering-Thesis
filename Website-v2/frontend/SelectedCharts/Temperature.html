@@ -26,7 +26,7 @@
 	
 </head>
 
-<body onload = "counting();">
+<body onload = "counting();getData1h('temp');getTimeSt();">
 
 
 	<div class="wrapper">
@@ -85,9 +85,21 @@
 			<div id="rightside"> 
 			
 			<div class = "ChartHeader"> <span style="color: red;">Temperatura</span></div>
-<canvas id="ChartTemp" width="250" height="100"><script type="text/javascript">DrawChartTemp()</script></canvas>
+			<div id="buttonPanel">
+			 <p id ="Buttons">
+                    <button class="button" onclick="getData1h('temp');getTimeSt();">1h</button>
+                    <button class="button" onclick="getData3h('temp');getTimeSt();">3h</button>
+                    <button class="button" onclick="getData6h('temp');getTimeSt();">6h</button>
+                </p>
+			</div>
 
+				<canvas id="ChartTemp"></canvas>
 				
+			<div id="updateTime">
+			<div> Ostatnia aktualizacja:</div> 
+			
+			<div id="timest"><script type="text/javascript">getTimeSt()</script> </div> 
+			</div>
 			</div>
 		
 		</div>
@@ -116,29 +128,7 @@
 	
 	<script src="jquery-3.5.1.min.js"></script>
 	<script src="Chart.js"></script>
-	<script>
 
-	$(document).ready(function() {
-	var NavY = $('.nav').offset().top;
-	 
-	var stickyNav = function(){
-	var ScrollY = $(window).scrollTop();
-		  
-	if (ScrollY > NavY) { 
-		$('.nav').addClass('sticky');
-	} else {
-		$('.nav').removeClass('sticky'); 
-	}
-	};
-	 
-	stickyNav();
-	 
-	$(window).scroll(function() {
-		stickyNav();
-	});
-	});
-	
-</script>
 	
 </body>
 </html>

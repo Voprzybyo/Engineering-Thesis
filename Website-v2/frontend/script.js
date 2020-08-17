@@ -1,6 +1,41 @@
 
 var choice = 1;
-var LAeqChart = null;
+var timeSpan= 1;
+var howMany = 0;
+getSoundData(timeSpan);
+var xAxe = 0;
+var obj2 = "";
+
+
+function getSoundData(timeSpanIn, paramChoice) {
+    $.get("/get_data_chart_" + paramChoice,  { timeSpan: timeSpanIn } , function (data) {	
+	
+console.log(paramChoice);
+	
+        if(!data){
+            alert("NO DATA!");
+        }
+		
+		
+		if(paramChoice == 'hum'){
+				obj2 = JSON.parse(data);
+				howMany = Object.keys(obj2.Hum).length;
+        DrawChartHum(data);	
+		}
+		if(paramChoice == 'temp'){
+				obj2 = JSON.parse(data);
+				howMany = Object.keys(obj2.Temp).length;
+        DrawChartTemp(data);	
+		}
+		if(paramChoice == 'light'){
+				obj2 = JSON.parse(data);
+				howMany = Object.keys(obj2.Light).length;
+        DrawChartLight(data);	
+		}
+
+    })
+}
+
 
 function getDataAll(choiceIn) {
     $.get("/get_data", function (data) {
@@ -32,8 +67,9 @@ function getDataAll(choiceIn) {
 				}
 			break;
 		case 6:	
-		var s = new Date(temp1.ts).toLocaleTimeString("nb-NO")
-		document.getElementById("timest").innerHTML = s + "</br>";
+		var s1 = new Date(temp1.ts).toLocaleDateString("en-US")
+		var s2 = new Date(temp1.ts).toLocaleTimeString("nb-NO")
+		document.getElementById("timest").innerHTML = s2 + "</br>" + s1 +"</br>";
 		default:
 
 			break;
@@ -43,33 +79,54 @@ function getDataAll(choiceIn) {
 	setTimeout("getDataAll()",30000);
 }
 
-
-function DrawChartHum() {
-    $.get("/get_data_chart_hum", function (data) {
-		
+function DrawChartHum(data) {
+	
 	var obj2 = JSON.parse(data);
 	var tem = obj2.Hum[0];
+	
 	var lebels = [];
     var data_chart = [];
-    /*extract data form raw input */
-    for(var i = 120; i >0; i-=2){
-		var tem = obj2.Hum[i];
-        lebels.push(-i/2);
-        data_chart.push(tem.value);
-    }
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0; i-=4){
+			var tem = obj2.Hum[i];
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe--;
+		}
+	}
+	if(howMany > 300 &&  howMany <1000){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0; i-=12){
+			
+			var tem = obj2.Hum[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=3;
+		}
+	
+	}
+	if( howMany > 1000 ){
+	xAxe = 24;
+		for(var i = howMany-24; i > 0; i-=28){
+			
+			var tem = obj2.Hum[i];			
+			lebels.push(-xAxe/4);
+			data_chart.push(tem.value);
+			xAxe-=0.5;
+		}
+	
+	}
+	
+	
 
-    /*Destorying previous chart */
-    if(LAeqChart!=null){
-        LAeqChart.destroy();
-    }
-
-    /*making a chart*/
     var ctx = document.getElementById("ChartHum");
     LAeqChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
-        // The data for our dataset
+
         data: {
             labels: lebels,
             datasets: [{
@@ -78,14 +135,12 @@ function DrawChartHum() {
                 label: 'test',
                 lineTension: 0.5,
                 data: data_chart,
-				fill:false,		
-				
+				fill:false,						
             }]
         },
         options: {
             legend: {
                 display: false
-
             },
             title: {
                 display: true,
@@ -96,7 +151,7 @@ function DrawChartHum() {
            	xAxes: [ {
             scaleLabel: {
 			display: true,
-            labelString: '[min]'
+            labelString: '[min] / [h]'
           },
           ticks: {
             major: {
@@ -113,38 +168,54 @@ function DrawChartHum() {
 				scaleLabel: {
 				display: true,
 				labelString: '[%]'
-				}
-				
+				}				
             }]
         }
         }
     });
 		
-		
-    })
-	setTimeout("DrawChartHum()",20000);
+	setTimeout("DrawChartHum()",30000);
 }
 
-function DrawChartTemp() {
-    $.get("/get_data_chart_temp", function (data) {
-		
-	var obj2 = JSON.parse(data);
+function DrawChartTemp(data) {
+  var obj2 = JSON.parse(data);
 	var tem = obj2.Temp[0];
+	
 	var lebels = [];
     var data_chart = [];
-    /*extract data form raw input */
-    for(var i = 180; i >0; i-=2){
-		var tem = obj2.Temp[i];
-        lebels.push(-i/2+30);
-        data_chart.push(tem.value);
-    }
-
-    /*Destorying previous chart */
-    if(LAeqChart!=null){
-        LAeqChart.destroy();
-    }
-
-    /*making a chart*/
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0; i-=4){
+			var tem = obj2.Temp[i];
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe--;
+		}
+	}
+	if(howMany > 300 &&  howMany <1000){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0; i-=12){
+			
+			var tem = obj2.Temp[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=3;
+		}
+	
+	}
+	if( howMany > 1000 ){
+	xAxe = 24;
+		for(var i = howMany-24; i > 0; i-=28){
+			
+			var tem = obj2.Temp[i];			
+			lebels.push(-xAxe/4);
+			data_chart.push(tem.value);
+			xAxe-=0.5;
+		}
+	
+	}
+	
     var ctx = document.getElementById("ChartTemp");
     LAeqChart = new Chart(ctx, {
         // The type of chart we want to create
@@ -201,27 +272,48 @@ function DrawChartTemp() {
         }
     });
 			
-    })
-	setTimeout("DrawChartTemp()",20000);
+	setTimeout("DrawChartTemp()",30000);
 }
 
-
-function DrawChartLight() {
-    $.get("/get_data_chart_light", function (data) {
-		
-	var obj2 = JSON.parse(data);
+function DrawChartLight(data) {
+    var obj2 = JSON.parse(data);
 	var tem = obj2.Light[0];
+	
 	var lebels = [];
     var data_chart = [];
-    /*extract data form raw input */
-    for(var i = 120; i >0; i-=2){
-		var tem = obj2.Light[i];
-        lebels.push(-i/2);
-        data_chart.push(tem.value);
-    }
-
-
-    /*making a chart*/
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0; i-=4){
+			var tem = obj2.Light[i];
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe--;
+		}
+	}
+	if(howMany > 300 &&  howMany <1000){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0; i-=12){
+			
+			var tem = obj2.Light[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=3;
+		}
+	
+	}
+	if( howMany > 1000 ){
+	xAxe = 24;
+		for(var i = howMany-24; i > 0; i-=28){
+			
+			var tem = obj2.Light[i];			
+			lebels.push(-xAxe/4);
+			data_chart.push(tem.value);
+			xAxe-=0.5;
+		}
+	
+	}
+	
     var ctx = document.getElementById("ChartLight");
     LAeqChart = new Chart(ctx, {
         // The type of chart we want to create
@@ -274,8 +366,7 @@ function DrawChartLight() {
         }
     });
 			
-    })
-	setTimeout("DrawChartLight()",20000);
+	setTimeout("DrawChartLight()",30000);
 }
 
 
@@ -310,9 +401,19 @@ setTimeout("getTimeSt()",30000);
 
 }
 
-function getData6h() {
-    timeSpan = "6h";
-    getSoundData(deviceName, timeSpan);
+function getData1h(paramChoice) {
+    timeSpan = 1;
+    getSoundData(timeSpan,paramChoice);
+}
+
+function getData3h(paramChoice) {
+    timeSpan = 3;
+    getSoundData(timeSpan,paramChoice);
+}
+
+function getData6h(paramChoice) {
+    timeSpan = 6;
+    getSoundData(timeSpan,paramChoice);
 }
 
 function destroyCharts() {
