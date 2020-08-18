@@ -13,7 +13,7 @@
 	<link href="../style.css" rel="stylesheet" type="text/css" />
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 	
-	<link href="css/fontello.css" rel="stylesheet" type="text/css" />
+	<link href="../fontello/css/fontello.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="../timer.js"></script>
 	
 	
@@ -32,15 +32,20 @@
 	<div class="wrapper">
 		<div class="header">
 		
+		<a href="../MainPage.html">
+			<div id="interactive">
 			<div class="img">
-				<img src="../mesh.png" style="float: left;"/>
+				<img src="../mesh.png" />
 			</div>
+		
 			<div class="logo">
 				<span style="color: #00ccff">Sieć </span><span style="color: #DCDCDC">sensorowa</span></br>
-				<span style="font-size:20px">~Praca Inżynierska~ </span>
-				
+				<span style="font-size:20px; color: #ffffff;">~Praca Inżynierska~ </span>
+				<div style="clear:both;"></div>
 			</div>
 			
+			</div>
+			</a>
 			
 			<div id="clock"></div>
 			
@@ -56,12 +61,14 @@
 				<li><a href="../Topic.html">Temat pracy</a>
 				<li><a href="../Devices.html">Sprzęt</a>					
 				<li><a href="../Location.html">Lokalizacja</a>
-				<li><a href="../AllSensors.html">Zgromadzone dane</a>
-				<ul>
-						<li><a href="../AllSensors.html">Czujniki</a></li>
-						<li><a href="../Charts.html">Wykresy</a></li>
+				<li><div class='has-dropdown'>
+				<a href="../AllSensors.html">Zgromadzone dane</a>
+				<ul class="dropdown">
+						<li class = 'dropdown-item'><a href="../AllSensors.html">Czujniki</a></li>
+						<li class = 'dropdown-item'><a href="Humidity.html">Wykresy</a></li>
 	
 				</ul>
+				</div>
 				<li><a href="../Author.html">Autor</a></li>
 			</ol>
 		
@@ -77,6 +84,7 @@
 				<div class = "sideMenuBlock"><a href="Humidity.html" class="leftSideBlock"><span style="color: #205DEE;">Wilgotność</span></a></div>
 				<div class = "sideMenuBlock"><a href="Temperature.html" class="leftSideBlock"> <span style="color: red;">Temperatura</span></a></div>
 				<div class = "sideMenuBlock"><a href="Light.html" class="leftSideBlock"><span style="color: #FF8900;">Światło</span></a></div>
+				<div class = "sideMenuBlock"><a href="Pollution.html" class="leftSideBlock"><span style="color: #DCDCDC;">VOC</span></a></div>
 				</div>
 			
 			</div>
@@ -88,13 +96,16 @@
 			<div class = "ChartHeader"> <span style="color: #205DEE;">Wilgotność powietrza</span></div>
 			<div id="buttonPanel">
 			 <p id ="Buttons">
-                    <button class="button" onclick="getData1h('hum')">1h</button>
-                    <button class="button" onclick="getData3h('hum')">3h</button>
-                    <button class="button" onclick="getData6h('hum')">6h</button>
+                    <button class="button" onclick="getData1h('hum');getTimeSt();">1h</button>
+                    <button class="button" onclick="getData3h('hum');getTimeSt();">3h</button>
+                    <button class="button" onclick="getData6h('hum');getTimeSt();">6h</button>
+					<button class="button" onclick="getData12h('hum');getTimeSt();">12h</button>
+					<button class="button" onclick="getData24h('hum');getTimeSt();">24h</button>
+					<button class="button" onclick="getData48h('hum');getTimeSt();">48h</button>
                 </p>
 			</div>
 
-				<canvas id="ChartHum"></canvas>
+				<canvas id="ChartHum"><script type="text/javascript">getData6h('hum')</script></canvas>
 				
 			<div id="updateTime">
 			<div> Ostatnia aktualizacja:</div> 
@@ -106,22 +117,16 @@
 		</div>
 			<div style="clear:both;"></div>
 		
-		<div class="socials">
-			<div class="socialdivs">
-				<div class="fb">
-					<i class="icon-facebook"></i>
+		<div class="gitfooter">
+		<a href="https://github.com/Voprzybyo" target="_blank" class="gitblock">
+			<div class="gitdiv">
+				<div class="github">
+					<i class="icon-github-circled">GitHub</i>
 				</div>
-				<div class="yt">
-					<i class="icon-youtube"></i>
-				</div>
-				<div class="tw">
-					<i class="icon-twitter"></i>
-				</div>
-				<div class="gplus">
-					<i class="icon-gplus"></i>
-				</div>
+				
 				<div style="clear:both"></div>
 			</div>
+			</a>
 		</div>
 		
 		<div class="footer">Wojciech Przybyło - Praca inżynierska &copy; 2020 </div>

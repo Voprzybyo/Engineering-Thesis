@@ -21,7 +21,7 @@ app.get('/', function (request, response) {
 });
 	
 
-	app.get('/get_data', function (request, response) {
+app.get('/get_data', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
 
@@ -130,6 +130,34 @@ app.get('/get_data_chart_light', function (request, response) {
         });
   
 })
+
+app.get('/get_data_chart_pollution', function (request, response) {
+
+    console.log("Pozyskiwanie danych z chmury");
+	var timestamp = Date.now();
+		
+	var ileOdjac = request.query.timeSpan;
+	
+	var tsWindow = timestamp - (3600*ileOdjac*1000);
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=1000&limit=3600&agg=NONE&useStrictDataTypes=false&keys=VOC&startTs="+tsWindow+"&endTs="+timestamp ,
+	{
+        headers: 
+		{
+            "Accept": "application/json",
+            "X-Authorization": token
+        }
+    })
+  .then(function (response) {
+            return response.json();
+        })
+  .then(function (data) {
+	  console.log(data);
+	  console.log(timestamp);
+           return response.send(JSON.stringify(data));
+        });
+  
+})
+
 
 app.listen(PORT, function(){
 

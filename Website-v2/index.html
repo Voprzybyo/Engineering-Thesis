@@ -10,17 +10,17 @@
 	<meta name="description" content="Praca Inżynierska 2020" />
 	<meta name="keywords" content="sieci bezprzewodowe, mesh, sensorowe" />
 	
-	<link href="./frontend/style.css" rel="stylesheet" type="text/css" />
+	<link href="../style.css" rel="stylesheet" type="text/css" />
 	<link href='http://fonts.googleapis.com/css?family=Lato:400,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 	
 	<link href="css/fontello.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="./frontend/timer.js"></script>
-	<script type="text/javascript" src="./backend/sticky.js"></script>
+	<script type="text/javascript" src="../timer.js"></script>
+	
 	
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="./frontend/script.js"></script>
-	<script src="./frontend/Chart/chart.js/dist/Chart.js"></script>
+    <script src="../script.js"></script>
+	<script src="../Chart/chart.js/dist/Chart.js"></script>
 	
 	
 	
@@ -33,12 +33,12 @@
 		<div class="header">
 		
 			<div class="img">
-				<img src="./frontend/mesh.png" style="float: left;"/>
+				<img src="../mesh.png" style="float: left;"/>
 			</div>
 			<div class="logo">
 				<span style="color: #00ccff">Sieć </span><span style="color: #DCDCDC">sensorowa</span></br>
 				<span style="font-size:20px">~Praca Inżynierska~ </span>
-				<div style="clear:both;"></div>
+				
 			</div>
 			
 			
@@ -49,19 +49,20 @@
 			document.getElementById("clock").innerHTML = day+"/"+month+"/"+year+"</br>"+hour+":"+minute+":"+second; 
 			</script>
 		</div>
+		<div style="clear:both;"></div>
 		<div class="nav">
 			<ol>
-				<li><a href="./frontend/MainPage.html">Strona główna</a></li>
-				<li><a href="./frontend/Topic.html">Temat pracy</a>
-				<li><a href="./frontend/Devices.html">Sprzęt</a>					
-				<li><a href="./frontend/Location.html">Lokalizacja</a>
-				<li><a href="./frontend/Data.html">Zgromadzone dane</a>
+				<li><a href="../MainPage.html">Strona główna</a></li>
+				<li><a href="../Topic.html">Temat pracy</a>
+				<li><a href="../Devices.html">Sprzęt</a>					
+				<li><a href="../Location.html">Lokalizacja</a>
+				<li><a href="../AllSensors.html">Zgromadzone dane</a>
 				<ul>
-						<li><a href="./frontend/AllSensors.html">Czujniki</a></li>
-						<li><a href="./frontend/Charts.html">Wykresy</a></li>
+						<li><a href="../AllSensors.html">Czujniki</a></li>
+						<li><a href="../Charts.html">Wykresy</a></li>
 	
 				</ul>
-				<li><a href="./frontend/Author.html">Autor</a></li>
+				<li><a href="../Author.html">Autor</a></li>
 			</ol>
 		
 			
@@ -73,9 +74,9 @@
 			<div id="leftside"> 
 			<p style="text-align:center;">Menu</p>
 				<div id="sidemenu">
-				<div class = "sideMenuBlock"><a href="./frontend/SelectedCharts/Humidity.html" class="leftSideBlock"><span style="color: #205DEE;">Wilgotność</span></a></div>
-				<div class = "sideMenuBlock"><a href="./frontend/SelectedCharts/Temperature.html" class="leftSideBlock"> <span style="color: red;">Temperatura</span></a></div>
-				<div class = "sideMenuBlock"><a href="./frontend/SelectedCharts/Light.html" class="leftSideBlock"><span style="color: #FF8900;">Światło</span></a></div>
+				<div class = "sideMenuBlock"><a href="Humidity.html" class="leftSideBlock"><span style="color: #205DEE;">Wilgotność</span></a></div>
+				<div class = "sideMenuBlock"><a href="Temperature.html" class="leftSideBlock"> <span style="color: red;">Temperatura</span></a></div>
+				<div class = "sideMenuBlock"><a href="Light.html" class="leftSideBlock"><span style="color: #FF8900;">Światło</span></a></div>
 				</div>
 			
 			</div>
@@ -85,9 +86,21 @@
 			<div id="rightside"> 
 			
 			<div class = "ChartHeader"> <span style="color: #205DEE;">Wilgotność powietrza</span></div>
-<canvas id="ChartHum" width="300" height="100"><script type="text/javascript">DrawChartHum()</script></canvas>
+			<div id="buttonPanel">
+			 <p id ="Buttons">
+                    <button class="button" onclick="getData1h('hum')">1h</button>
+                    <button class="button" onclick="getData3h('hum')">3h</button>
+                    <button class="button" onclick="getData6h('hum')">6h</button>
+                </p>
+			</div>
 
+				<canvas id="ChartHum">getData1h('hum');</canvas>
 				
+			<div id="updateTime">
+			<div> Ostatnia aktualizacja:</div> 
+			
+			<div id="timest"><script type="text/javascript">getTimeSt()</script> </div> 
+			</div>
 			</div>
 		
 		</div>
@@ -116,7 +129,6 @@
 	
 	<script src="jquery-3.5.1.min.js"></script>
 	<script src="Chart.js"></script>
-	
 
 	
 </body>

@@ -32,7 +32,7 @@
 	<div class="wrapper">
 		<div class="header">
 		
-		<a href="../MainPage.html">
+			<a href="../MainPage.html">
 			<div id="interactive">
 			<div class="img">
 				<img src="../mesh.png" />
@@ -46,6 +46,7 @@
 			
 			</div>
 			</a>
+			
 			<div id="clock"></div>
 			
 			
@@ -91,19 +92,19 @@
 			
 			<div id="rightside"> 
 			
-			<div class = "ChartHeader"> <span style="color: red;">Temperatura</span></div>
+			<div class = "ChartHeader"> <span style="color: #DCDCDC;">Zanieczyszczenie powietrza</span></div>
 			<div id="buttonPanel">
 			 <p id ="Buttons">
-                    <button class="button" onclick="getData1h('temp');getTimeSt();">1h</button>
-                    <button class="button" onclick="getData3h('temp');getTimeSt();">3h</button>
-                    <button class="button" onclick="getData6h('temp');getTimeSt();">6h</button>
-					<button class="button" onclick="getData12h('temp');getTimeSt();">12h</button>
-					<button class="button" onclick="getData24h('temp');getTimeSt();">24h</button>
-					<button class="button" onclick="getData48h('temp');getTimeSt();">48h</button>
+                    <button class="button" onclick="getData1h('pollution');getTimeSt();">1h</button>
+                    <button class="button" onclick="getData3h('pollution');getTimeSt();">3h</button>
+                    <button class="button" onclick="getData6h('pollution');getTimeSt();">6h</button>
+					<button class="button" onclick="getData12h('pollution');getTimeSt();">12h</button>
+					<button class="button" onclick="getData24h('pollution');getTimeSt();">24h</button>
+					<button class="button" onclick="getData48h('pollution');getTimeSt();">48h</button>
                 </p>
 			</div>
 
-				<canvas id="ChartTemp"><script>getData1h('temp')</script></canvas>
+				<canvas id="ChartPollution"><script>getData1h('pollution')</script></canvas>
 				
 			<div id="updateTime">
 			<div> Ostatnia aktualizacja:</div> 

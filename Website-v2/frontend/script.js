@@ -32,6 +32,11 @@ console.log(paramChoice);
 				howMany = Object.keys(obj2.Light).length;
         DrawChartLight(data);	
 		}
+		if(paramChoice == 'pollution'){
+				obj2 = JSON.parse(data);
+				howMany = Object.keys(obj2.VOC).length;
+        DrawChartPollution(data);	
+		}
 
     })
 }
@@ -89,7 +94,7 @@ function DrawChartHum(data) {
 	
 	if(howMany < 300){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
 			var tem = obj2.Hum[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
@@ -98,7 +103,7 @@ function DrawChartHum(data) {
 	}
 	if(howMany > 300 &&  howMany <1000){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
@@ -109,7 +114,7 @@ function DrawChartHum(data) {
 	}
 	if( howMany > 1000 ){
 	xAxe = 24;
-		for(var i = howMany-24; i > 0; i-=28){
+		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe/4);
@@ -186,7 +191,7 @@ function DrawChartTemp(data) {
 	
 	if(howMany < 300){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
 			var tem = obj2.Temp[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
@@ -195,7 +200,7 @@ function DrawChartTemp(data) {
 	}
 	if(howMany > 300 &&  howMany <1000){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
@@ -206,7 +211,7 @@ function DrawChartTemp(data) {
 	}
 	if( howMany > 1000 ){
 	xAxe = 24;
-		for(var i = howMany-24; i > 0; i-=28){
+		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe/4);
@@ -284,7 +289,7 @@ function DrawChartLight(data) {
 	
 	if(howMany < 300){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
 			var tem = obj2.Light[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
@@ -293,7 +298,7 @@ function DrawChartLight(data) {
 	}
 	if(howMany > 300 &&  howMany <1000){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
@@ -304,7 +309,7 @@ function DrawChartLight(data) {
 	}
 	if( howMany > 1000 ){
 	xAxe = 24;
-		for(var i = howMany-24; i > 0; i-=28){
+		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe/4);
@@ -348,7 +353,7 @@ function DrawChartLight(data) {
 				xAxes: [ {
             scaleLabel: {
 			display: true,
-            labelString: '[min]'
+            labelString: '[min] / [h]'
           },
 
         } ],
@@ -369,23 +374,113 @@ function DrawChartLight(data) {
 	setTimeout("DrawChartLight()",30000);
 }
 
+function DrawChartPollution(data) {
+    var obj2 = JSON.parse(data);
+	var tem = obj2.VOC[0];
+	
+	var lebels = [];
+    var data_chart = [];
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+			var tem = obj2.VOC[i];
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe--;
+		}
+	}
+	if(howMany > 300 &&  howMany <1000){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+			
+			var tem = obj2.VOC[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=3;
+		}
+	
+	}
+	if( howMany > 1000 ){
+	xAxe = 24;
+		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+			
+			var tem = obj2.VOC[i];			
+			lebels.push(-xAxe/4);
+			data_chart.push(tem.value);
+			xAxe-=0.5;
+		}
+	
+	}
+	
+    var ctx = document.getElementById("ChartPollution");
+    LAeqChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: '#DCDCDC',
+                borderColor: '#FF8900',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chart,
+				fill:false,		
+				
+            }]
+        },
+        options: {
+            legend: {
+                display: false
+
+            },
+            title: {
+                display: true,
+				fontColor: 'white',
+				fontSize: 32
+            },
+			
+
+			 scales: {
+				xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min] / [h]'
+          },
+
+        } ],
+            yAxes: [{				
+                ticks: {
+					suggestedMin: 0,					
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[VOC]'
+				}
+				
+            }]
+        }
+        }
+    });
+			
+	setTimeout("DrawChartLight()",30000);
+}
 
 
 function getTemperature() {
 choice=1;
 getDataAll(choice);
 }
-
 function getHumidity() {
 choice=2;
 getDataAll(choice);
 }
-
 function getLight() {
 choice=3;
 getDataAll(choice);
 }
-
 function getVoc() {
 choice=4;
 getDataAll(choice);
@@ -405,17 +500,26 @@ function getData1h(paramChoice) {
     timeSpan = 1;
     getSoundData(timeSpan,paramChoice);
 }
-
 function getData3h(paramChoice) {
     timeSpan = 3;
     getSoundData(timeSpan,paramChoice);
 }
-
 function getData6h(paramChoice) {
     timeSpan = 6;
     getSoundData(timeSpan,paramChoice);
 }
-
+function getData12h(paramChoice) {
+    timeSpan = 12;
+    getSoundData(timeSpan,paramChoice);
+}
+function getData24h(paramChoice) {
+    timeSpan = 24;
+    getSoundData(timeSpan,paramChoice);
+}
+function getData48h(paramChoice) {
+    timeSpan = 48;
+    getSoundData(timeSpan,paramChoice);
+}
 function destroyCharts() {
     var ctx = document.getElementById("soundDev1");
     ctx.destroy();
