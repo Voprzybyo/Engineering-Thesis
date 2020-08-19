@@ -111,19 +111,19 @@
 			
 			<div id="rightside"> 
 			
-			<div class = "ChartHeader"> <span style="color: #205DEE;">Wilgotność powietrza</span></div>
+			<div class = "ChartHeader"> <span style="color: #FF8900;">Światło</span><span style="color: #DCDCDC;">+</span><span style="color: red;">Temperatura</span></div>
 			<div id="buttonPanel">
 			 <p id ="Buttons">
-                    <button class="button" onclick="getData1h('hum');getTimeSt();">1h</button>
-                    <button class="button" onclick="getData3h('hum');getTimeSt();">3h</button>
-                    <button class="button" onclick="getData6h('hum');getTimeSt();">6h</button>
-					<button class="button" onclick="getData12h('hum');getTimeSt();">12h</button>
-					<button class="button" onclick="getData24h('hum');getTimeSt();">24h</button>
-					<button class="button" onclick="getData48h('hum');getTimeSt();">48h</button>
+                    <button class="button" onclick="getData1h('lightPtemp');getTimeSt();">1h</button>
+                    <button class="button" onclick="getData3h('lightPtemp');getTimeSt();">3h</button>
+                    <button class="button" onclick="getData6h('lightPtemp');getTimeSt();">6h</button>
+					<button class="button" onclick="getData12h('lightPtemp');getTimeSt();">12h</button>
+					<button class="button" onclick="getData24h('lightPtemp');getTimeSt();">24h</button>
+					<button class="button" onclick="getData48h('lightPtemp');getTimeSt();">48h</button>
                 </p>
 			</div>
 
-				<canvas id="ChartHum"><script type="text/javascript">getData6h('hum')</script></canvas>
+				<canvas id="ChartLightPTemp"><script type="text/javascript">getData1h('lightPtemp')</script></canvas>
 				
 			<div id="updateTime">
 			<div> Ostatnia aktualizacja:</div> 

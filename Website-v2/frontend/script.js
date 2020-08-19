@@ -2,12 +2,11 @@
 var choice = 1;
 var timeSpan= 1;
 var howMany = 0;
-getSoundData(timeSpan);
 var xAxe = 0;
 var obj2 = "";
 
 
-function getSoundData(timeSpanIn, paramChoice) {
+function getChartData(timeSpanIn, paramChoice) {
     $.get("/get_data_chart_" + paramChoice,  { timeSpan: timeSpanIn } , function (data) {	
 	
 console.log(paramChoice);
@@ -36,6 +35,16 @@ console.log(paramChoice);
 				obj2 = JSON.parse(data);
 				howMany = Object.keys(obj2.VOC).length;
         DrawChartPollution(data);	
+		}
+		if(paramChoice == 'humPtemp'){
+				obj2 = JSON.parse(data);
+				howMany = Object.keys(obj2.Hum).length;
+        DrawChartHumPTemp(data);	
+		}
+		if(paramChoice == 'lightPtemp'){
+				obj2 = JSON.parse(data);
+				howMany = Object.keys(obj2.Light).length;
+        DrawChartLightPTemp(data);	
 		}
 
     })
@@ -423,7 +432,7 @@ function DrawChartPollution(data) {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
-                borderColor: '#FF8900',
+                borderColor: '#DCDCDC',
                 label: 'test',
                 lineTension: 0.5,
                 data: data_chart,
@@ -468,6 +477,234 @@ function DrawChartPollution(data) {
 	setTimeout("DrawChartLight()",30000);
 }
 
+function DrawChartHumPTemp(data) {
+	
+	var obj2 = JSON.parse(data);
+	var tem1 = obj2.Hum[0];
+	var tem2 = obj2.Temp[0];
+	
+	var lebels = [];
+    var data_chartHum = [];
+	var data_chartTemp = [];
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+			var tem1 = obj2.Hum[i];
+			var tem2 = obj2.Temp[i];
+			lebels.push(-xAxe);
+			data_chartHum.push(tem1.value);
+			data_chartTemp.push(tem2.value);
+			xAxe--;
+		}
+	}
+	
+	if(howMany > 300 &&  howMany <1000){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+			
+			var tem1 = obj2.Hum[i];
+			var tem2 = obj2.Temp[i];
+			lebels.push(-xAxe);
+			data_chartHum.push(tem1.value);
+			data_chartTemp.push(tem2.value);
+			xAxe-=3;
+		}
+	
+	}
+	if( howMany > 1000 ){
+	xAxe = 24;
+		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+			
+			var tem1 = obj2.Hum[i];
+			var tem2 = obj2.Temp[i];
+			lebels.push(-xAxe);
+			data_chartHum.push(tem1.value);
+			data_chartTemp.push(tem2.value);
+			xAxe-=0.5;
+		}
+	
+	}
+	
+
+    var ctx = document.getElementById("ChartHumPTemp");
+    LAeqChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: '#DCDCDC',
+                borderColor: '#00ccff',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartHum,
+				fill:false,						
+            },{
+				backgroundColor: '#DCDCDC',
+                borderColor: 'red',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartTemp,
+				fill:false,				
+				
+			}]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+				fontColor: 'white',
+				fontSize: 32
+            },
+			 scales: {
+           	xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min] / [h]'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: '#FF0000'
+            }
+          }
+        } ],
+            yAxes: [{				
+                ticks: {
+					suggestedMin: 25,		
+					suggestedMax: 75						
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[%]'
+				}				
+            }]
+        }
+        }
+    });
+		
+	setTimeout("DrawChartHumPTemp()",30000);
+}
+
+function DrawChartLightPTemp(data) {
+	
+	var obj2 = JSON.parse(data);
+	var tem1 = obj2.Light[0];
+	var tem2 = obj2.Temp[0];
+	
+	var lebels = [];
+    var data_chartLight = [];
+	var data_chartTemp = [];
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+			var tem1 = obj2.Light[i];
+			var tem2 = obj2.Temp[i];
+			lebels.push(-xAxe);
+			data_chartLight.push(tem1.value);
+			data_chartTemp.push(tem2.value);
+			xAxe--;
+		}
+	}
+	
+	if(howMany > 300 &&  howMany <1000){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+			
+			var tem1 = obj2.Light[i];
+			var tem2 = obj2.Temp[i];
+			lebels.push(-xAxe);
+			data_chartLight.push(tem1.value);
+			data_chartTemp.push(tem2.value);
+			xAxe-=3;
+		}
+	
+	}
+	if( howMany > 1000 ){
+	xAxe = 24;
+		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+			
+			var tem1 = obj2.Light[i];
+			var tem2 = obj2.Temp[i];
+			lebels.push(-xAxe);
+			data_chartLight.push(tem1.value);
+			data_chartTemp.push(tem2.value);
+			xAxe-=0.5;
+		}
+	
+	}
+	
+
+    var ctx = document.getElementById("ChartLightPTemp");
+    LAeqChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: '#DCDCDC',
+                borderColor: '#FF8900',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartLight,
+				fill:false,						
+            },{
+				backgroundColor: '#DCDCDC',
+                borderColor: 'red',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartTemp,
+				fill:false,				
+				
+			}]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+				fontColor: 'white',
+				fontSize: 32
+            },
+			 scales: {
+           	xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min] / [h]'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: '#FF0000'
+            }
+          }
+        } ],
+            yAxes: [{				
+                ticks: {
+					suggestedMin: 25,		
+					suggestedMax: 75						
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[%]'
+				}				
+            }]
+        }
+        }
+    });
+		
+	setTimeout("DrawChartLightPTemp()",30000);
+}
+
 
 function getTemperature() {
 choice=1;
@@ -498,29 +735,25 @@ setTimeout("getTimeSt()",30000);
 
 function getData1h(paramChoice) {
     timeSpan = 1;
-    getSoundData(timeSpan,paramChoice);
+    getChartData(timeSpan,paramChoice);
 }
 function getData3h(paramChoice) {
     timeSpan = 3;
-    getSoundData(timeSpan,paramChoice);
+    getChartData(timeSpan,paramChoice);
 }
 function getData6h(paramChoice) {
     timeSpan = 6;
-    getSoundData(timeSpan,paramChoice);
+    getChartData(timeSpan,paramChoice);
 }
 function getData12h(paramChoice) {
     timeSpan = 12;
-    getSoundData(timeSpan,paramChoice);
+    getChartData(timeSpan,paramChoice);
 }
 function getData24h(paramChoice) {
     timeSpan = 24;
-    getSoundData(timeSpan,paramChoice);
+    getChartData(timeSpan,paramChoice);
 }
 function getData48h(paramChoice) {
     timeSpan = 48;
-    getSoundData(timeSpan,paramChoice);
-}
-function destroyCharts() {
-    var ctx = document.getElementById("soundDev1");
-    ctx.destroy();
+    getChartData(timeSpan,paramChoice);
 }
