@@ -54,7 +54,7 @@ app.get('/get_data_chart_hum', function (request, response) {
 	var tsWindow = timestamp - (3600*ileOdjac*1000);
 	
 	
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=1000&limit=5000&agg=NONE&useStrictDataTypes=false&keys=Hum&startTs="+tsWindow+"&endTs="+timestamp ,
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=Hum&startTs="+tsWindow+"&endTs="+timestamp ,
 	{
         headers: 
 		{
@@ -83,7 +83,7 @@ app.get('/get_data_chart_temp', function (request, response) {
 	
 	var tsWindow = timestamp - (3600*ileOdjac*1000);
 
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=1000&limit=5000&agg=NONE&useStrictDataTypes=false&keys=Temp&startTs="+tsWindow+"&endTs="+timestamp ,
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=Temp&startTs="+tsWindow+"&endTs="+timestamp ,
 	{
         headers: 
 		{
@@ -112,7 +112,7 @@ app.get('/get_data_chart_light', function (request, response) {
 	var ileOdjac = request.query.timeSpan;
 	
 	var tsWindow = timestamp - (3600*ileOdjac*1000);
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=1000&limit=5000&agg=NONE&useStrictDataTypes=false&keys=Light&startTs="+tsWindow+"&endTs="+timestamp ,
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=Light&startTs="+tsWindow+"&endTs="+timestamp ,
 	{
         headers: 
 		{
@@ -139,7 +139,7 @@ app.get('/get_data_chart_pollution', function (request, response) {
 	var ileOdjac = request.query.timeSpan;
 	
 	var tsWindow = timestamp - (3600*ileOdjac*1000);
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=1000&limit=5000&agg=NONE&useStrictDataTypes=false&keys=VOC&startTs="+tsWindow+"&endTs="+timestamp ,
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=VOC&startTs="+tsWindow+"&endTs="+timestamp ,
 	{
         headers: 
 		{
@@ -169,7 +169,7 @@ app.get('/get_data_chart_humPtemp', function (request, response) {
 	var tsWindow = timestamp - (3600*ileOdjac*1000);
 	
 	
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=1000&limit=5000&agg=NONE&useStrictDataTypes=false&keys=Hum,Temp&startTs="+tsWindow+"&endTs="+timestamp ,
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=Hum,Temp&startTs="+tsWindow+"&endTs="+timestamp ,
 	{
         headers: 
 		{
@@ -199,7 +199,7 @@ app.get('/get_data_chart_lightPtemp', function (request, response) {
 	var tsWindow = timestamp - (3600*ileOdjac*1000);
 	
 	
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=1000&limit=5000&agg=NONE&useStrictDataTypes=false&keys=Light,Temp&startTs="+tsWindow+"&endTs="+timestamp ,
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=Light,Temp&startTs="+tsWindow+"&endTs="+timestamp ,
 	{
         headers: 
 		{

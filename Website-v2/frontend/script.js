@@ -101,36 +101,59 @@ function DrawChartHum(data) {
 	var lebels = [];
     var data_chart = [];
 	
-	if(howMany < 300){
+		if(howMany < 2000){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
 			var tem = obj2.Hum[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 300 &&  howMany <1000){
+	if(howMany > 2000 &&  howMany <4000){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=3;
+			xAxe-=5;
 		}
 	
 	}
-	if( howMany > 1000 ){
-	xAxe = 24;
-		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+	if( howMany > 4000 &&  howMany <8000){
+	xAxe = 6; //co 15 min
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
 			
 			var tem = obj2.Hum[i];			
-			lebels.push(-xAxe/4);
+			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=0.5;
+			xAxe-=0.25;
 		}
 	
+	}
+	
+	if( howMany > 8000 &&  howMany <15000){
+	xAxe = 12;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.Hum[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
+	
+	}
+	
+	if( howMany > 15000 ){
+	xAxe = 24;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.Hum[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
 	}
 	
 	
@@ -198,36 +221,59 @@ function DrawChartTemp(data) {
 	var lebels = [];
     var data_chart = [];
 	
-	if(howMany < 300){
+		if(howMany < 2000){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
 			var tem = obj2.Temp[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 300 &&  howMany <1000){
+	if(howMany > 2000 &&  howMany <4000){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=3;
+			xAxe-=5;
 		}
 	
 	}
-	if( howMany > 1000 ){
-	xAxe = 24;
-		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+	if( howMany > 4000 &&  howMany <8000){
+	xAxe = 6; //co 15 min
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
 			
 			var tem = obj2.Temp[i];			
-			lebels.push(-xAxe/4);
+			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=0.5;
+			xAxe-=0.25;
 		}
 	
+	}
+	
+	if( howMany > 8000 &&  howMany <15000){
+	xAxe = 12;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.Temp[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
+	
+	}
+	
+	if( howMany > 15000 ){
+	xAxe = 24;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.Temp[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
 	}
 	
     var ctx = document.getElementById("ChartTemp");
@@ -296,36 +342,59 @@ function DrawChartLight(data) {
 	var lebels = [];
     var data_chart = [];
 	
-	if(howMany < 300){
+	if(howMany < 2000){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
 			var tem = obj2.Light[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 300 &&  howMany <1000){
+	if(howMany > 2000 &&  howMany <4000){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=3;
+			xAxe-=5;
 		}
 	
 	}
-	if( howMany > 1000 ){
-	xAxe = 24;
-		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+	if( howMany > 4000 &&  howMany <8000){
+	xAxe = 6; //co 15 min
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
 			
 			var tem = obj2.Light[i];			
-			lebels.push(-xAxe/4);
+			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=0.5;
+			xAxe-=0.25;
 		}
 	
+	}
+	
+	if( howMany > 8000 &&  howMany <15000){
+	xAxe = 12;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.Light[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
+	
+	}
+	
+	if( howMany > 15000 ){
+	xAxe = 24;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.Light[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
 	}
 	
     var ctx = document.getElementById("ChartLight");
@@ -390,36 +459,59 @@ function DrawChartPollution(data) {
 	var lebels = [];
     var data_chart = [];
 	
-	if(howMany < 300){
+		if(howMany < 2000){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
 			var tem = obj2.VOC[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 300 &&  howMany <1000){
+	if(howMany > 2000 &&  howMany <4000){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
 			
 			var tem = obj2.VOC[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=3;
+			xAxe-=5;
 		}
 	
 	}
-	if( howMany > 1000 ){
-	xAxe = 24;
-		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+	if( howMany > 4000 &&  howMany <8000){
+	xAxe = 6; //co 15 min
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
 			
 			var tem = obj2.VOC[i];			
-			lebels.push(-xAxe/4);
+			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=0.5;
+			xAxe-=0.25;
 		}
 	
+	}
+	
+	if( howMany > 8000 &&  howMany <15000){
+	xAxe = 12;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.VOC[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
+	
+	}
+	
+	if( howMany > 15000 ){
+	xAxe = 24;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=297){
+			
+			var tem = obj2.VOC[i];			
+			lebels.push(-xAxe);
+			data_chart.push(tem.value);
+			xAxe-=0.25;
+		}
 	}
 	
     var ctx = document.getElementById("ChartPollution");
