@@ -28,7 +28,7 @@
 <body onload = "counting();getTemperature();getHumidity();getLight();getVoc();getButton();getTimeSt();">
 
 
-	<div class="wrapper">
+		<div class="wrapper">
 		<div class="header">
 		
 		<a href="MainPage.html">
@@ -74,15 +74,29 @@
 			
 		</div>
 		
-		<div class="content">
-			<div class="location-text"><p>Dane w czasie rzeczywistym</p></div>
+				<div class="content">
+					<div class="location-text" style="margin-left:200px;"><p>Dane w czasie rzeczywistym</p></div>
+			<hr style="width: 70%;margin-left:200px;">
 			
+		<div id="tresc" style = "margin-bottom:30px;margin-top:60px;width:880px;">
+					<div class="ParameterName" > <span style="color: orange;font-size:30px;">Oświetlenie</br>(węzeł końcowy):</span></div>
+						<div class="ParameterValue" style="width:610px;padding:0px;">
+							<div id="lightState" style="margin-left:150px;margin-top:25px;"><script type="text/javascript">getLightState()</script> </div> 
+							<div id="bulb" style="margin-left:50px;"> <script type="text/javascript"></script></div>
+							<div style="clear:both;"></div>
+						</div>
+					<div style="clear:both;"></div>
+		</div>
+		<div style="clear:both;"></div>
+
+
 			
 				<div id="tresc">
 				
 					<div class="ParameterName"> <span style="color: red;">Temperatura:</span></div>
 						<div class="ParameterValue">
 							<div id="temperature"><script type="text/javascript">getTemperature()</script> </div> 
+							<div id = "temp"></div>
 						</div>
 <div style="clear:both;"></div>
 
@@ -130,7 +144,14 @@
 				</div>
 				
 				<div style="clear:both;"></div>
+				
+				
+
+				
 		</div>
+		
+		<div style="clear:both;"></div>
+		
 		
 		<div class="gitfooter">
 		<a href="https://github.com/Voprzybyo" target="_blank" class="gitblock">

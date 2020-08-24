@@ -26,13 +26,13 @@
 	
 </head>
 
-<body onload = "counting();getData1h('temp');getTimeSt();">
+<body onload = "counting();">
 
 
 	<div class="wrapper">
 		<div class="header">
 		
-			<a href="../MainPage.html">
+		<a href="../MainPage.html">
 			<div id="interactive">
 			<div class="img">
 				<img src="../mesh.png" />
@@ -54,6 +54,7 @@
 			document.getElementById("clock").innerHTML = day+"/"+month+"/"+year+"</br>"+hour+":"+minute+":"+second; 
 			</script>
 		</div>
+		<div style="clear:both;"></div>
 		<div class="nav">
 			<ol>
 				<li><a href="../MainPage.html">Strona główna</a></li>
@@ -111,19 +112,19 @@
 			
 			<div id="rightside"> 
 			
-			<div class = "ChartHeader"> <span style="color: #DCDCDC;">Zanieczyszczenie powietrza</span></div>
+			<div class = "ChartHeader"> <span style="color: #DCDCDC;">Oświetlenie (ON/OFF)</span><span style="color: #DCDCDC;">+</span><span style="color: #FF8900;">Pomiar natężenia światła</span></div>
 			<div id="buttonPanel">
 			 <p id ="Buttons">
-                    <button class="button" onclick="getData1h('pollution');getTimeSt();">1h</button>
-                    <button class="button" onclick="getData3h('pollution');getTimeSt();">3h</button>
-                    <button class="button" onclick="getData6h('pollution');getTimeSt();">6h</button>
-					<button class="button" onclick="getData12h('pollution');getTimeSt();">12h</button>
-					<button class="button" onclick="getData24h('pollution');getTimeSt();">24h</button>
-					<button class="button" onclick="getData48h('pollution');getTimeSt();">48h</button>
+                    <button class="button" onclick="getData1h('lightPlightState');getTimeSt();">1h</button>
+                    <button class="button" onclick="getData3h('lightPlightState');getTimeSt();">3h</button>
+                    <button class="button" onclick="getData6h('lightPlightState');getTimeSt();">6h</button>
+					<button class="button" onclick="getData12h('lightPlightState');getTimeSt();">12h</button>
+					<button class="button" onclick="getData24h('lightPlightState');getTimeSt();">24h</button>
+					<button class="button" onclick="getData48h('lightPlightState');getTimeSt();">48h</button>
                 </p>
 			</div>
 
-				<canvas id="ChartPollution"><script>getData1h('pollution')</script></canvas>
+				<canvas id="ChartLightPlightState"><script type="text/javascript">getData1h('lightPlightState')</script></canvas>
 				
 			<div id="updateTime">
 			<div> Ostatnia aktualizacja:</div> 
@@ -135,7 +136,7 @@
 		</div>
 			<div style="clear:both;"></div>
 		
-<div class="gitfooter">
+		<div class="gitfooter">
 		<a href="https://github.com/Voprzybyo" target="_blank" class="gitblock">
 			<div class="gitdiv">
 				<div class="github">

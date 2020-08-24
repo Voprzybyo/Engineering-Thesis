@@ -25,7 +25,7 @@ app.get('/get_data', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
 
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp,Light,Button,VOC" , 
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp,Light,Button,VOC,LightState" , 
 	{
         headers: 
 		{
@@ -200,6 +200,35 @@ app.get('/get_data_chart_lightPtemp', function (request, response) {
 	
 	
     fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=Light,Temp&startTs="+tsWindow+"&endTs="+timestamp ,
+	{
+        headers: 
+		{
+            "Accept": "application/json",
+            "X-Authorization": token
+        }
+    })
+  .then(function (response) {
+            return response.json();
+        })
+  .then(function (data) {
+	  	  console.log(data);
+
+           return response.send(JSON.stringify(data));
+        });
+  
+})
+
+app.get('/get_data_chart_lightPlightState', function (request, response) {
+    console.log("Pozyskiwanie danych z chmury");
+	var timestamp = Date.now();
+	
+	
+	var ileOdjac = request.query.timeSpan;
+	
+	var tsWindow = timestamp - (3600*ileOdjac*1000);
+	
+	
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?interval=60000&limit=100000&agg=NONE&useStrictDataTypes=false&keys=Light,LightState&startTs="+tsWindow+"&endTs="+timestamp ,
 	{
         headers: 
 		{

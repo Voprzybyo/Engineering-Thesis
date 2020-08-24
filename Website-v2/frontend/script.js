@@ -46,6 +46,11 @@ console.log(paramChoice);
 				howMany = Object.keys(obj2.Light).length;
         DrawChartLightPTemp(data);	
 		}
+		if(paramChoice == 'lightPlightState'){
+				obj2 = JSON.parse(data);
+				howMany = Object.keys(obj2.Light).length;
+        DrawChartLightPLightState(data);	
+		}
 
     })
 }
@@ -59,6 +64,7 @@ function getDataAll(choiceIn) {
 	var temp3 = obj.Light[0];
 	var temp4 = obj.VOC[0];
 	var temp5 = obj.Button[0];
+	var temp6 = obj.LightState[0];
 	
 	switch(choiceIn){
 		case 1:	
@@ -81,9 +87,21 @@ function getDataAll(choiceIn) {
 				}
 			break;
 		case 6:	
-		var s1 = new Date(temp1.ts).toLocaleDateString("en-US")
-		var s2 = new Date(temp1.ts).toLocaleTimeString("nb-NO")
-		document.getElementById("timest").innerHTML = s2 + "</br>" + s1 +"</br>";
+			var s1 = new Date(temp1.ts).toLocaleDateString("en-US")
+			var s2 = new Date(temp1.ts).toLocaleTimeString("nb-NO")
+			document.getElementById("timest").innerHTML = s2 + "</br>" + s1 +"</br>";
+			break;
+		case 7:	
+			if(temp6.value == 0){
+			document.getElementById("lightState").innerHTML = "Wyłączone";
+			document.getElementById("bulb").innerHTML = "<img src=bulb_off2.png>";		
+				}else{
+			document.getElementById("lightState").innerHTML = "Włączone";
+			document.getElementById("bulb").innerHTML = "<img src=bulb_on2.png>";	
+				}
+			
+			break;
+		
 		default:
 
 			break;
@@ -101,29 +119,29 @@ function DrawChartHum(data) {
 	var lebels = [];
     var data_chart = [];
 	
-		if(howMany < 2000){
+		if(howMany < 200){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
 			var tem = obj2.Hum[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 2000 &&  howMany <4000){
+	if(howMany > 200 &&  howMany <700){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=5;
+			xAxe-=3;
 		}
 	
 	}
-	if( howMany > 4000 &&  howMany <8000){
+	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
@@ -221,29 +239,29 @@ function DrawChartTemp(data) {
 	var lebels = [];
     var data_chart = [];
 	
-		if(howMany < 2000){
+		if(howMany < 200){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
 			var tem = obj2.Temp[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 2000 &&  howMany <4000){
+	if(howMany > 200 &&  howMany <700){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=5;
+			xAxe-=3;
 		}
 	
 	}
-	if( howMany > 4000 &&  howMany <8000){
+	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
@@ -342,29 +360,29 @@ function DrawChartLight(data) {
 	var lebels = [];
     var data_chart = [];
 	
-	if(howMany < 2000){
+	if(howMany < 200){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
 			var tem = obj2.Light[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 2000 &&  howMany <4000){
+	if(howMany > 200 &&  howMany <700){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=5;
+			xAxe-=3;
 		}
 	
 	}
-	if( howMany > 4000 &&  howMany <8000){
+	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
@@ -459,29 +477,29 @@ function DrawChartPollution(data) {
 	var lebels = [];
     var data_chart = [];
 	
-		if(howMany < 2000){
+		if(howMany < 200){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=20){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
 			var tem = obj2.VOC[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
 		}
 	}
-	if(howMany > 2000 &&  howMany <4000){
+	if(howMany > 200 &&  howMany <700){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=97){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
 			var tem = obj2.VOC[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
-			xAxe-=5;
+			xAxe-=3;
 		}
 	
 	}
-	if( howMany > 4000 &&  howMany <8000){
+	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=295){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
 			
 			var tem = obj2.VOC[i];			
 			lebels.push(-xAxe);
@@ -581,7 +599,7 @@ function DrawChartHumPTemp(data) {
 	
 	if(howMany < 300){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
 			var tem1 = obj2.Hum[i];
 			var tem2 = obj2.Temp[i];
 			lebels.push(-xAxe);
@@ -591,9 +609,9 @@ function DrawChartHumPTemp(data) {
 		}
 	}
 	
-	if(howMany > 300 &&  howMany <1000){
+	if(howMany > 300 &&  howMany <700){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
 			var tem1 = obj2.Hum[i];
 			var tem2 = obj2.Temp[i];
@@ -604,16 +622,16 @@ function DrawChartHumPTemp(data) {
 		}
 	
 	}
-	if( howMany > 1000 ){
-	xAxe = 24;
-		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+	if(howMany > 700 &&  howMany < 1400){
+	xAxe = 6;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
 			
 			var tem1 = obj2.Hum[i];
 			var tem2 = obj2.Temp[i];
 			lebels.push(-xAxe);
 			data_chartHum.push(tem1.value);
 			data_chartTemp.push(tem2.value);
-			xAxe-=0.5;
+			xAxe-=0.25;
 		}
 	
 	}
@@ -693,9 +711,9 @@ function DrawChartLightPTemp(data) {
     var data_chartLight = [];
 	var data_chartTemp = [];
 	
-	if(howMany < 300){
+	if(howMany < 200){
 	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=4){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.Temp[i];
 			lebels.push(-xAxe);
@@ -705,9 +723,9 @@ function DrawChartLightPTemp(data) {
 		}
 	}
 	
-	if(howMany > 300 &&  howMany <1000){
+	if(howMany > 200 &&  howMany <700){
 	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=12){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.Temp[i];
@@ -718,16 +736,16 @@ function DrawChartLightPTemp(data) {
 		}
 	
 	}
-	if( howMany > 1000 ){
-	xAxe = 24;
-		for(var i = howMany-24; i > 0 && xAxe > 0; i-=28){
+	if(howMany > 700 &&  howMany <1400){
+	xAxe = 6;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.Temp[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartTemp.push(tem2.value);
-			xAxe-=0.5;
+			xAxe-=0.25;
 		}
 	
 	}
@@ -797,32 +815,157 @@ function DrawChartLightPTemp(data) {
 	setTimeout("DrawChartLightPTemp()",30000);
 }
 
+function DrawChartLightPLightState(data) {
+	
+	var obj2 = JSON.parse(data);
+	var tem1 = obj2.Light[0];
+	var tem2 = obj2.LightState[0];
+	
+	var lebels = [];
+    var data_chartLight = [];
+	var data_chartLightState = [];
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+			var tem1 = obj2.Light[i];
+			var tem2 = obj2.LightState[i];
+			lebels.push(-xAxe);
+			data_chartLight.push(tem1.value);
+			data_chartLightState.push(tem2.value*100);
+			xAxe--;
+		}
+	}
+	
+	if(howMany > 300 &&  howMany <1000){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+			
+			var tem1 = obj2.Light[i];
+			var tem2 = obj2.LightState[i];
+			lebels.push(-xAxe);
+			data_chartLight.push(tem1.value);
+			data_chartLightState.push(tem2.value*100);
+			xAxe-=3;
+		}
+	
+	}
+	if( howMany > 1000 ){
+	xAxe = 6;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+			
+			var tem1 = obj2.Light[i];
+			var tem2 = obj2.LightState[i];
+			lebels.push(-xAxe);
+			data_chartLight.push(tem1.value);
+			data_chartLightState.push(tem2.value*100);
+			xAxe-=0.25;
+		}
+	
+	}
+	
+
+    var ctx = document.getElementById("ChartLightPlightState");
+    LAeqChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: '#DCDCDC',
+                borderColor: '#FF8900',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartLight,
+				fill:false,						
+            },{
+				backgroundColor: '#DCDCDC',
+                borderColor: '#DCDCDC',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartLightState,
+				fill:false,				
+				
+			}]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+				fontColor: 'white',
+				fontSize: 32
+            },
+			 scales: {
+           	xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min] / [h]'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: '#FF0000'
+            }
+          }
+        } ],
+            yAxes: [{				
+                ticks: {
+					suggestedMin: 25,		
+					suggestedMax: 75						
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[%]'
+				}				
+            }]
+        }
+        }
+    });
+		
+	setTimeout("DrawChartLightPLightState()",30000);
+}
+
+
 
 function getTemperature() {
 choice=1;
 getDataAll(choice);
+setTimeout("getTemperature()",30000);
 }
 function getHumidity() {
 choice=2;
 getDataAll(choice);
+setTimeout("getHumidity()",30000);
 }
 function getLight() {
 choice=3;
 getDataAll(choice);
+setTimeout("getLight()",30000);
 }
 function getVoc() {
 choice=4;
 getDataAll(choice);
+setTimeout("getVoc()",30000);
 }
 function getButton() {
 choice=5;
 getDataAll(choice);
+setTimeout("getButton()",30000);
 }
 function getTimeSt() {
 choice=6;
 getDataAll(choice);
 setTimeout("getTimeSt()",30000);
 
+}
+function getLightState() {
+choice=7;
+getDataAll(choice);
+setTimeout("getLightState()",30000);
 }
 
 function getData1h(paramChoice) {
