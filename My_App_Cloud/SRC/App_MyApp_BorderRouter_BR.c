@@ -1,5 +1,6 @@
 
 #include "RIIM_UAPI.h"
+#include<string.h>
 static const uint8_t resourceName2[]="data";
 static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
 const uint8_t serverIP4Addr[4]={104,196,24,70};
@@ -13,13 +14,15 @@ const IPAddr childNodeIPAddr={.byte={
 
 static uint8_t timerHandle;
 const uint16_t timerPeriod=5000;
-
+const uint16_t buttonTimerPeriod=200;
 const uint32_t coapTimerPeriod = 2000;
 static const uint32_t ledTimerPeriod=500; 
-static const uint32_t printoutTimerPeriod=2000; // 2 seconds
+static const uint32_t printoutTimerPeriod=4000; // 2 seconds
 
-static uint8_t ledTimerHandler, printoutTimerHandler, sensorTimerHandler, coapTimerHandler;
+static uint8_t ledTimerHandler, printoutTimerHandler, sensorTimerHandler, coapTimerHandler, buttonTimerHandler, oneShotTimerHandler;
 
+
+ enum {off, on} LightButton;
 
 //static uint8_t buttonHandler;
 
@@ -33,8 +36,8 @@ static bool connectedToServer;
 
 static void LED()
 {
-   GPIO.toggle(GPIO_0);
-   GPIO.toggle(GPIO_1);
+  // GPIO.toggle(GPIO_0);
+  // GPIO.toggle(GPIO_1);
 }
 
 static void ReadUserButton()
@@ -60,15 +63,16 @@ static void ReadSensor()
 
 static void Printout()
 {
-    Util.printf("\n\n");
-   
+   // Util.printf("\n\n");
+  // Timer.start(oneShotTimerHandler);
 
-    Util.printf("User Button  : ");
+  //  Util.printf("User Button  : ");
         if(userButton==0) {
 			Util.printf("Pushed");
 			lightsOn = 1;
+			Timer.start(oneShotTimerHandler);
 		}else{ 
-			Util.printf("Not Pushed");
+		//	Util.printf("Not Pushed");
 			lightsOn = 0;
 		}
     return;
@@ -85,19 +89,22 @@ static void sendCoAPtoSensorBoard()
     // but easy to read and parse
     uint8_t payload[100];
     int payloadLength;
-    Util.printf("Wysylam do Sensorboarda:{\"mV\": %i}\n", lightsOn);
-    payloadLength=Util.sprintf((char*)payload,"{\"mV\": %i}", lightsOn);
+   // Util.printf("Wysylam do Sensorboarda:{\"mV\": %i}\n", lightsOn);
+    payloadLength=Util.sprintf((char*)payload,"%i", lightsOn);
     CoAP.send(CoAP_PUT, false, resourceName2, payload, payloadLength);
     
     return;
 }
 
+
+
+
 void buttonHandler()
 {
 	Util.printf("# Button Handler! \n");
-	if(lightsOn == 1){
+
 		sendCoAPtoSensorBoard();
-	}
+	
 	return;
 }
 
@@ -125,7 +132,21 @@ static void timerHandler()
 
 void responseHandler(const uint8_t *payload, uint8_t payload_size)
 {
-	Util.printf("# Got CoAP Response. Doing nothing with it...\n");
+	
+	Util.printf("%s\n", payload);
+	
+	char * key = "Light: OFF";
+	Util.printf("%s\n", key);
+	
+	
+	if(strcmp((const char *)payload,key) == 0) {
+		GPIO.setValue(GPIO_1, LOW);
+		//GPIO.setValue(GPIO_0, LOW);
+	}else{
+		GPIO.setValue(GPIO_1, HIGH);
+		//GPIO.setValue(GPIO_0, HIGH);	
+	}
+	
 	return;
 }
 
@@ -136,7 +157,7 @@ RIIM_SETUP()
 {
 	Util.printf("Starting RIIM Root Node\n");
 	// Initialize variables
-	
+	LightButton = off;
 	userButton = 0;
 	lightsOn = 0;
 	connectedToServer=false;
@@ -157,27 +178,29 @@ RIIM_SETUP()
     GPIO.setDirection(GPIO_0, OUTPUT);
     GPIO.setDirection(GPIO_1, OUTPUT);
     GPIO.setValue(GPIO_0, LOW);
-    GPIO.setValue(GPIO_1, HIGH);
+    GPIO.setValue(GPIO_1, LOW);
 	
 	
 	
 	// Setup timer
-	sensorTimerHandler = Timer.create(PERIODIC, timerPeriod, ReadSensor);
+	sensorTimerHandler = Timer.create(PERIODIC, 100*MILLISECOND, ReadSensor); //timerPerdiod tu blo
 	ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
 	timerHandle=Timer.create(PERIODIC, timerPeriod, timerHandler);
-	printoutTimerHandler=Timer.create(PERIODIC, printoutTimerPeriod, Printout);
+	printoutTimerHandler=Timer.create(PERIODIC, 100*MILLISECOND, Printout);
 	//coapTimerHandler = Timer.create(PERIODIC, timerPeriod, sendCoAPtoSensorBoard);
 	CoAP.registerResponseHandler(responseHandler);
 	
-	coapTimerHandler = Timer.create(PERIODIC, timerPeriod, buttonHandler);
+	coapTimerHandler = Timer.create(PERIODIC, buttonTimerPeriod, buttonHandler);
+	oneShotTimerHandler = Timer.create(ONE_SHOT, 1*SECOND, buttonHandler);
+	
 	
 	
 	Timer.start(ledTimerHandler);
 	Timer.start(timerHandle);
 	Timer.start(printoutTimerHandler);
 	Timer.start(sensorTimerHandler);
-	Timer.start(coapTimerHandler);
-	
+	Timer.start(oneShotTimerHandler);
+	//Timer.start(coapTimerHandler);
 	
 	
 	

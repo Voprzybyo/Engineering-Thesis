@@ -1,6 +1,6 @@
 #include "RIIM_UAPI.h"
 #define SGPC3_I2C_ADDRESS 0x58
-
+#include <string.h>
 // Change Resource_Name to your CoAP resource address
 //static const uint8_t resourceName[] = "/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
 static const uint8_t resourceName[] = "/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
@@ -19,7 +19,7 @@ static const uint32_t printoutTimerPeriod=2000; // 2 seconds
 
 static uint16_t temp, tempFraction, humidity;
 static uint32_t light, userButton, vocValue;
-
+static uint32_t lightState;
 
 /**
  * @brief This function sends a CoAP message to the server (cloud)
@@ -116,8 +116,8 @@ static void ReadSensor()
 
 static void LED()
 {
-  //  GPIO.toggle(GPIO_0);
-  //  GPIO.toggle(GPIO_4);
+   // GPIO.toggle(GPIO_0);
+   // GPIO.toggle(GPIO_4);
 }
 
 
@@ -198,6 +198,33 @@ static void coapHandler(RequestType type, IPAddr srcAddr, uint8_t *payload, uint
 {
     // In this example we only print the payload directly to the UART.
     Util.printf("%.*s\n", payloadSize, payload);
+	Util.printf("%s\n", payload);
+	Util.printf("%d\n", payloadSize);
+	
+	char * key = "0";
+	
+if(strcmp((const char *)payload,key) == 0) {
+		 GPIO.toggle(GPIO_4);
+		 GPIO.toggle(GPIO_0);
+	}
+	
+	
+	 lightState=GPIO.getValue(GPIO_0);
+	 
+	 if(lightState == 0){
+	 *responseSize=Util.sprintf((char*)response, "Light: OFF");
+	
+
+	 Util.printf("1111 %.*s\n", responseSize, response);
+	 
+	 }else{
+		 *responseSize=Util.sprintf((char*)response, "Light: ON");
+		 Util.printf("2222 %.*s\n", responseSize, response);
+	 }
+	
+	
+	
+	
 
     return;
 }
@@ -220,6 +247,7 @@ RIIM_SETUP()
 	userButton = 0;
 	vocValue = 0;
 	light = 0;
+	lightState = 0;
 	
 	UART.init(115200, UART_PARITY_NONE, UART_DATA_8_BITS, UART_STOP_1_BIT);
 	
