@@ -141,7 +141,7 @@ function DrawChartHum(data) {
 	}
 	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
@@ -153,7 +153,7 @@ function DrawChartHum(data) {
 	
 	if( howMany > 1400 &&  howMany <3000){
 	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
@@ -165,7 +165,7 @@ function DrawChartHum(data) {
 	
 	if( howMany > 3000 &&  howMany <7000){
 	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
@@ -176,7 +176,7 @@ function DrawChartHum(data) {
 	
 		if( howMany > 7000 ){
 	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=35){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
 			var tem = obj2.Hum[i];			
 			lebels.push(-xAxe);
@@ -272,7 +272,7 @@ function DrawChartTemp(data) {
 	}
 	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
@@ -284,7 +284,7 @@ function DrawChartTemp(data) {
 	
 	if( howMany > 1400 &&  howMany <3000){
 	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
@@ -296,7 +296,7 @@ function DrawChartTemp(data) {
 	
 	if( howMany > 3000 &&  howMany <7000){
 	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
@@ -307,7 +307,7 @@ function DrawChartTemp(data) {
 	
 		if( howMany > 7000 ){
 	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=35){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
 			var tem = obj2.Temp[i];			
 			lebels.push(-xAxe);
@@ -404,7 +404,7 @@ function DrawChartLight(data) {
 	}
 	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
@@ -416,7 +416,7 @@ function DrawChartLight(data) {
 	
 	if( howMany > 1400 &&  howMany <3000){
 	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
@@ -428,7 +428,7 @@ function DrawChartLight(data) {
 	
 	if( howMany > 3000 &&  howMany <7000){
 	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
@@ -439,7 +439,7 @@ function DrawChartLight(data) {
 	
 		if( howMany > 7000 ){
 	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=35){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
 			var tem = obj2.Light[i];			
 			lebels.push(-xAxe);
@@ -532,7 +532,7 @@ function DrawChartPollution(data) {
 	}
 	if( howMany > 700 &&  howMany <1400){
 	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.VOC[i];			
 			lebels.push(-xAxe);
@@ -544,7 +544,7 @@ function DrawChartPollution(data) {
 	
 	if( howMany > 1400 &&  howMany <3000){
 	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem = obj2.VOC[i];			
 			lebels.push(-xAxe);
@@ -556,7 +556,7 @@ function DrawChartPollution(data) {
 	
 	if( howMany > 3000 &&  howMany <7000){
 	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
 			var tem = obj2.VOC[i];			
 			lebels.push(-xAxe);
@@ -567,7 +567,7 @@ function DrawChartPollution(data) {
 	
 		if( howMany > 7000 ){
 	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=35){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
 			var tem = obj2.VOC[i];			
 			lebels.push(-xAxe);
@@ -668,7 +668,7 @@ function DrawChartHumPTemp(data) {
 	}
 	if(howMany > 700 &&  howMany < 1400){
 	xAxe = 6;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem1 = obj2.Hum[i];
 			var tem2 = obj2.Temp[i];
@@ -682,7 +682,7 @@ function DrawChartHumPTemp(data) {
 	
 		if(howMany > 1400 &&  howMany < 3000){
 	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem1 = obj2.Hum[i];
 			var tem2 = obj2.Temp[i];
@@ -696,7 +696,7 @@ function DrawChartHumPTemp(data) {
 	
 	if(howMany > 3000 &&  howMany < 7000){
 			xAxe = 24;
-			for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
 			var tem1 = obj2.Hum[i];
 			var tem2 = obj2.Temp[i];
@@ -710,7 +710,7 @@ function DrawChartHumPTemp(data) {
 	
 		if(howMany > 7000){
 			xAxe = 48;
-			for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
 			var tem1 = obj2.Hum[i];
 			var tem2 = obj2.Temp[i];
@@ -777,7 +777,7 @@ function DrawChartHumPTemp(data) {
                 },
 				scaleLabel: {
 				display: true,
-				labelString: '[%]'
+				labelString: '[%] / [°C]'
 				}				
             }]
         }
@@ -824,7 +824,7 @@ function DrawChartLightPTemp(data) {
 	}
 	if(howMany > 700 &&  howMany <1400){
 	xAxe = 6;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.Temp[i];
@@ -838,7 +838,7 @@ function DrawChartLightPTemp(data) {
 	
 		if(howMany > 1400 &&  howMany <3000){
 	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.Temp[i];
@@ -851,7 +851,7 @@ function DrawChartLightPTemp(data) {
 	}
 		if(howMany > 3000 &&  howMany < 7000){
 			xAxe = 24;
-			for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.Temp[i];
@@ -865,7 +865,7 @@ function DrawChartLightPTemp(data) {
 	
 		if(howMany > 7000){
 			xAxe = 48;
-			for(var i = howMany-1; i > 0 && xAxe > 0; i-=35){
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.Temp[i];
@@ -932,7 +932,7 @@ function DrawChartLightPTemp(data) {
                 },
 				scaleLabel: {
 				display: true,
-				labelString: '[%]'
+				labelString: '[mV] / [°C]'
 				}				
             }]
         }
@@ -979,7 +979,7 @@ function DrawChartLightPLightState(data) {
 	}
 	if(howMany > 700 &&  howMany <1400){
 	xAxe = 6;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.LightState[i];
@@ -992,7 +992,7 @@ function DrawChartLightPLightState(data) {
 	
 		if(howMany > 1400 &&  howMany <3000){
 	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.LightState[i];
@@ -1005,13 +1005,13 @@ function DrawChartLightPLightState(data) {
 	
 		if(howMany > 3000 &&  howMany < 7000){
 			xAxe = 24;
-			for(var i = howMany-1; i > 0 && xAxe > 0; i-=45){
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value);
+			data_chartLightState.push(tem2.value*100);
 			xAxe-=0.25;
 		}
 	
@@ -1019,13 +1019,13 @@ function DrawChartLightPLightState(data) {
 	
 		if(howMany > 7000){
 			xAxe = 48;
-			for(var i = howMany-1; i > 0 && xAxe > 0; i-=35){
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
 			var tem1 = obj2.Light[i];
 			var tem2 = obj2.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value);
+			data_chartLightState.push(tem2.value*100);
 			xAxe-=0.25;
 		}
 	
@@ -1086,7 +1086,7 @@ function DrawChartLightPLightState(data) {
                 },
 				scaleLabel: {
 				display: true,
-				labelString: '[%]'
+				labelString: '[mV] / [ON/OFF]'
 				}				
             }]
         }
