@@ -3,7 +3,7 @@
 	const fetch = require('node-fetch');
 	var fs = require('fs');
 	var PORT = process.env.PORT || 8080;
-	var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3by5wcnp5YnlvQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2RjNmQ0OTAtZDFjMC0xMWVhLThjMzYtODdhODUyZTM5NTJjIiwiZmlyc3ROYW1lIjoiV29qY2llY2giLCJsYXN0TmFtZSI6IlByenliecWCbyIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjdjMDgwZDkwLWQxYzAtMTFlYS04YzM2LTg3YTg1MmUzOTUyYyIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTU5ODc3NTI3MiwiZXhwIjoxNjAwNTc1MjcyfQ.NT_qBnXt7_qFO6u_kxP7pJwduoRmaf7EvzwGJemRecGprDHyFMidQKT1BJ8Hw6xKYG-OOzJA-wQESQIJN76Ryw";
+	var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3by5wcnp5YnlvQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2RjNmQ0OTAtZDFjMC0xMWVhLThjMzYtODdhODUyZTM5NTJjIiwiZmlyc3ROYW1lIjoiV29qY2llY2giLCJsYXN0TmFtZSI6IlByenliecWCbyIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjdjMDgwZDkwLWQxYzAtMTFlYS04YzM2LTg3YTg1MmUzOTUyYyIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTYwMTI4MDU3MSwiZXhwIjoxNjAzMDgwNTcxfQ.lamK7aHsWw-UKlVje1qncl--77yki5Prnr4eMGRt2hKiQDp5gJu2vfEM8na_ZOeV-Kb1rsqSFs7HSXNslyw14Q";
 	
 	
 app.use(express.static(__dirname ) )
@@ -25,7 +25,7 @@ app.get('/get_data', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
 
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp,Light,Button,VOC,LightState" , 
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp,Light,Button,VOC,LightState,RSSI_Leaf,RSSI_MeshR" , 
 	{
         headers: 
 		{
@@ -42,7 +42,6 @@ app.get('/get_data', function (request, response) {
         });
   
 })
-
 
 app.get('/get_data_chart_hum', function (request, response) {
     console.log("Pozyskiwanie danych z chmury");

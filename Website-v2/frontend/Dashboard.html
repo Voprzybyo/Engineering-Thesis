@@ -16,6 +16,8 @@
 	<link href="fontello/css/fontello.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="timer.js"></script>
 	<script type="text/javascript" src="../backend/sticky.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="script.js"></script>
 </head>
 
 <body onload = "counting();sticky();">
@@ -70,11 +72,19 @@
 		<hr style="width: 80%;margin-left:200px;">
 		<div style="margin-left:200px;margin-bottom:200px;">
 			
-			Miejsce na dashboard - jakość połączenia pomiędzy węzłami
+					<div>
+			Border Router <---> Mesh Router
+			<div id="RSSI1"><script type="text/javascript">getRSSI1()</script> </div> 
+			</div>
 			
+			<div>
+			Mesh Router <---> Leaf Node
+			<div id="RSSI2"><script type="text/javascript">getRSSI2()</script> </div> 
+			</div>
 			
 		</div>
 		
+
 		
 		<div class="gitfooter">
 		<a href="https://github.com/Voprzybyo" target="_blank" class="gitblock">

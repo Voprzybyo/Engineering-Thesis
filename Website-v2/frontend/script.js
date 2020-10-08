@@ -65,6 +65,9 @@ function getDataAll(choiceIn) {
 	var temp4 = obj.VOC[0];
 	var temp5 = obj.Button[0];
 	var temp6 = obj.LightState[0];
+	var temp7 = obj.RSSI_Leaf[0];
+	var temp8 = obj.RSSI_MeshR[0];
+	
 	
 	switch(choiceIn){
 		case 1:	
@@ -101,7 +104,12 @@ function getDataAll(choiceIn) {
 				}
 			
 			break;
-		
+		case 8:		
+			document.getElementById("RSSI1").innerHTML = temp7.value + " (RSSI)</br>";
+			break;
+		case 9:		
+			document.getElementById("RSSI2").innerHTML = temp8.value + " (RSSI)</br>";
+			break;
 		default:
 
 			break;
@@ -110,6 +118,7 @@ function getDataAll(choiceIn) {
     })
 	setTimeout("getDataAll()",30000);
 }
+
 
 function DrawChartHum(data) {
 	
@@ -1133,6 +1142,16 @@ function getLightState() {
 choice=7;
 getDataAll(choice);
 setTimeout("getLightState()",30000);
+}
+function getRSSI1() {
+choice=8;
+getDataAll(choice);
+setTimeout("getRSSI1()",30000);
+}
+function getRSSI2() {
+choice=9;
+getDataAll(choice);
+setTimeout("getRSSI2()",30000);
 }
 
 function getData1h(paramChoice) {
