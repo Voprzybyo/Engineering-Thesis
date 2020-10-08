@@ -35,15 +35,15 @@
 ///////////////////////////////////////////////////
 
 // Change Resource_Name to your CoAP resource address
-//static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/"; //if I want to send CoAP from mesh_node to cloud
+static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/"; //if I want to send CoAP from mesh_node to cloud
 // Change server_ip4_addr to the address of your server.
 const uint8_t serverIP4Addr[4]={104,196,24,70};
 
 
 
 uint8_t startupTimerHandle;
-const uint32_t coapTimerPeriod=10000;
-uint8_t coapTimerHandle;
+const uint32_t RSSITimerPeriod=10000;
+uint8_t RSSITimerHandle;
 
 /**
  * @brief This function sends a CoAP message to the server (cloud)
@@ -77,8 +77,10 @@ static void startup()
         return;
     }
 
+	
+
     Timer.stop(startupTimerHandle);
-    Timer.start(coapTimerHandle);
+    Timer.start(RSSITimerHandle);
 
     return;
 }
@@ -88,6 +90,22 @@ static void startup()
  */
 void responseHandler(const uint8_t *payload, uint8_t payload_size)
 {
+	
+    return;
+}
+
+void sendRSSI()
+{
+	int RSSI = 0;
+	uint8_t payload[100];
+	int payloadLength;
+	
+	RSSI = Network.getParentRSSI();
+	Util.printf("RSSI = %d \n", RSSI);
+	
+	payloadLength = Util.sprintf((char*)payload, "{\"RSSI_MeshR\": %i }", RSSI);
+	CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
+	
     return;
 }
 
@@ -104,6 +122,9 @@ RIIM_SETUP()
     Timer.start(startupTimerHandle);
 
     CoAP.registerResponseHandler(responseHandler);
+
+	
+    RSSITimerHandle=Timer.create(PERIODIC, RSSITimerPeriod, sendRSSI);
 
     const uint8_t nwKey[16]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
     Network.setNWKey((uint8_t*)nwKey);

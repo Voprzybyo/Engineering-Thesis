@@ -3,7 +3,7 @@
 #include<string.h>
 static const uint8_t resourceName2[]="data";
 static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
-//static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/attributes/";
+
 
 const uint8_t serverIP4Addr[4]={104,196,24,70};
 const uint8_t ipMask[4]={255,255,255,0};
