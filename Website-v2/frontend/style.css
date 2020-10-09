@@ -201,6 +201,14 @@ a.logo{
 	float: left;
 }
 
+#dashboard
+{
+	color:#DCDCDC;
+	float: left;
+	font-size:36px;
+	text-align:center;
+}
+
 #temperature
 {
 	color:red;

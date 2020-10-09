@@ -15,12 +15,11 @@
 	
 	<link href="fontello/css/fontello.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="timer.js"></script>
-	<script type="text/javascript" src="../backend/sticky.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="script.js"></script>
 </head>
 
-<body onload = "counting();sticky();">
+<body onload = "counting();">
 
 	<div class="wrapper">
 		<div class="header">
@@ -72,17 +71,86 @@
 		<hr style="width: 80%;margin-left:200px;">
 		<div style="margin-left:200px;margin-bottom:200px;">
 			
-					<div>
-			Border Router <---> Mesh Router
-			<div id="RSSI1"><script type="text/javascript">getRSSI1()</script> </div> 
-			</div>
-			
+			</br></br></br></br></br></br>
 			<div>
-			Mesh Router <---> Leaf Node
-			<div id="RSSI2"><script type="text/javascript">getRSSI2()</script> </div> 
+			<div id="RSSI1" style="margin-left:300px;font-size:34px;float:left;"><script type="text/javascript">getRSSI1()</script> </div> 
+			<div id="RSSI2" style="margin-left:350px;font-size:34px;float:left;"><script type="text/javascript">getRSSI2()</script> </div> 
 			</div>
-			
+			<div style="clear:both"></div>
+			<div> 	
+			<div id="dashboard" style="margin-left:50px;">Border</br> Router </div> <div id="dashboard"> <hr style="width:300px;margin-left:50px;margin-right:50px;margin-top:40px;"> </div> <div id="dashboard"> Mesh </br> Router </div> <div id="dashboard"> <hr style="width:300px;margin-left:50px;margin-right:50px;margin-top:40px;"> </div> <div id="dashboard"> Leaf </br> Node </div>	
+			</div>
+			<div style="clear:both"></div>
+					
 		</div>
+		
+		
+		
+		
+		
+
+		<div id="tresc">
+				
+					<div class="ParameterName"> Siła sygnału </div>
+						<div class="ParameterValue">
+							<div >Klasyfikacja</div> 
+						</div>
+<div style="clear:both;"></div>
+
+					<div class="ParameterName" style = "color:#0FBD00;"> -30 dBm </div>
+					<div class="ParameterValue">
+						<div style = "color:#0FBD00;">Niesamowity </div> 
+					</div>
+
+
+<div style="clear:both;"></div>
+
+					<div class="ParameterName" style = "color:#57BD00;"> -67 dBm </div>
+					<div class="ParameterValue">
+						<div style = "color:#57BD00;">Bardzo dobry </div> 
+					</div>
+					
+					
+<div style="clear:both;"></div>
+
+					<div class="ParameterName"  style = "color:#FFE000;"> -70 dBm </div>
+					<div class="ParameterValue">
+						<div  style = "color:#FFE000;">Dobry</div> 
+					</div>	
+
+<div style="clear:both;"></div>		
+
+					
+					<div class="ParameterName" style = "color:#FF7400;"> -80 dBm </div>
+					<div class="ParameterValue">
+						<div style = "color:#FF7400;">Nie dobry</div> 
+					</div>		
+					
+<div style="clear:both;"></div>		
+
+					
+					<div class="ParameterName" style = "color:#FF0000;"> -90 dBm </div>
+					<div class="ParameterValue">
+						<div style = "color:#FF0000;">Nieużyteczny</div> 
+					</div>						
+				</div>
+		
+			
+		
+			<div id=allSensorsRightSide >
+			
+			<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+				
+			<div id="updateTime">
+			<div> Ostatnia aktualizacja:</div> 
+			
+			<div id="timest"><script type="text/javascript">getTimeSt()</script> </div> 
+			</div>
+				</div>
+				
+	<div style="clear:both;margin-bottom:100px;"></div>		
+		
+		
 		
 
 		

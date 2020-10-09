@@ -15,10 +15,10 @@
 	
 	<link href="fontello/css/fontello.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="timer.js"></script>
-	<script type="text/javascript" src="../backend/sticky.js"></script>
+
 </head>
 
-<body onload = "counting();sticky();">
+<body onload = "counting();">
 
 	<div class="wrapper">
 		<div class="header">
@@ -66,8 +66,118 @@
 		
 		<div class="content">
 			<div class = "location-text" style="margin-left:200px;" ><p>Wykorzystane urządzenia</p></div>
-			<hr style="width: 70%;margin-left:200px;">
+			<hr style="width: 75%;margin-left:200px;">
 		</div>
+
+
+
+
+		<div class="content">
+	
+<div>	
+		<div class="img" style = "float:left; margin-left:200px;width:400px;">
+				
+				<img src="LeafN.png" />
+		</div>
+
+
+	<div style="width:600px;float:left;margin-left:50px;">
+<div style = " font-size:30px; ">		Leaf Node </div>
+</br>
+	
+<hr style="width: 100%; margin-bottom:20px;">
+Płytka będąca węzłem końcowym sieci typu mesh.</br></br> Wyposażona w 6 czujników:</br></br>
+-temperatury i wilgotności (SHT35 oraz HDC2010) </br>
+-natężenia światła (ALS-PT-315C)</br>
+-zanieczyszczenia powietrza (SGPC3)</br>
+-detektor Halla (SL353LT)</br>
+-akcelerometr (LIS3DE)</br>
+</br>
+Dane pozyskane z w/w czujników przesyłane są poprzez mesh router do routera brzegowego z wykorzystaniem protokołu CoAP.
+Funkcjonalność płytki została wzbogacona o mechanizm zdalnej kontroli oświetlenia za pomocą przycisku umieszczonego na routerze brzegowym.
+Po uruchomieniu oświetlenia znajdującego się przy węźle końcowym stosowna informacja zwrotna wysyłana jest jako "piggybacked response" do border routera.
+	</div>
+
+</div>
+		
+	
+	
+	<div style="clear:both;"></div>
+	
+	
+	<div>
+	
+	<div style = " margin-top:100px; ">	
+	
+	
+		<div style=" float:left; width: 600px; margin-left:200px;">
+		
+		<div style = " font-size:30px; ">		Mesh Router </div>
+</br>
+	
+<hr style="width: 100%; margin-bottom:20px;">
+
+Płytka będąca węzłem pośredniczącym w wymianie danych pomiędzy węzłem końcowym a routerem brzegowym.</br><br>
+Dodatkowo została zaimplementowana funkcjonalność pozwalająca na pozyskiwanie informacji o jakości połączenia tej płytki z routerem brzegowym.
+Pozyskana wartość RSSI wysyłana jest do chmury, skąd poprzez REST API umieszczana jest na stronie internetowej (patrz: zakładka Dashboard).</br></br>
+W celu kontroli poprawnośći połączenia pomiędzy węzłami w oprogramowaniu została zaimplementowana funkcja pozwalająca na sygnalizację poprawności połączeń przy pomocy diody LED.
+	</div>
+		
+		
+		</div>
+	
+		<div class="img"  style = "float:left;margin-left:100px;">
+				<img src="MeshR.png" />
+		</div>
+
+
+	</div>
+	
+	<div style="clear:both;"></div>
+		
+		
+<div style = " margin-top:100px; ">	
+<div>	
+		<div class="img" style = "float:left; margin-left:200px;width:400px;">
+				
+				<img src="BorderR.png" />
+		</div>
+
+
+	<div style="width:600px;float:left;margin-left:50px;">
+<div style = " font-size:30px; ">		Border Router </div>
+</br>
+	
+<hr style="width: 100%; margin-bottom:20px;">
+
+Router brzegowy sieci mesh odpowiada za przesyłanie odebranych danych z poszczególnych węzłów sieci, a następnie przesłanie ich do chmury.</br></br>
+Dzięki wbudowanemu gniazdu ethernet istnieje możliwość bezpośredniego przyłączenia płytki internetu z wykorzystaniem np. switch'a.
+Pozyskane dane transmitowane są z wykorzystaniem metody POST protokołu CoAP.</br></br>
+Ponadto funkcjonalność płytki routera brzegowego została wzbogacona o system kontroli oświetlenia przy węźle końcowym.
+Za pomocą przycisku wbudowanego w płytkę możliwa jest komunikacja z systemem oświetlenia umieszczonym przy "Leaf Node". Aby móc zweryfikować poprawne odebranie wiadomości
+przez urządzenie docelowe została zaimplementowana sygnalizacja z wykorzystaniem diody LED (węzeł końcowy po otrzymaniu sygnału sterującego odpowiada potwierdzeniem 
+oznaczającym uruchomienie światła). Po otrzymaniu potwierdzenia dioda LED wbudowana w router brzegowy informuje, czy oświetlenie przy węźle końcowym jest włączone.</br></br>
+Router brzegowy oprócz przekazywania danych pozyskanych z czujników do chmury sam wysyła informacje dotyczące stanu połączeń urządzeń w sieci (patrz: zakładka "Dashboard")
+dzięki wykorzystaniu funkcji dostarczonych przez producenta w module sieciowym.</br></br>
+Dzięki mechanizmowi "Over-The-Air Programming" istnieje możliwość aktualizacji/zmiany oprogramowania w pozostałych węzłach sieci z wykorzystaniem jedynie łączności bezprzewodowej.
+Implementacja odpowiedniego oprogramowania do border routera skutkuje wysłaniem ciągu ramek konfigurujących "podmianę" oprogramowania w urządzeniu docelowym.
+
+
+
+	</div>
+
+</div>
+		
+		
+		</div>	
+	
+
+
+	
+	<div style="clear:both;margin-bottom:100px;"></div>		
+		
+
+
 		
 		<div class="gitfooter">
 		<a href="https://github.com/Voprzybyo" target="_blank" class="gitblock">
