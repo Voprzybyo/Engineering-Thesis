@@ -99,11 +99,21 @@ void sendRSSI()
 	int RSSI = 0;
 	uint8_t payload[100];
 	int payloadLength;
+	static uint8_t address_v6[100];
+    uint16_t shortAddr;
+
+	IPAddr adres;
+	Network.getAddress(&adres);
+	shortAddr=(adres.byte[14]<<8) | adres.byte[15];
+
+    //Util.printf("fe80:0000:0000:0000:0000:00ff:fe00:%.04x \n", shortAddr);
+	Util.snprintf((char*)address_v6, sizeof(address_v6), "%.04x", shortAddr);
+
 	
 	RSSI = Network.getParentRSSI();
-	Util.printf("RSSI = %d \n", RSSI);
-	
-	payloadLength = Util.sprintf((char*)payload, "{\"RSSI_MeshR\": %i }", RSSI);
+	//Util.printf("RSSI = %d \n", RSSI);
+	//Util.printf("AdresV6= %s \n", address_v6);
+	payloadLength = Util.sprintf((char*)payload, "{\"RSSI_MeshR\":%i, \"IP_V6_MeshR\":%s}", RSSI, address_v6);
 	CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
 	
     return;

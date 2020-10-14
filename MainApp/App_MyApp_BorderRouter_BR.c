@@ -1,15 +1,15 @@
 
 #include "RIIM_UAPI.h"
-#include<string.h>
+#include <string.h>
 static const uint8_t resourceName2[]="data";
 static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
 
 
-const uint8_t serverIP4Addr[4]={104,196,24,70};
-const uint8_t ipMask[4]={255,255,255,0};
+const uint8_t serverIP4Addr[4]={104,196,24,70};				// Cloud IPv4 adress
+const uint8_t ipMask[4]={255,255,255,0};			
 const uint8_t ipGateway[4]={192,168,100,1};
 
-const IPAddr childNodeIPAddr={.byte={
+const IPAddr childNodeIPAddr={.byte={						// Addres of leaf node
         0xfe, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0xff, 0xfe, 0x00, 0xe2, 0x9d}};
 
@@ -21,32 +21,28 @@ const uint32_t coapTimerPeriod = 2000;
 static const uint32_t ledTimerPeriod=500; 
 static const uint32_t buttonCheckTimerPeriod=4000; 
 
-static uint8_t ledTimerHandler, buttonCheckTimerHandler, sensorTimerHandler, coapTimerHandler, buttonTimerHandler, oneShotTimerHandler;
-
+static uint8_t ledTimerHandler, buttonCheckTimerHandler, sensorTimerHandler, coapTimerHandler, oneShotTimerHandler;
 
  enum {off, on} LightButton; //to do
-
-//static uint8_t buttonHandler;
 
 
 static uint32_t userButton;
 static uint32_t lightsOn;
 
-
 static bool connectedToServer;
 
 
+// Function used to control correctness of data transmision
 static void LED()
 {
   // GPIO.toggle(GPIO_0);
   // GPIO.toggle(GPIO_1);
 }
 
+// Function reads user button status
 static void ReadUserButton()
 {
-    userButton=GPIO.getValue(GPIO_2);
-	
-	//Util.printf("Button sensor read:  Button: %i\n", userButton);
+    userButton=GPIO.getValue(GPIO_2);	
     return;
 }
 
@@ -58,31 +54,28 @@ static void ReadSensor()
 }
 
 
-
+// Check if button is pushed 
 static void ButtonCheck()
 {
-   // Util.printf("\n\n");
-  //  Util.printf("User Button  : ");
         if(userButton==0) {
-			Util.printf("Pushed");
+			//Util.printf("Pushed");
 			lightsOn = 1;
 			Timer.start(oneShotTimerHandler);
 		}else{ 
-		//	Util.printf("Not Pushed");
 			lightsOn = 0;
 		}
     return;
 }
 
 
+//Send CoAP message to leaf node with light ON/OFF request
 static void sendCoAPtoSensorBoard()
 {
-   
     CoAP.connectToServer6(childNodeIPAddr, false);
 
     uint8_t payload[100];
     int payloadLength;
-    payloadLength=Util.sprintf((char*)payload,"%i", lightsOn);
+    payloadLength=Util.sprintf((char*)payload, "%i", lightsOn);
     CoAP.send(CoAP_PUT, false, resourceName2, payload, payloadLength);
     
     return;
@@ -92,10 +85,10 @@ static void sendCoAPtoSensorBoard()
 static void sendCoAP()
 {
 
-	uint8_t payload[100];
-	int payloadLength;
-	payloadLength = Util.sprintf((char*)payload, "{LLL:1}");
-	Util.printf("Wysylam do chmury...\n");
+	//uint8_t payload[100];
+	//int payloadLength;
+	//payloadLength = Util.sprintf((char*)payload, "{LLL:1}");
+	//Util.printf("Wysylam do chmury...\n");
 	//CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
 	return;
 }
@@ -106,7 +99,6 @@ static void startup()
 
 	// We are now connected
 	Util.printf("We are connected to the network!\n");
-
 	Util.printf("Connecting to CoAP server\n");
 
 	if (CoAP.connectToServer4(serverIP4Addr, false) != UAPI_OK) {
@@ -124,7 +116,7 @@ static void startup()
 
 void buttonHandler()
 {
-	Util.printf("# Button Handler! \n");
+	//Util.printf("# Button Handler! \n");
 
 		sendCoAPtoSensorBoard();
 	
@@ -135,23 +127,80 @@ void buttonHandler()
 
 static void timerHandler()
 {
-	uint8_t addr[4];
-	Network.getAddress4(addr);
-	
-		if(addr[0] != 0){
-			if(connectedToServer == false){
-				if(CoAP.connectToServer4(serverIP4Addr, false) != UAPI_OK){
-					Util.printf("FAILED to connect4 to server\n");
-				return;
-				}
-			connectedToServer=true;
-			Debug.printSetup();
-			}
-		} else {
-			Util.printf("No IPv4 address yet....\n");
-		}
-}
+    uint8_t addr[4];
+    static Link nwLinks[50];
+    static uint16_t numLinks;
+    static uint16_t i,j;
+    static uint8_t payload[100];
+	static uint8_t address_v4[100];
+    static uint8_t payloadSize;
+    static uint8_t numNodes;
+	static uint8_t address_v6[100];
+    uint16_t shortAddr;
 
+    static uint16_t linkIndex;
+	
+
+
+	IPAddr adresV6;
+	Network.getAddress(&adresV6);
+	shortAddr=(adresV6.byte[14]<<8) | adresV6.byte[15];
+
+    //Util.printf("fe80:0000:0000:0000:0000:00ff:fe00:%.04x \n", shortAddr);
+	Util.snprintf((char*)address_v6, sizeof(address_v6), "%.04x", shortAddr);
+	
+	
+    
+    numLinks=Network.getNetworkLinks(0,50, nwLinks);
+    numNodes=numLinks==0 ? 1 : numLinks;
+	
+	// Get and format board IPv4 addr. It is sending to cloud to inform user that network status is OK. (if node's ipv4 addr is 0.0.0.0 => network is down)
+	Network.getAddress4(addr);
+	Util.snprintf((char*)address_v4, sizeof(address_v4), "%d.%d.%d.%d\n", addr[0], addr[1], addr[2], addr[3]);
+	Util.printf("%s",address_v4);
+	
+	
+	Util.printf("\nLinks:\n");
+    linkIndex=0;
+
+    do{
+        numLinks=Network.getNetworkLinks(linkIndex,10, nwLinks);
+        linkIndex += numLinks;
+        for(i=0;i<numLinks;i++){
+            for(j=0;j<8;j++){
+                Util.printf("%.02x", nwLinks[i].Node1_IID[j]);
+            }
+            Util.printf(" , ");
+            for(j=0;j<8;j++){
+                Util.printf("%.02x", nwLinks[i].Node2_IID[j]);
+            }
+            Util.printf("\n");
+        }
+    }while(numLinks > 0);
+
+
+    //////////////////////////////////////////////////////
+    // Prepare and send CoAP message
+    //////////////////////////////////////////////////////
+    if(addr[0] != 0){ // Check if we have a valid IPv4-address
+        if(connectedToServer == false){
+            if(CoAP.connectToServer4(serverIP4Addr, false) != UAPI_OK){
+                Util.printf("FAILED to connect4 to server\n");
+                return;
+            }
+            connectedToServer=true;
+            Debug.printSetup();
+        }
+		
+
+		
+        payloadSize=Util.snprintf((char*)payload, sizeof(payload), "{ \"NumNodesInNetwork\":%i, \"addr_V4_Border\":%s, \"IP_V6_Border\":%s }", numNodes, address_v4, address_v6);
+        Util.printf("Sending CoAP message : %s\n",payload);
+        CoAP.send(CoAP_POST, false, resourceName, payload, payloadSize); 
+    } else {
+        Util.printf("No IPv4 address yet....\n");
+    }
+}
 
 void responseHandler(const uint8_t *payload, uint8_t payload_size)
 {
@@ -173,27 +222,23 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
 
 const uint8_t ipAddr[4]={0,0,0,0};
 
-static void coapHandler(RequestType type, IPAddr srcAddr, uint8_t *payload, uint8_t payloadSize, uint8_t *response, uint8_t *responseSize)
-{
-    Util.printf(" :\n%.*s\n", payloadSize, payload);
-    return;
-}
+//static void coapHandler(RequestType type, IPAddr srcAddr, uint8_t *payload, uint8_t payloadSize, uint8_t *response, uint8_t *responseSize)
+//{
+ //   Util.printf(" :\n%.*s\n", payloadSize, payload);
+ //   return;
+//}
 
 
 
 RIIM_SETUP()
 {
-	Util.printf("Starting RIIM Root Node\n");
-	// Initialize variables
-	LightButton = off;
+    Util.printf("Starting RIIM Root Node\n");
+    
+    // Initialize variables
+    connectedToServer=false;
+    LightButton = off;
 	userButton = 0;
 	lightsOn = 0;
-	connectedToServer=false;
-	    // Setup network and RF
-    const uint8_t nwKey[16]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-    Network.setNWKey((uint8_t*)nwKey);
-    Network.startBorderRouter(NULL,ipAddr,ipMask,ipGateway);
-    Network.setChannel(18);
 	
 	
 	// Setup User button input
@@ -209,29 +254,19 @@ RIIM_SETUP()
     GPIO.setValue(GPIO_1, LOW);
 	
 	
-	startupTimerHandler = Timer.create(PERIODIC, 30000, startup);
-	// Setup timer
-	sensorTimerHandler = Timer.create(PERIODIC, 100*MILLISECOND, ReadSensor); // TO DO
-	ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
-	timerHandle=Timer.create(PERIODIC, timerPeriod, timerHandler);
-	buttonCheckTimerHandler=Timer.create(PERIODIC, 100*MILLISECOND, ButtonCheck);
-	//coapTimerHandler = Timer.create(PERIODIC, timerPeriod, sendCoAPtoSensorBoard);
-	CoAP.registerResponseHandler(responseHandler);
 	
-	coapTimerHandler = Timer.create(PERIODIC, buttonTimerPeriod, buttonHandler);
-	oneShotTimerHandler = Timer.create(ONE_SHOT, 1*SECOND, buttonHandler);
-	
-	coapTimerHandler = Timer.create(PERIODIC, timerPeriod, sendCoAP);
-	Timer.start(startupTimerHandler);
-	Timer.start(coapTimerHandler);
-	Timer.start(ledTimerHandler);
-	Timer.start(timerHandle);
-	Timer.start(buttonCheckTimerHandler);
-	Timer.start(sensorTimerHandler);
-	Timer.start(oneShotTimerHandler);
-	//Timer.start(coapTimerHandler);
-		
-	Debug.printSetup();
-	return UAPI_OK;
+    // Setup network and RF
+    const uint8_t nwKey[16]={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    Network.setNWKey((uint8_t*)nwKey);
+    Network.startBorderRouter(NULL,ipAddr,ipMask,ipGateway);
+    Network.setChannel(18);
+
+    // Setup timer
+    timerHandle=Timer.create(PERIODIC, timerPeriod, timerHandler);
+    Timer.start(timerHandle);
+    
+    Debug.printSetup();
+    
+    return UAPI_OK;
 }
 

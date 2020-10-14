@@ -130,11 +130,27 @@ static void sendCoAP()
 	uint8_t payload[100];
 	int payloadLength;
 	int RSSI = 0;
+	
+	//static uint8_t address_v6[100];
+    //uint16_t shortAddr;
+
+	//IPAddr adres;
+	//Network.getAddress(&adres);
+	//shortAddr=(adres.byte[14]<<8) | adres.byte[15];
+
+	//Util.snprintf((char*)address_v6, sizeof(address_v6), "%.04x", shortAddr);
+	
 	RSSI = Network.getParentRSSI();
 	Util.printf("RSSI: %i\n",RSSI);
-	payloadLength = Util.sprintf((char*)payload, "{\"Temp\": %i.%i, \"Hum\": %i,\"Light\": %i,\"VOC\": %i, \"Button\": %i, \"LightState\": %i,\"RSSI_Leaf\": %d }", temp, tempFraction, humidity, light,vocValue, userButton, lightState, RSSI);
-	Util.printf("Wysylam do chmury...\n");
+	payloadLength = Util.sprintf((char*)payload, "{\"Temp\": %i.%i, \"Hum\": %i,\"Light\": %i,\"VOC\": %i, \"Button\": %i, \"LightState\": %i,\"RSSI_Leaf\": %d}", temp, tempFraction, humidity, light,vocValue, userButton, lightState, RSSI);
+
 	CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
+	
+	
+	//payloadLength = Util.sprintf((char*)payload, "\"IP_V6_Leaf\":%s}", address_v6);
+
+	//CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
+	
 	return;
 }
 
