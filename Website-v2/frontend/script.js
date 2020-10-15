@@ -67,6 +67,10 @@ function getDataAll(choiceIn) {
 	var temp6 = obj.LightState[0];
 	var temp7 = obj.RSSI_Leaf[0];
 	var temp8 = obj.RSSI_MeshR[0];
+	var temp9 = obj.NumNodesInNetwork[0];
+	var temp10 = obj.addr_V4_Border[0];
+	var temp11 = obj.IP_V6_Border[0];
+	var temp12 = obj.IP_V6_MeshR[0];
 	
 	
 	switch(choiceIn){
@@ -109,6 +113,25 @@ function getDataAll(choiceIn) {
 			break;
 		case 9:		
 			document.getElementById("RSSI2").innerHTML = temp8.value + " (RSSI)</br>";
+			break;
+		case 10:		
+			var timestamp = Date.now();
+	
+			var ts_back = timestamp - (3600*0.15*1000);
+			if(temp1.ts > ts_back){
+				document.getElementById("NetStat").innerHTML = "ONLINE</br>";
+			}else{
+				document.getElementById("NetStat").innerHTML = "OFFILNE</br>";
+			}
+			
+			if(temp1.ts > ts_back){
+				document.getElementById("NumDev").innerHTML = temp9.value  ;
+			}else{
+				document.getElementById("NumDev").innerHTML = "0</br>";
+			}
+			document.getElementById("BorderIPv4").innerHTML = temp10.value  ;
+			document.getElementById("BorderIPv6").innerHTML = temp11.value  ;
+			document.getElementById("MeshRIPv6").innerHTML = temp12.value  ;
 			break;
 		default:
 
@@ -1152,6 +1175,11 @@ function getRSSI2() {
 choice=9;
 getDataAll(choice);
 setTimeout("getRSSI2()",30000);
+}
+function getNetworkStatus() {
+choice=10;
+getDataAll(choice);
+setTimeout("getNetworkStatus()",30000);
 }
 
 function getData1h(paramChoice) {

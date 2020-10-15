@@ -17,9 +17,11 @@
 	<script type="text/javascript" src="timer.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="script.js"></script>
+	<script src="sticky2.js"></script>
+	
 </head>
 
-<body onload = "counting();">
+<body onload = "counting();sticky2();">
 
 	<div class="wrapper">
 		<div class="header">
@@ -45,6 +47,9 @@
 			document.getElementById("clock").innerHTML = day+"/"+month+"/"+year+"</br>"+hour+":"+minute+":"+second; 
 			</script>
 		</div>
+		
+		
+		
 		<div class="nav">
 			<ol>
 				<li><a href="MainPage.html">Strona główna</a></li>
@@ -75,78 +80,100 @@
 			
 		</div>
 		
-		<div class="content">
-		<div class = "location-text"  style="margin-left:200px;"><p>Jakość połączenia między węzłami </p></div>
-		<hr style="width: 80%;margin-left:200px;">
-		<div style="margin-left:200px;margin-bottom:200px;">
-			
-			</br></br></br></br></br></br>
-			<div>
-			<div id="RSSI1" style="margin-left:300px;font-size:34px;float:left;"><script type="text/javascript">getRSSI1()</script> </div> 
-			<div id="RSSI2" style="margin-left:350px;font-size:34px;float:left;"><script type="text/javascript">getRSSI2()</script> </div> 
-			</div>
-			<div style="clear:both"></div>
-			<div> 	
-			<div id="dashboard" style="margin-left:50px;">Border</br> Router </div> <div id="dashboard"> <hr style="width:300px;margin-left:50px;margin-right:50px;margin-top:40px;"> </div> <div id="dashboard"> Mesh </br> Router </div> <div id="dashboard"> <hr style="width:300px;margin-left:50px;margin-right:50px;margin-top:40px;"> </div> <div id="dashboard"> Leaf </br> Node </div>	
-			</div>
-			<div style="clear:both"></div>
-					
-		</div>
 		
 		
 		
 		
+	<div class="content">
+		<div style="float:left;width:800px;">
+			<div class = "location-text"  style="margin-left:200px;"><p>Jakość połączenia między węzłami </p></div>
+			<hr style="width: 80%;margin-left:200px;">
+
+
+		
+			<div style="margin-left:200px;margin-right:200px;"		
+				<p><i><span style="font-size:25px"> Poniższe dane są cyklicznie wysyłane przez sieć i na bieżąco aktualizowane.</span></i></br></br>				
+			</div>	
+		
+		
+			<div style="margin-left:200px;margin-right:200px;margin-top:50px;width:500px;">
 		
 
-		<div id="tresc">
+				<div style="font-size:34px;float:left;">Status sieci:</div> <div id="NetStat" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript">getNetworkStatus()</script> </div> 
+		
 				
-					<div class="ParameterName"> Siła sygnału </div>
-						<div class="ParameterValue">
-							<div >Klasyfikacja</div> 
-						</div>
-<div style="clear:both;"></div>
-
-					<div class="ParameterName" style = "color:#0FBD00;"> -30 dBm </div>
-					<div class="ParameterValue">
-						<div style = "color:#0FBD00;">Niesamowity </div> 
-					</div>
-
-
-<div style="clear:both;"></div>
-
-					<div class="ParameterName" style = "color:#57BD00;"> -67 dBm </div>
-					<div class="ParameterValue">
-						<div style = "color:#57BD00;">Świetny </div> 
-					</div>
-					
-					
-<div style="clear:both;"></div>
-
-					<div class="ParameterName"  style = "color:#FFE000;"> -70 dBm </div>
-					<div class="ParameterValue">
-						<div  style = "color:#FFE000;">Dobry</div> 
-					</div>	
-
-<div style="clear:both;"></div>		
-
-					
-					<div class="ParameterName" style = "color:#FF7400;"> -80 dBm </div>
-					<div class="ParameterValue">
-						<div style = "color:#FF7400;">Nie dobry</div> 
-					</div>		
-					
-<div style="clear:both;"></div>		
-
-					
-					<div class="ParameterName" style = "color:#FF0000;"> -90 dBm </div>
-					<div class="ParameterValue">
-						<div style = "color:#FF0000;">Nieużyteczny</div> 
-					</div>						
-				</div>
-		
 			
+				<div style="clear:both; "></div>
+					<div style="margin-top:50px;">
+						*Status sieci przyjmuje stan "OFFLINE", gdy urządzenia przez okres 10 miunt nie wysłały żadnych danych do chmury.
+					</div>
+			</div>
 		
-			<div id=allSensorsRightSide >
+		
+		
+			<hr style="width: 40%;margin-left:200px;margin-top:50px;">
+		
+		
+		
+			<div style="margin-left:200px;margin-right:200px;margin-top:50px;width:700px;">
+		
+
+				<div style="font-size:34px;float:left;">Liczba aktywnych węzłów w sieci:</div> <div id="NumDev" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript">getNumOfNodes()</script> </div>
+		
+				
+				
+				<div style="clear:both; "></div>
+
+			</div>
+		
+		
+			<hr style="width: 40%;margin-left:200px;margin-top:50px;">
+		
+		
+			<div style="margin-left:200px;margin-right:200px;margin-top:50px;width:500px;">
+		
+
+				<div style="font-size:34px;float:left;">Border Router:</div> <div id="NetStat" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript">getNetworkStatus()</script> </div> 
+		
+				
+			
+				<div style="clear:both; "></div>
+					<div style="margin-top:50px;">
+					<div style="font-size:24px;float:left;">Adres IPv6:</br> fe80:0000:0000:0000:0000:00ff:fe00: </div> <div id="MeshRIPv6" style="margin-left:50px;font-size:24px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div> 
+				</div>
+			
+				<div style="clear:both; "></div>
+			
+			</div>
+		
+		
+	
+		
+		
+			<hr style="width: 40%;margin-left:200px;margin-top:50px;">
+		
+		
+
+	
+			<div style="margin-left:200px;margin-top:50px;width:500px;">
+		
+		
+				
+			
+				<div style="clear:both; "></div>
+					<div style="margin-top:50px;">
+						<div style="font-size:24px;float:left;">Adres IPv6:</br> fe80:0000:0000:0000:0000:00ff:fe00: </div> <div id="BorderIPv6" style="margin-left:50px;font-size:24px;float:left;"><script type="text/javascript"></script> </div> 
+					</div>
+			</div>
+		
+		
+	
+		
+		</div>
+
+		
+		
+		<div class= ".allSensorsRightSide2" >
 			
 			<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 				
@@ -155,12 +182,15 @@
 			
 			<div id="timest"><script type="text/javascript">getTimeSt()</script> </div> 
 			</div>
-				</div>
-				
+		</div>
+			
+			
+	</div>
+	
 	<div style="clear:both;margin-bottom:100px;"></div>		
 		
-		</div>
-		
+	</div>
+
 
 		
 		<div class="gitfooter">

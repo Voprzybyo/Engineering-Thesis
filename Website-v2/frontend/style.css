@@ -237,6 +237,31 @@ a.logo{
 	float: left;
 }
 
+
+
+#tresc2
+{
+	width: 600px;
+	font-size: 32px;
+	margin-right: auto;
+	margin-left: 300px;
+	float: left;
+	padding:10px;
+
+	float: left;
+}
+
+#tresc3
+{
+	width: 480px;
+	font-size: 32px;
+	margin-right: auto;
+	margin-left: 200px;
+	float: left;
+	padding:10px;
+	float: left;
+}
+
 #buttonPanel
 {
 	font-size:15px;
@@ -304,6 +329,17 @@ transform: scale(1.02);
 	clear:both;
 }
 
+.nav2
+{ 
+	width: 100px;
+	padding: 6px 0;
+	background-color: #0A8DC0;
+	text-align: center;
+	border-top: 1px solid #99ccff;
+	border-bottom: 1px solid #99ccff;
+
+}
+
 #leftside
 {
 	width: 203px;
@@ -341,13 +377,28 @@ transform: scale(1.02);
 	font-size: 32px;
 	margin-right: auto;
 	margin-left: 880px;
-
 	border-top: 1px solid #99ccff;
 	border-bottom: 1px solid #99ccff;
 	border-right: 1px solid #99ccff;
 	border-left: 1px solid #99ccff;
 	color:#00ccff;
 }
+
+.allSensorsRightSide2
+{
+  width: 300px; 
+  position: fixed; 
+  	font-size: 32px;
+	margin-right: auto;
+	margin-left: 980px;
+	border-top: 1px solid #99ccff;
+	border-bottom: 1px solid #99ccff;
+	border-right: 1px solid #99ccff;
+	border-left: 1px solid #99ccff;
+	color:#00ccff;
+	
+}
+
 
 .sideMenuBlock
 {
