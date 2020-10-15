@@ -118,16 +118,32 @@ function getDataAll(choiceIn) {
 			var timestamp = Date.now();
 	
 			var ts_back = timestamp - (3600*0.15*1000);
+			//Border Router
 			if(temp1.ts > ts_back){
 				document.getElementById("NetStat").innerHTML = "ONLINE</br>";
+				document.getElementById("NetStatB").innerHTML = "ONLINE</br>";
 			}else{
-				document.getElementById("NetStat").innerHTML = "OFFILNE</br>";
+				document.getElementById("NetStat").innerHTML = "OFFLINE</br>";
+				document.getElementById("NetStatB").innerHTML = "OFFLINE</br>";
+			}
+			//Mesh Router
+			if(temp8.ts > ts_back){
+				document.getElementById("NetStatM").innerHTML = "ONLINE</br>";
+			}else{
+				document.getElementById("NetStatM").innerHTML = "OFFLINE</br>";
+			}
+			
+			//Leaf Node
+			if(temp8.ts > ts_back){
+				document.getElementById("NetStatL").innerHTML = "ONLINE</br>";
+			}else{
+				document.getElementById("NetStatL").innerHTML = "OFFLINE</br>";
 			}
 			
 			if(temp1.ts > ts_back){
 				document.getElementById("NumDev").innerHTML = temp9.value  ;
 			}else{
-				document.getElementById("NumDev").innerHTML = "0</br>";
+				document.getElementById("NumDev").innerHTML = "0";
 			}
 			document.getElementById("BorderIPv4").innerHTML = temp10.value  ;
 			document.getElementById("BorderIPv6").innerHTML = temp11.value  ;

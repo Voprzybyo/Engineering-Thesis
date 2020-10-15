@@ -1,15 +1,15 @@
 	function sticky(){
 	
 	$(document).ready(function() {
-	var NavY = $('.allSensorsRightSide2').offset().top;
+	var NavY = $('.nav').offset().top;
 	 
 	var stickyNav = function(){
 	var ScrollY = $(window).scrollTop();
 		  
 	if (ScrollY > NavY) { 
-		$('.allSensorsRightSide2').addClass('sticky');
+		$('.nav').addClass('sticky');
 	} else {
-		$('.allSensorsRightSide2').removeClass('sticky'); 
+		$('.nav').removeClass('sticky'); 
 	}
 	};
 	 

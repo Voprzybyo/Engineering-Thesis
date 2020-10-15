@@ -20,13 +20,13 @@
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="script.js"></script>
-	<script src="sticky2.js"></script>
 	
+	<script src="sticky.js"></script>
 	
 	
 </head>
 
-<body onload = "counting();getTemperature();getHumidity();getLight();getVoc();getButton();getTimeSt();">
+<body onload = "counting();getTemperature();getHumidity();getLight();getVoc();getButton();getTimeSt();sticky();">
 
 
 	<div class="wrapper">
@@ -59,7 +59,7 @@
 				<li><a href="MainPage.html">Strona główna</a></li>
 				<li><a href="Topic.html">Temat pracy</a>
 				<li><a href="Devices.html">Sprzęt</a>					
-				<li><a href="Location.html">Lokalizacja</a>
+				
 				<li><div class='has-dropdown'>
 				<a href="AllSensors.html">Zgromadzone dane</a>
 				<ul class="dropdown">
@@ -68,7 +68,16 @@
 	
 				</ul>
 				</div>
-				<li><a href="Dashboard.html">Dashboard</a></li>
+				<li><a href="Location.html">Lokalizacja</a>
+				<li><div class='has-dropdown'>
+				<a href="Dashboard.html">Dashboard</a>
+				<ul class="dropdown">
+						<li class = 'dropdown-item'><a href="Dashboard.html">Ogólnie</a></li>
+						<li class = 'dropdown-item'><a href="Dashboard_detailed.html">Szczegóły</a></li>
+	
+				</ul>
+				</div>
+
 				<li><a href="Author.html">Autor</a></li>
 			</ol>
 		
@@ -77,7 +86,7 @@
 		
 <div class="content">
 
-	<div>		
+			
 	<div class="location-text" style="margin-left:200px;"><p>Jakość połączenia między węzłami </p></div>
 	<hr style="width: 80%;margin-left:200px;">
 		<div id="tresc3" >
@@ -110,7 +119,7 @@
 				<div style="margin-right:200px;margin-top:50px;width:700px;">
 			
 
-				<div style="font-size:34px;float:left;">Liczba aktywnych węzłów w sieci:</div> <div id="NumDev" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript">getNumOfNodes()</script> </div>
+				<div style="font-size:34px;float:left;">Liczba aktywnych węzłów w sieci:</div> <div id="NumDev" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div>
 		
 				
 				
@@ -125,13 +134,19 @@
 					<div style="margin-right:200px;margin-top:50px;width:500px;">
 		
 
-			<div style="font-size:34px;float:left;">Border Router:</div> <div id="NetStat" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript">getNetworkStatus()</script> </div> 
+			<div style="font-size:34px;float:left;">Border Router: </div> <div id="NetStatB" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div>
 		
 				
 			
 			<div style="clear:both; "></div>
 				<div style="margin-top:50px;">
-				<div style="font-size:24px;float:left;">Adres IPv6:</br> fe80:0000:0000:0000:0000:00ff:fe00: </div> <div id="MeshRIPv6" style="margin-left:50px;font-size:24px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div> 
+				
+				<div style="font-size:24px;float:left;">Adres IPv4 (prywatny):  </div> <div id="BorderIPv4" style="margin-left:50px;font-size:24px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div> 
+				<div style="clear:both; "></div>
+				</br></br>
+				<div style="font-size:24px;float:left;">Adres IPv6: </br></div>
+				<div style="font-size:24px;float:left;">fe80:0000:0000:0000:0000:00ff:fe00: </div> <div id="BorderIPv6" style="font-size:24px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div> 
+				
 			</div>
 			
 				<div style="clear:both; "></div>
@@ -147,27 +162,47 @@
 		
 		
 	
-			<div style="margin-right:200px;margin-top:50px;width:500px;">
+		<div style="margin-right:200px;margin-top:50px;width:500px;">
 		
 
-			<div style="font-size:34px;float:left;">Mesh Router:</div> <div id="NetStat" style="margin-left:50px;font-size:34px;float:left;"><script type="text/javascript">getNetworkStatus()</script> </div> 
+			<div style="font-size:34px;float:left;">Mesh Router:</div> <div id="NetStatM" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div> 
 		
 				
 			
 			<div style="clear:both; "></div>
-				<div style="margin-top:50px;">
-				<div style="font-size:24px;float:left;">Adres IPv6:</br> fe80:0000:0000:0000:0000:00ff:fe00: </div> <div id="BorderIPv6" style=	"margin-left:50px;font-size:24px;float:left;"><script type="text/javascript"></script> </div> 
-			</div>
+			
+			<div style="margin-top:50px;">
+				<div style="font-size:24px;float:left;">Adres IPv6: </br></div>
+				<div style="font-size:24px;float:left;">fe80:0000:0000:0000:0000:00ff:fe00: </div> <div id="MeshRIPv6" style="font-size:24px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div> 
 			</div>
 		
-			
-
 			
 		</div>
 		
+		<div style="clear:both; "></div>
+		<hr style="width: 100%;margin-top:50px;">
+		<div style="margin-right:200px;margin-top:50px;width:500px;">
+		
 
+			<div style="font-size:34px;float:left;">Leaf Node:</div> <div id="NetStatL" style="margin-left:50px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript">getNetworkStatus()</script> </div> 
+		
+				
 			
-<div style="heigh:100px;">
+			<div style="clear:both; "></div>
+			
+			<div style="margin-top:50px;">
+				<div style="font-size:24px;float:left;">Adres IPv6: </br></div>
+				<div style="font-size:24px;float:left;">fe80:0000:0000:0000:0000:00ff:fe00: </div> <div id="MeshRIPv6" style="font-size:24px;float:left;color:#00ccff;"><script type="text/javascript"></script> </div> 
+			</div>
+		
+			
+		</div>
+		
+		
+		
+
+	</div>	
+
 		<div class="allSensorsRightSide2" >
 			
 			<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -178,14 +213,14 @@
 			<div id="timest"><script type="text/javascript">getTimeSt()</script> </div> 
 			</div>
 		</div>
-</div>
+
 	</div>	
 				<div style="clear:both;"></div>
 				
 			
 
 				
-		</div>
+		
 	</div>	
 		<div style="clear:both;"></div>
 		

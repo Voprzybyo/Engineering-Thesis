@@ -253,7 +253,7 @@ a.logo{
 
 #tresc3
 {
-	width: 480px;
+	width: 600px;
 	font-size: 32px;
 	margin-right: auto;
 	margin-left: 200px;
@@ -390,12 +390,13 @@ transform: scale(1.02);
   position: fixed; 
   	font-size: 32px;
 	margin-right: auto;
-	margin-left: 980px;
+	margin-left: 950px;
 	border-top: 1px solid #99ccff;
 	border-bottom: 1px solid #99ccff;
 	border-right: 1px solid #99ccff;
 	border-left: 1px solid #99ccff;
 	color:#00ccff;
+	float:left;
 	
 }
 
