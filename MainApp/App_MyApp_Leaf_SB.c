@@ -1,7 +1,37 @@
+/*****************************************************************************
+ * Copyright ©2019. Radiocrafts AS (Radiocrafts).  All Rights Reserved. 
+ * Permission to use, copy, modify, and distribute this software and 
+ * its documentation, without fee and without a signed licensing 
+ * agreement, is hereby granted, provided that the above copyright 
+ * notice, this paragraph and the following two paragraphs appear in 
+ * all copies, modifications, and distributions.
+ * 
+ * IN NO EVENT SHALL RADIOCRFTS BE LIABLE TO ANY PARTY FOR DIRECT, 
+ * INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING 
+ * LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS 
+ * DOCUMENTATION, EVEN IF RADIOCRAFTS HAS BEEN ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE. 
+ * 
+ * RADIOCRAFTS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT 
+ * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE AND ACCOMPANYING 
+ * DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED "AS IS". 
+ * RADIOCRAFTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, 
+ * UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+****************************************************************************/
+
+/**
+ @file
+ @brief Documentation for border router functions implemented for wireless sensor mesh network
+ @version 2.00
+ @date 16.10.2020
+ @author Wojciech Przybyło
+*/
+
 #include "RIIM_UAPI.h"
 #define SGPC3_I2C_ADDRESS 0x58
 #include <string.h>
-// Change Resource_Name to your CoAP resource address
+
 //static const uint8_t resourceName[] = "/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
 static const uint8_t resourceName[] = "/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
 static const uint8_t resourceName2[] = "data";
@@ -22,18 +52,21 @@ static uint32_t light, userButton, vocValue;
 static uint32_t lightState;
 
 
+/**
+ * @brief Handler called periodically by a timer. It uses the
+ *        I2C-bus to read temperature and humidity values from
+ *        the Sensirion SHT35 sensor
+ * @retval void
+ */
 static void ReadSHT()
 {
 	static uint8_t wbuf[2];
 	static uint8_t rbuf[10];
-	// The command 0x2C0D starts a Medium repeatability measuring
-	// with clock stretching enabled. See Sensirion SHT35 datasheet.
+
 	wbuf[0] = 0x2C;
 	wbuf[1] = 0x0D;
 	I2C.transfer(0x44, wbuf, 2, rbuf, 7);
-	// We convert the raw values to decidegrees (1/10) Celsius and percent humidity
-// Conversion is done as fixed point, and as according to datasheet of the
-// Sensirion SHT35
+
 	uint32_t tTemp;
 	tTemp = (int)((rbuf[0] << 8) | rbuf[1]);
 	tTemp *= 1750;
@@ -46,10 +79,15 @@ static void ReadSHT()
 	tHum *= 100;
 	tHum /= 65535;
 	humidity = tHum;
-	//Util.printf("SHT35 sensor read: Temp(Degrees C): %i.%i , Hum(Percent): %i\n", temp, tempFraction, humidity);
+
 	return;
 }
 
+
+/**
+ * @brief Handler called periodically to read the Light Sensor/ADC. 
+ * @retval void
+ */
 static void ReadLight()
 {
 
@@ -60,7 +98,10 @@ static void ReadLight()
 }
 
 
-
+/**
+ * @brief Handler called periodically to read the pushbutton.
+ * @retval void
+ */
 static void ReadUserButton()
 {
     userButton=GPIO.getValue(GPIO_8);
@@ -68,6 +109,11 @@ static void ReadUserButton()
     return;
 }
 
+
+/**
+ * @brief Handler called periodically to read the VOC sensor.
+ * @retval void
+ */
 static void ReadVOC()
 {
     static uint8_t wbuf[2];
@@ -87,7 +133,11 @@ static void ReadVOC()
 }
 
 
-
+/**
+ * @brief Handler called periodically by a timer to read
+ * various sensors on the sensor board
+ * @retval void
+ */
 static void ReadSensor()
 {
 	static uint8_t sensorNumber;
@@ -112,6 +162,11 @@ static void ReadSensor()
 	return;
 }
 
+
+/**
+* @brief Function using for debugging purposes. Toggle state of LED diode.
+* @retval void
+*/
 static void LED()
 {
    // GPIO.toggle(GPIO_0);
@@ -119,6 +174,11 @@ static void LED()
 }
 
 
+/**
+ * @brief Timer callback function that sends a CoAP POST message to the cloud. <br>
+ *  Message format is JSON.
+ * @retval void
+ */
 static void sendCoAP()
 {
 	// We first check if we are part of a network and the address of the root node
@@ -142,11 +202,11 @@ static void sendCoAP()
 	
 	RSSI = Network.getParentRSSI();
 	Util.printf("RSSI: %i\n",RSSI);
-	payloadLength = Util.sprintf((char*)payload, "{\"Temp\": %i.%i, \"Hum\": %i,\"Light\": %i,\"VOC\": %i, \"Button\": %i, \"LightState\": %i,\"RSSI_Leaf\": %d}", temp, tempFraction, humidity, light,vocValue, userButton, lightState, RSSI);
+	payloadLength = Util.sprintf((char*)payload, "{\"Temp\": %i.%i, \"Hum\": %i,\"Light\": %i,\"VOC\": %i, \"Button\": %i, \"LightState\": %i,\"RSSI_Leaf\": %d}",
+	temp, tempFraction, humidity, light,vocValue, userButton, lightState, RSSI);
 
 	CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
-	
-	
+		
 	//payloadLength = Util.sprintf((char*)payload, "\"IP_V6_Leaf\":%s}", address_v6);
 
 	//CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
@@ -154,16 +214,27 @@ static void sendCoAP()
 	return;
 }
 
+
+/**
+ * @brief Handler called when CoAP receives a response. 
+ * @param payload[in]: Array of bytes containing the payload
+ * @param payload_size[in]: The number of bytes in the payload
+ * @retval void
+ */
 void responseHandler(const uint8_t *payload, uint8_t payload_size)
 {
 	
-	Util.printf("Otrzymalem: %s\n", payload);
-	
+	//Util.printf("Otrzymalem: %s\n", payload);
 	
 	return;
 }
 
 
+/**
+ * @brief Print out the values of all the sensors. <br>
+ * Function used for debugging purposes.
+ * @retval void
+ */
  static void Printout()
 {
     Util.printf("\n\n");
@@ -179,6 +250,10 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
 }
  
  
+ /**
+* @brief Startup function used for connect to network and cloud only once at the beginning.
+* @retval void
+*/
 static void startup()
 {
 	// Wait until we are part of network
@@ -210,6 +285,12 @@ static void startup()
 }
 
 
+ /**
+* @brief CoapHandler to capture request from other nodes in network. In this case handler is used to turn on/off light by leaf node
+* @retval void
+*/
+
+//TO DO - zmienić to na "0" i "1" zamiast "Light: OFF", "Light: ON"
 static void coapHandler(RequestType type, IPAddr srcAddr, uint8_t *payload, uint8_t payloadSize, uint8_t *response, uint8_t *responseSize)
 {
 	char * key = "0";
@@ -218,8 +299,7 @@ if(strcmp((const char *)payload,key) == 0) {
 		 GPIO.toggle(GPIO_4);
 		 GPIO.toggle(GPIO_0);
 	}
-	
-	
+		
 	 lightState=GPIO.getValue(GPIO_0);
 	 
 	 if(lightState == 0){
@@ -242,9 +322,7 @@ if(strcmp((const char *)payload,key) == 0) {
 RIIM_SETUP()
 {
 	Util.printf("# Starting RIIM Sensor Board Node\n");
-	// Initialize variables.
-	// This MUST be done explicitly in RIIM_SETUP(), except if they are
-	// declared const
+
 	temp = 0;
 	tempFraction = 0;
 	humidity = 0;
@@ -265,8 +343,8 @@ RIIM_SETUP()
     GPIO.setDirection(GPIO_0, OUTPUT);
     GPIO.setDirection(GPIO_4, OUTPUT);
     GPIO.setValue(GPIO_0, LOW);
-   // GPIO.setValue(GPIO_4, HIGH);
-   GPIO.setValue(GPIO_4, LOW);
+    // GPIO.setValue(GPIO_4, HIGH);
+    GPIO.setValue(GPIO_4, LOW);
 	
     // Setup light sensor
     GPIO.setDirection(GPIO_5, OUTPUT);

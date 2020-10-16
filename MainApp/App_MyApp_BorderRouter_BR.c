@@ -1,15 +1,46 @@
+/*****************************************************************************
+ * Copyright ©2019. Radiocrafts AS (Radiocrafts).  All Rights Reserved. 
+ * Permission to use, copy, modify, and distribute this software and 
+ * its documentation, without fee and without a signed licensing 
+ * agreement, is hereby granted, provided that the above copyright 
+ * notice, this paragraph and the following two paragraphs appear in 
+ * all copies, modifications, and distributions.
+ * 
+ * IN NO EVENT SHALL RADIOCRFTS BE LIABLE TO ANY PARTY FOR DIRECT, 
+ * INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING 
+ * LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS 
+ * DOCUMENTATION, EVEN IF RADIOCRAFTS HAS BEEN ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE. 
+ * 
+ * RADIOCRAFTS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT 
+ * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE AND ACCOMPANYING 
+ * DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED "AS IS". 
+ * RADIOCRAFTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, 
+ * UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+****************************************************************************/
+
+/**
+ @file
+ @brief Documentation for border router functions implemented for wireless sensor mesh network
+ @version 2.00
+ @date 16.10.2020
+ @author Wojciech Przybyło
+*/
+
 
 #include "RIIM_UAPI.h"
 #include <string.h>
-static const uint8_t resourceName2[]="data";
-static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
+
+static const uint8_t resourceName2[]="data";				// Resource name used to communicate with leaf node
+static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";	// Cloud resource
 
 
 const uint8_t serverIP4Addr[4]={104,196,24,70};				// Cloud IPv4 adress
 const uint8_t ipMask[4]={255,255,255,0};			
 const uint8_t ipGateway[4]={192,168,100,1};
 
-const IPAddr childNodeIPAddr={.byte={						// Addres of leaf node
+const IPAddr childNodeIPAddr={.byte={						// Address of leaf node
         0xfe, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0xff, 0xfe, 0x00, 0xe2, 0x9d}};
 
@@ -23,7 +54,7 @@ static const uint32_t buttonCheckTimerPeriod=4000;
 
 static uint8_t ledTimerHandler, buttonCheckTimerHandler, sensorTimerHandler, coapTimerHandler, oneShotTimerHandler;
 
- enum {off, on} LightButton; //to do
+ enum {off, on} LightButton; // TO DO
 
 
 static uint32_t userButton;
@@ -32,21 +63,29 @@ static uint32_t lightsOn;
 static bool connectedToServer;
 
 
-// Function used to control correctness of data transmision
+/**
+* @brief Function using for debugging purposes. Toggle state of LED diode.
+* @retval void
+*/
 static void LED()
 {
-  // GPIO.toggle(GPIO_0);
-  // GPIO.toggle(GPIO_1);
+	// GPIO.toggle(GPIO_0);
+	// GPIO.toggle(GPIO_1);
+	return;
 }
 
-// Function reads user button status
+
+/**
+* @brief Read user button status. Assing corresponding value to userButton variable.
+* @retval void
+*/
 static void ReadUserButton()
 {
     userButton=GPIO.getValue(GPIO_2);	
     return;
 }
 
-
+//NIEPOTRZEBNE - WYRZUCIĆ TO!
 static void ReadSensor()
 {
 		ReadUserButton();
@@ -54,21 +93,29 @@ static void ReadSensor()
 }
 
 
-// Check if button is pushed 
+/**
+* @brief Check if button on border router is pushed.<br>
+* Function set "lightsOn" variable and start one shot timer to register only one light request from user.
+* @retval void
+*/
 static void ButtonCheck()
 {
-        if(userButton==0) {
-			//Util.printf("Pushed");
-			lightsOn = 1;
-			Timer.start(oneShotTimerHandler);
-		}else{ 
-			lightsOn = 0;
-		}
-    return;
+    if(userButton==0) {
+		//Util.printf("Pushed");
+		lightsOn = 1;
+		Timer.start(oneShotTimerHandler);
+	}else{ 
+		lightsOn = 0;
+	}
+	
+	return;
 }
 
 
-//Send CoAP message to leaf node with light ON/OFF request
+/**
+* @brief Send CoAP message to leaf node with "light ON/OFF" request.
+* @retval void
+*/
 static void sendCoAPtoSensorBoard()
 {
     CoAP.connectToServer6(childNodeIPAddr, false);
@@ -81,7 +128,8 @@ static void sendCoAPtoSensorBoard()
     return;
 }
 
-// TO DO
+// TO DO - Potrzebne lub nie (zal od tego czy router musi cos wysylac do chmury)
+// wsadzić tu część funkcji timerHandler
 static void sendCoAP()
 {
 
@@ -93,11 +141,12 @@ static void sendCoAP()
 	return;
 }
 
-
+/**
+* @brief Startup function used for connect to network and cloud only once at the beginning.
+* @retval void
+*/
 static void startup()
 {
-
-	// We are now connected
 	Util.printf("We are connected to the network!\n");
 	Util.printf("Connecting to CoAP server\n");
 
@@ -113,18 +162,25 @@ static void startup()
 }
 
 
-
+/**
+* @brief Button handler called when button push event occurs.
+* @retval void
+*/
 void buttonHandler()
 {
 	//Util.printf("# Button Handler! \n");
-
-		sendCoAPtoSensorBoard();
+	sendCoAPtoSensorBoard();
 	
 	return;
 }
 
+/**
+* @brief Main block of border router code. <br>
+* Print avaiable connection between nodes in network to console. <br>
+* Connect to cloud and send data about network in JSON format.
+* @retval void*/
 
-
+//TO DO - rozdzielić to na kilka mniejszych funkcji (zwiększyć czytelność kodu)
 static void timerHandler()
 {
     uint8_t addr[4];
@@ -141,16 +197,12 @@ static void timerHandler()
     static uint16_t linkIndex;
 	
 
-
 	IPAddr adresV6;
 	Network.getAddress(&adresV6);
 	shortAddr=(adresV6.byte[14]<<8) | adresV6.byte[15];
 
-    //Util.printf("fe80:0000:0000:0000:0000:00ff:fe00:%.04x \n", shortAddr);
 	Util.snprintf((char*)address_v6, sizeof(address_v6), "%.04x", shortAddr);
-	
-	
-    
+	  
     numLinks=Network.getNetworkLinks(0,50, nwLinks);
     numNodes=numLinks==0 ? 1 : numLinks;
 	
@@ -159,7 +211,7 @@ static void timerHandler()
 	Util.snprintf((char*)address_v4, sizeof(address_v4), "%d.%d.%d.%d\n", addr[0], addr[1], addr[2], addr[3]);
 	Util.printf("%s",address_v4);
 	
-	
+	// Print all links to UART
 	Util.printf("\nLinks:\n");
     linkIndex=0;
 
@@ -192,16 +244,25 @@ static void timerHandler()
             Debug.printSetup();
         }
 		
-
-		
         payloadSize=Util.snprintf((char*)payload, sizeof(payload), "{ \"NumNodesInNetwork\":%i, \"addr_V4_Border\":%s, \"IP_V6_Border\":%s }", numNodes, address_v4, address_v6);
         Util.printf("Sending CoAP message : %s\n",payload);
         CoAP.send(CoAP_POST, false, resourceName, payload, payloadSize); 
     } else {
         Util.printf("No IPv4 address yet....\n");
     }
+	
+	return;
 }
 
+
+/**
+* @brief Response handler used to check if border router got correct response for "Turn on the light" request send to leaf node.<br>
+* If so, GPIO corresponding with LED diode is setting in HIGH state.<br>
+* Similary, if border router got response for "Turn off the light", corresponding with LED diode GPIO is setting in LOW state.<br>
+* @param[in] ipv6_payload: response from leaf node.
+* @param[in] payload_size: size of response from leaf node.
+* @retval void
+*/
 void responseHandler(const uint8_t *payload, uint8_t payload_size)
 {
 	
@@ -220,20 +281,29 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
 	return;
 }
 
-const uint8_t ipAddr[4]={0,0,0,0};
 
 //static void coapHandler(RequestType type, IPAddr srcAddr, uint8_t *payload, uint8_t payloadSize, uint8_t *response, uint8_t *responseSize)
 //{
- //   Util.printf(" :\n%.*s\n", payloadSize, payload);
- //   return;
+//   Util.printf(" :\n%.*s\n", payloadSize, payload);
+//   return;
 //}
 
 
+const uint8_t ipAddr[4]={0,0,0,0};	// Set default values for IPv4 addr to avoid errors during network setup state. 
 
+
+/**
+* @brief Entry point of application. It is
+* called only once during startup. <br> It is responsible for
+* setting up callbacks, timers etc.
+* @retval UAPI_OK
+*/
 RIIM_SETUP()
 {
+	
     Util.printf("Starting RIIM Root Node\n");
     
+	
     // Initialize variables
     connectedToServer=false;
     LightButton = off;
@@ -246,13 +316,11 @@ RIIM_SETUP()
     GPIO.setPull(GPIO_2, PULL_UP);
 	
 	
-	
 	// Setup LEDs
     GPIO.setDirection(GPIO_0, OUTPUT);
     GPIO.setDirection(GPIO_1, OUTPUT);
     GPIO.setValue(GPIO_0, LOW);
     GPIO.setValue(GPIO_1, LOW);
-	
 	
 	
     // Setup network and RF
@@ -265,7 +333,7 @@ RIIM_SETUP()
     timerHandle=Timer.create(PERIODIC, timerPeriod, timerHandler);
     Timer.start(timerHandle);
     
-    Debug.printSetup();
+    Debug.printSetup();		//Print information about node to console
     
     return UAPI_OK;
 }
