@@ -1,0 +1,144 @@
+\hypertarget{_app___my_app___mesh_router___d_b_8c}{}\doxysection{C\+:/\+Users/\+Komputer/\+Desktop/\+Praca\+\_\+\+Inzynierska/riim\+\_\+sdk/\+I\+C\+I\+\_\+\+Applications/\+My\+\_\+\+App\+\_\+\+Cloud/\+S\+R\+C/\+App\+\_\+\+My\+App\+\_\+\+Mesh\+Router\+\_\+\+DB.c File Reference}
+\label{_app___my_app___mesh_router___d_b_8c}\index{C:/Users/Komputer/Desktop/Praca\_Inzynierska/riim\_sdk/ICI\_Applications/My\_App\_Cloud/SRC/App\_MyApp\_MeshRouter\_DB.c@{C:/Users/Komputer/Desktop/Praca\_Inzynierska/riim\_sdk/ICI\_Applications/My\_App\_Cloud/SRC/App\_MyApp\_MeshRouter\_DB.c}}
+
+
+Documentation for border router functions implemented for wireless sensor mesh network.  
+
+
+{\ttfamily \#include \char`\"{}R\+I\+I\+M\+\_\+\+U\+A\+P\+I.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a48fd4d4e9701126df88b3d153f8216d7}{startup}} ()
+\begin{DoxyCompactList}\small\item\em Startup function used for connect to network and cloud only once at the beginning. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a8519e78b39e6ebd00a8ae00f6e261148}{response\+Handler}} (const uint8\+\_\+t $\ast$payload, uint8\+\_\+t payload\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Empty response handler. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a870cdd0a60616595ca9fab146bc3021b}{send\+R\+S\+SI}} ()
+\begin{DoxyCompactList}\small\item\em Startup function used for connect to network and cloud only once at the beginning. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}{R\+I\+I\+M\+\_\+\+S\+E\+T\+UP}} ()
+\begin{DoxyCompactList}\small\item\em Entry point of application. It is called only once during startup. ~\newline
+ It is responsible for setting up callbacks, timers etc. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a01407892d8904df7d3794bc94da7ed9d}{resource\+Name}} \mbox{[}$\,$\mbox{]} =\char`\"{}/api/v1/1Ie\+L\+Mu\+B\+Z6o\+I76p\+Amoskq/telemetry/\char`\"{}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a8f55dc9f252f0349294665ba7f22ee5f}{server\+I\+P4\+Addr}} \mbox{[}4\mbox{]} =\{104,196,24,70\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_adf8528f55dd13b28ddd278e2a7c50eef}{startup\+Timer\+Handle}}
+\item 
+const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a847413e60748a2a2ac6ad8332eebe8ca}{R\+S\+S\+I\+Timer\+Period}} =10000
+\item 
+uint8\+\_\+t \mbox{\hyperlink{_app___my_app___mesh_router___d_b_8c_a546542e2b6bd33e4caccd8e8176ae383}{R\+S\+S\+I\+Timer\+Handle}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Documentation for border router functions implemented for wireless sensor mesh network. 
+
+\begin{DoxyVersion}{Version}
+2.\+00 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+16.\+10.\+2020 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wojciech Przybyło 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a8519e78b39e6ebd00a8ae00f6e261148}\label{_app___my_app___mesh_router___d_b_8c_a8519e78b39e6ebd00a8ae00f6e261148}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!responseHandler@{responseHandler}}
+\index{responseHandler@{responseHandler}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{responseHandler()}{responseHandler()}}
+{\footnotesize\ttfamily void response\+Handler (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t $\ast$}]{payload,  }\item[{uint8\+\_\+t}]{payload\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Empty response handler. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}\label{_app___my_app___mesh_router___d_b_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!RIIM\_SETUP@{RIIM\_SETUP}}
+\index{RIIM\_SETUP@{RIIM\_SETUP}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{RIIM\_SETUP()}{RIIM\_SETUP()}}
+{\footnotesize\ttfamily R\+I\+I\+M\+\_\+\+S\+E\+T\+UP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Entry point of application. It is called only once during startup. ~\newline
+ It is responsible for setting up callbacks, timers etc. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em U\+A\+P\+I\+\_\+\+OK} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a870cdd0a60616595ca9fab146bc3021b}\label{_app___my_app___mesh_router___d_b_8c_a870cdd0a60616595ca9fab146bc3021b}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!sendRSSI@{sendRSSI}}
+\index{sendRSSI@{sendRSSI}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{sendRSSI()}{sendRSSI()}}
+{\footnotesize\ttfamily void send\+R\+S\+SI (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Startup function used for connect to network and cloud only once at the beginning. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a48fd4d4e9701126df88b3d153f8216d7}\label{_app___my_app___mesh_router___d_b_8c_a48fd4d4e9701126df88b3d153f8216d7}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!startup@{startup}}
+\index{startup@{startup}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{startup()}{startup()}}
+{\footnotesize\ttfamily static void startup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Startup function used for connect to network and cloud only once at the beginning. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a01407892d8904df7d3794bc94da7ed9d}\label{_app___my_app___mesh_router___d_b_8c_a01407892d8904df7d3794bc94da7ed9d}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!resourceName@{resourceName}}
+\index{resourceName@{resourceName}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{resourceName}{resourceName}}
+{\footnotesize\ttfamily const uint8\+\_\+t resource\+Name\mbox{[}$\,$\mbox{]} =\char`\"{}/api/v1/1Ie\+L\+Mu\+B\+Z6o\+I76p\+Amoskq/telemetry/\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a546542e2b6bd33e4caccd8e8176ae383}\label{_app___my_app___mesh_router___d_b_8c_a546542e2b6bd33e4caccd8e8176ae383}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!RSSITimerHandle@{RSSITimerHandle}}
+\index{RSSITimerHandle@{RSSITimerHandle}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{RSSITimerHandle}{RSSITimerHandle}}
+{\footnotesize\ttfamily uint8\+\_\+t R\+S\+S\+I\+Timer\+Handle}
+
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a847413e60748a2a2ac6ad8332eebe8ca}\label{_app___my_app___mesh_router___d_b_8c_a847413e60748a2a2ac6ad8332eebe8ca}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!RSSITimerPeriod@{RSSITimerPeriod}}
+\index{RSSITimerPeriod@{RSSITimerPeriod}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{RSSITimerPeriod}{RSSITimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t R\+S\+S\+I\+Timer\+Period =10000}
+
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_a8f55dc9f252f0349294665ba7f22ee5f}\label{_app___my_app___mesh_router___d_b_8c_a8f55dc9f252f0349294665ba7f22ee5f}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!serverIP4Addr@{serverIP4Addr}}
+\index{serverIP4Addr@{serverIP4Addr}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{serverIP4Addr}{serverIP4Addr}}
+{\footnotesize\ttfamily const uint8\+\_\+t server\+I\+P4\+Addr\mbox{[}4\mbox{]} =\{104,196,24,70\}}
+
+\mbox{\Hypertarget{_app___my_app___mesh_router___d_b_8c_adf8528f55dd13b28ddd278e2a7c50eef}\label{_app___my_app___mesh_router___d_b_8c_adf8528f55dd13b28ddd278e2a7c50eef}} 
+\index{App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}!startupTimerHandle@{startupTimerHandle}}
+\index{startupTimerHandle@{startupTimerHandle}!App\_MyApp\_MeshRouter\_DB.c@{App\_MyApp\_MeshRouter\_DB.c}}
+\doxysubsubsection{\texorpdfstring{startupTimerHandle}{startupTimerHandle}}
+{\footnotesize\ttfamily uint8\+\_\+t startup\+Timer\+Handle}
+

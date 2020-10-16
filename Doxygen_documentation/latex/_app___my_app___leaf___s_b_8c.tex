@@ -1,0 +1,419 @@
+\hypertarget{_app___my_app___leaf___s_b_8c}{}\doxysection{C\+:/\+Users/\+Komputer/\+Desktop/\+Praca\+\_\+\+Inzynierska/riim\+\_\+sdk/\+I\+C\+I\+\_\+\+Applications/\+My\+\_\+\+App\+\_\+\+Cloud/\+S\+R\+C/\+App\+\_\+\+My\+App\+\_\+\+Leaf\+\_\+\+SB.c File Reference}
+\label{_app___my_app___leaf___s_b_8c}\index{C:/Users/Komputer/Desktop/Praca\_Inzynierska/riim\_sdk/ICI\_Applications/My\_App\_Cloud/SRC/App\_MyApp\_Leaf\_SB.c@{C:/Users/Komputer/Desktop/Praca\_Inzynierska/riim\_sdk/ICI\_Applications/My\_App\_Cloud/SRC/App\_MyApp\_Leaf\_SB.c}}
+
+
+Documentation for border router functions implemented for wireless sensor mesh network.  
+
+
+{\ttfamily \#include \char`\"{}R\+I\+I\+M\+\_\+\+U\+A\+P\+I.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a9f4b41728d7be1373fa414f8a851f894}{S\+G\+P\+C3\+\_\+\+I2\+C\+\_\+\+A\+D\+D\+R\+E\+SS}}~0x58
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_af499de1bc88fe28cc06525489d07efdc}{Read\+S\+HT}} ()
+\begin{DoxyCompactList}\small\item\em Handler called periodically by a timer. It uses the I2\+C-\/bus to read temperature and humidity values from the Sensirion S\+H\+T35 sensor. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a2b208da3987b3a511f6fb3f12fe98ac3}{Read\+Light}} ()
+\begin{DoxyCompactList}\small\item\em Handler called periodically to read the Light Sensor/\+A\+DC. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a5553c69d2fae77df7274e8fc6015734e}{Read\+User\+Button}} ()
+\begin{DoxyCompactList}\small\item\em Handler called periodically to read the pushbutton. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a3454e939abd4da3a0168eacdfa8e1529}{Read\+V\+OC}} ()
+\begin{DoxyCompactList}\small\item\em Handler called periodically to read the V\+OC sensor. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a6dffaf3cbd3388363cef56bc3ea0d617}{Read\+Sensor}} ()
+\begin{DoxyCompactList}\small\item\em Handler called periodically by a timer to read various sensors on the sensor board. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a649dbd4b6ee4fb793277754bb06977b5}{L\+ED}} ()
+\begin{DoxyCompactList}\small\item\em Function using for debugging purposes. Toggle state of L\+ED diode. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a3625454f03ef99ef01e0723c7a84e86e}{send\+Co\+AP}} ()
+\begin{DoxyCompactList}\small\item\em Timer callback function that sends a Co\+AP P\+O\+ST message to the cloud. ~\newline
+ Message format is J\+S\+ON. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a8519e78b39e6ebd00a8ae00f6e261148}{response\+Handler}} (const uint8\+\_\+t $\ast$payload, uint8\+\_\+t payload\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Handler called when Co\+AP receives a response. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_aeca24300cd970b7c895037ef7cb71a30}{Printout}} ()
+\begin{DoxyCompactList}\small\item\em Print out the values of all the sensors. ~\newline
+ Function used for debugging purposes. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a48fd4d4e9701126df88b3d153f8216d7}{startup}} ()
+\begin{DoxyCompactList}\small\item\em Startup function used for connect to network and cloud only once at the beginning. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a73b8602fefd5d5f2140850dbdc7f5c22}{coap\+Handler}} (Request\+Type type, I\+P\+Addr src\+Addr, uint8\+\_\+t $\ast$payload, uint8\+\_\+t payload\+Size, uint8\+\_\+t $\ast$response, uint8\+\_\+t $\ast$response\+Size)
+\begin{DoxyCompactList}\small\item\em Coap\+Handler to capture request from other nodes in network. In this case handler is used to turn on/off light by leaf node. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}{R\+I\+I\+M\+\_\+\+S\+E\+T\+UP}} ()
+\begin{DoxyCompactList}\small\item\em This is the entry point of the user application. It is called only once during startup. It is responsible for setting up callbacks, timers etc. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a01407892d8904df7d3794bc94da7ed9d}{resource\+Name}} \mbox{[}$\,$\mbox{]} = \char`\"{}/api/v1/1Ie\+L\+Mu\+B\+Z6o\+I76p\+Amoskq/telemetry/\char`\"{}
+\item 
+static const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_aca02a9b2df6d85e35ff2081773d253cc}{resource\+Name2}} \mbox{[}$\,$\mbox{]} = \char`\"{}data\char`\"{}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a8f55dc9f252f0349294665ba7f22ee5f}{server\+I\+P4\+Addr}} \mbox{[}4\mbox{]} = \{ 104,196,24,70 \}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a3b142dcd9900d05b670229f774c020d6}{startup\+Timer\+Handler}}
+\item 
+const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_aabf7ee7650218355561aba6e0ffa2c1a}{coap\+Timer\+Period}} = 30000
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a72954abf71aadf57818c490057f4da20}{led\+Timer\+Period}} =500
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_aeb224757bb02d9743a6e002c577314b5}{sensor\+Timer\+Period}} =100
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_ac3e432991618fab78b2b085317738cf2}{timer\+Period}} = 20000
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_ab5898c3f66981d5373a88b10b9c5af45}{coap\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_aee09d700217614f0a98dbbbd1a9b1a58}{sensor\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a805c1e481457e2684469b5ee1759f846}{led\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_af9ff7d2bdaf9d89b02413733cd35afcb}{printout\+Timer\+Handler}}
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_afe9f90b8a410ceb72b7ea3d33e866100}{printout\+Timer\+Period}} =2000
+\item 
+static uint16\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a36142ddde297ed1d5577c81230997301}{temp}}
+\item 
+static uint16\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_adb7420c891bc52719052bae0eb17001c}{temp\+Fraction}}
+\item 
+static uint16\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a16505294fc4a064075013682a4e8fe85}{humidity}}
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a2b9660adee6c44c56ee418b1f697b750}{light}}
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a0b97e51af45b15f956685e95ba1bc8e0}{user\+Button}}
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a6c2ff5b179cc0c58f5284f5110d223a0}{voc\+Value}}
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{_app___my_app___leaf___s_b_8c_a2ccf151f2008ebb91d60d9a33b50e776}{light\+State}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Documentation for border router functions implemented for wireless sensor mesh network. 
+
+\begin{DoxyVersion}{Version}
+2.\+00 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+16.\+10.\+2020 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wojciech Przybyło 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a9f4b41728d7be1373fa414f8a851f894}\label{_app___my_app___leaf___s_b_8c_a9f4b41728d7be1373fa414f8a851f894}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!SGPC3\_I2C\_ADDRESS@{SGPC3\_I2C\_ADDRESS}}
+\index{SGPC3\_I2C\_ADDRESS@{SGPC3\_I2C\_ADDRESS}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{SGPC3\_I2C\_ADDRESS}{SGPC3\_I2C\_ADDRESS}}
+{\footnotesize\ttfamily \#define S\+G\+P\+C3\+\_\+\+I2\+C\+\_\+\+A\+D\+D\+R\+E\+SS~0x58}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a73b8602fefd5d5f2140850dbdc7f5c22}\label{_app___my_app___leaf___s_b_8c_a73b8602fefd5d5f2140850dbdc7f5c22}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!coapHandler@{coapHandler}}
+\index{coapHandler@{coapHandler}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{coapHandler()}{coapHandler()}}
+{\footnotesize\ttfamily static void coap\+Handler (\begin{DoxyParamCaption}\item[{Request\+Type}]{type,  }\item[{I\+P\+Addr}]{src\+Addr,  }\item[{uint8\+\_\+t $\ast$}]{payload,  }\item[{uint8\+\_\+t}]{payload\+Size,  }\item[{uint8\+\_\+t $\ast$}]{response,  }\item[{uint8\+\_\+t $\ast$}]{response\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Coap\+Handler to capture request from other nodes in network. In this case handler is used to turn on/off light by leaf node. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a649dbd4b6ee4fb793277754bb06977b5}\label{_app___my_app___leaf___s_b_8c_a649dbd4b6ee4fb793277754bb06977b5}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!LED@{LED}}
+\index{LED@{LED}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{LED()}{LED()}}
+{\footnotesize\ttfamily static void L\+ED (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Function using for debugging purposes. Toggle state of L\+ED diode. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_aeca24300cd970b7c895037ef7cb71a30}\label{_app___my_app___leaf___s_b_8c_aeca24300cd970b7c895037ef7cb71a30}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!Printout@{Printout}}
+\index{Printout@{Printout}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{Printout()}{Printout()}}
+{\footnotesize\ttfamily static void Printout (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Print out the values of all the sensors. ~\newline
+ Function used for debugging purposes. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a2b208da3987b3a511f6fb3f12fe98ac3}\label{_app___my_app___leaf___s_b_8c_a2b208da3987b3a511f6fb3f12fe98ac3}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!ReadLight@{ReadLight}}
+\index{ReadLight@{ReadLight}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{ReadLight()}{ReadLight()}}
+{\footnotesize\ttfamily static void Read\+Light (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Handler called periodically to read the Light Sensor/\+A\+DC. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a6dffaf3cbd3388363cef56bc3ea0d617}\label{_app___my_app___leaf___s_b_8c_a6dffaf3cbd3388363cef56bc3ea0d617}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!ReadSensor@{ReadSensor}}
+\index{ReadSensor@{ReadSensor}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{ReadSensor()}{ReadSensor()}}
+{\footnotesize\ttfamily static void Read\+Sensor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Handler called periodically by a timer to read various sensors on the sensor board. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_af499de1bc88fe28cc06525489d07efdc}\label{_app___my_app___leaf___s_b_8c_af499de1bc88fe28cc06525489d07efdc}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!ReadSHT@{ReadSHT}}
+\index{ReadSHT@{ReadSHT}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{ReadSHT()}{ReadSHT()}}
+{\footnotesize\ttfamily static void Read\+S\+HT (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Handler called periodically by a timer. It uses the I2\+C-\/bus to read temperature and humidity values from the Sensirion S\+H\+T35 sensor. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a5553c69d2fae77df7274e8fc6015734e}\label{_app___my_app___leaf___s_b_8c_a5553c69d2fae77df7274e8fc6015734e}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!ReadUserButton@{ReadUserButton}}
+\index{ReadUserButton@{ReadUserButton}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{ReadUserButton()}{ReadUserButton()}}
+{\footnotesize\ttfamily static void Read\+User\+Button (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Handler called periodically to read the pushbutton. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a3454e939abd4da3a0168eacdfa8e1529}\label{_app___my_app___leaf___s_b_8c_a3454e939abd4da3a0168eacdfa8e1529}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!ReadVOC@{ReadVOC}}
+\index{ReadVOC@{ReadVOC}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{ReadVOC()}{ReadVOC()}}
+{\footnotesize\ttfamily static void Read\+V\+OC (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Handler called periodically to read the V\+OC sensor. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a8519e78b39e6ebd00a8ae00f6e261148}\label{_app___my_app___leaf___s_b_8c_a8519e78b39e6ebd00a8ae00f6e261148}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!responseHandler@{responseHandler}}
+\index{responseHandler@{responseHandler}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{responseHandler()}{responseHandler()}}
+{\footnotesize\ttfamily void response\+Handler (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t $\ast$}]{payload,  }\item[{uint8\+\_\+t}]{payload\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Handler called when Co\+AP receives a response. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em payload\mbox{[}in\mbox{]}} & Array of bytes containing the payload \\
+\hline
+{\em payload\+\_\+size\mbox{[}in\mbox{]}} & The number of bytes in the payload \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}\label{_app___my_app___leaf___s_b_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!RIIM\_SETUP@{RIIM\_SETUP}}
+\index{RIIM\_SETUP@{RIIM\_SETUP}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{RIIM\_SETUP()}{RIIM\_SETUP()}}
+{\footnotesize\ttfamily R\+I\+I\+M\+\_\+\+S\+E\+T\+UP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This is the entry point of the user application. It is called only once during startup. It is responsible for setting up callbacks, timers etc. 
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a3625454f03ef99ef01e0723c7a84e86e}\label{_app___my_app___leaf___s_b_8c_a3625454f03ef99ef01e0723c7a84e86e}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!sendCoAP@{sendCoAP}}
+\index{sendCoAP@{sendCoAP}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{sendCoAP()}{sendCoAP()}}
+{\footnotesize\ttfamily static void send\+Co\+AP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Timer callback function that sends a Co\+AP P\+O\+ST message to the cloud. ~\newline
+ Message format is J\+S\+ON. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a48fd4d4e9701126df88b3d153f8216d7}\label{_app___my_app___leaf___s_b_8c_a48fd4d4e9701126df88b3d153f8216d7}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!startup@{startup}}
+\index{startup@{startup}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{startup()}{startup()}}
+{\footnotesize\ttfamily static void startup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Startup function used for connect to network and cloud only once at the beginning. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_ab5898c3f66981d5373a88b10b9c5af45}\label{_app___my_app___leaf___s_b_8c_ab5898c3f66981d5373a88b10b9c5af45}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!coapTimerHandler@{coapTimerHandler}}
+\index{coapTimerHandler@{coapTimerHandler}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{coapTimerHandler}{coapTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t coap\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_aabf7ee7650218355561aba6e0ffa2c1a}\label{_app___my_app___leaf___s_b_8c_aabf7ee7650218355561aba6e0ffa2c1a}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!coapTimerPeriod@{coapTimerPeriod}}
+\index{coapTimerPeriod@{coapTimerPeriod}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{coapTimerPeriod}{coapTimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t coap\+Timer\+Period = 30000}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a16505294fc4a064075013682a4e8fe85}\label{_app___my_app___leaf___s_b_8c_a16505294fc4a064075013682a4e8fe85}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!humidity@{humidity}}
+\index{humidity@{humidity}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{humidity}{humidity}}
+{\footnotesize\ttfamily uint16\+\_\+t humidity\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a805c1e481457e2684469b5ee1759f846}\label{_app___my_app___leaf___s_b_8c_a805c1e481457e2684469b5ee1759f846}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!ledTimerHandler@{ledTimerHandler}}
+\index{ledTimerHandler@{ledTimerHandler}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{ledTimerHandler}{ledTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t led\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a72954abf71aadf57818c490057f4da20}\label{_app___my_app___leaf___s_b_8c_a72954abf71aadf57818c490057f4da20}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!ledTimerPeriod@{ledTimerPeriod}}
+\index{ledTimerPeriod@{ledTimerPeriod}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{ledTimerPeriod}{ledTimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t led\+Timer\+Period =500\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a2b9660adee6c44c56ee418b1f697b750}\label{_app___my_app___leaf___s_b_8c_a2b9660adee6c44c56ee418b1f697b750}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!light@{light}}
+\index{light@{light}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{light}{light}}
+{\footnotesize\ttfamily uint32\+\_\+t light\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a2ccf151f2008ebb91d60d9a33b50e776}\label{_app___my_app___leaf___s_b_8c_a2ccf151f2008ebb91d60d9a33b50e776}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!lightState@{lightState}}
+\index{lightState@{lightState}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{lightState}{lightState}}
+{\footnotesize\ttfamily uint32\+\_\+t light\+State\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_af9ff7d2bdaf9d89b02413733cd35afcb}\label{_app___my_app___leaf___s_b_8c_af9ff7d2bdaf9d89b02413733cd35afcb}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!printoutTimerHandler@{printoutTimerHandler}}
+\index{printoutTimerHandler@{printoutTimerHandler}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{printoutTimerHandler}{printoutTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t printout\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_afe9f90b8a410ceb72b7ea3d33e866100}\label{_app___my_app___leaf___s_b_8c_afe9f90b8a410ceb72b7ea3d33e866100}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!printoutTimerPeriod@{printoutTimerPeriod}}
+\index{printoutTimerPeriod@{printoutTimerPeriod}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{printoutTimerPeriod}{printoutTimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t printout\+Timer\+Period =2000\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a01407892d8904df7d3794bc94da7ed9d}\label{_app___my_app___leaf___s_b_8c_a01407892d8904df7d3794bc94da7ed9d}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!resourceName@{resourceName}}
+\index{resourceName@{resourceName}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{resourceName}{resourceName}}
+{\footnotesize\ttfamily const uint8\+\_\+t resource\+Name\mbox{[}$\,$\mbox{]} = \char`\"{}/api/v1/1Ie\+L\+Mu\+B\+Z6o\+I76p\+Amoskq/telemetry/\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_aca02a9b2df6d85e35ff2081773d253cc}\label{_app___my_app___leaf___s_b_8c_aca02a9b2df6d85e35ff2081773d253cc}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!resourceName2@{resourceName2}}
+\index{resourceName2@{resourceName2}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{resourceName2}{resourceName2}}
+{\footnotesize\ttfamily const uint8\+\_\+t resource\+Name2\mbox{[}$\,$\mbox{]} = \char`\"{}data\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_aee09d700217614f0a98dbbbd1a9b1a58}\label{_app___my_app___leaf___s_b_8c_aee09d700217614f0a98dbbbd1a9b1a58}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!sensorTimerHandler@{sensorTimerHandler}}
+\index{sensorTimerHandler@{sensorTimerHandler}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{sensorTimerHandler}{sensorTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t sensor\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_aeb224757bb02d9743a6e002c577314b5}\label{_app___my_app___leaf___s_b_8c_aeb224757bb02d9743a6e002c577314b5}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!sensorTimerPeriod@{sensorTimerPeriod}}
+\index{sensorTimerPeriod@{sensorTimerPeriod}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{sensorTimerPeriod}{sensorTimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t sensor\+Timer\+Period =100\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a8f55dc9f252f0349294665ba7f22ee5f}\label{_app___my_app___leaf___s_b_8c_a8f55dc9f252f0349294665ba7f22ee5f}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!serverIP4Addr@{serverIP4Addr}}
+\index{serverIP4Addr@{serverIP4Addr}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{serverIP4Addr}{serverIP4Addr}}
+{\footnotesize\ttfamily const uint8\+\_\+t server\+I\+P4\+Addr\mbox{[}4\mbox{]} = \{ 104,196,24,70 \}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a3b142dcd9900d05b670229f774c020d6}\label{_app___my_app___leaf___s_b_8c_a3b142dcd9900d05b670229f774c020d6}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!startupTimerHandler@{startupTimerHandler}}
+\index{startupTimerHandler@{startupTimerHandler}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{startupTimerHandler}{startupTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t startup\+Timer\+Handler}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a36142ddde297ed1d5577c81230997301}\label{_app___my_app___leaf___s_b_8c_a36142ddde297ed1d5577c81230997301}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!temp@{temp}}
+\index{temp@{temp}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{temp}{temp}}
+{\footnotesize\ttfamily uint16\+\_\+t temp\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_adb7420c891bc52719052bae0eb17001c}\label{_app___my_app___leaf___s_b_8c_adb7420c891bc52719052bae0eb17001c}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!tempFraction@{tempFraction}}
+\index{tempFraction@{tempFraction}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{tempFraction}{tempFraction}}
+{\footnotesize\ttfamily uint16\+\_\+t temp\+Fraction\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_ac3e432991618fab78b2b085317738cf2}\label{_app___my_app___leaf___s_b_8c_ac3e432991618fab78b2b085317738cf2}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!timerPeriod@{timerPeriod}}
+\index{timerPeriod@{timerPeriod}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{timerPeriod}{timerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t timer\+Period = 20000\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a0b97e51af45b15f956685e95ba1bc8e0}\label{_app___my_app___leaf___s_b_8c_a0b97e51af45b15f956685e95ba1bc8e0}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!userButton@{userButton}}
+\index{userButton@{userButton}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{userButton}{userButton}}
+{\footnotesize\ttfamily uint32\+\_\+t user\+Button\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___leaf___s_b_8c_a6c2ff5b179cc0c58f5284f5110d223a0}\label{_app___my_app___leaf___s_b_8c_a6c2ff5b179cc0c58f5284f5110d223a0}} 
+\index{App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}!vocValue@{vocValue}}
+\index{vocValue@{vocValue}!App\_MyApp\_Leaf\_SB.c@{App\_MyApp\_Leaf\_SB.c}}
+\doxysubsubsection{\texorpdfstring{vocValue}{vocValue}}
+{\footnotesize\ttfamily uint32\+\_\+t voc\+Value\hspace{0.3cm}{\ttfamily [static]}}
+

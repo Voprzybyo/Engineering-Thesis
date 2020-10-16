@@ -1,0 +1,440 @@
+\hypertarget{_app___my_app___border_router___b_r_8c}{}\doxysection{C\+:/\+Users/\+Komputer/\+Desktop/\+Praca\+\_\+\+Inzynierska/riim\+\_\+sdk/\+I\+C\+I\+\_\+\+Applications/\+My\+\_\+\+App\+\_\+\+Cloud/\+S\+R\+C/\+App\+\_\+\+My\+App\+\_\+\+Border\+Router\+\_\+\+BR.c File Reference}
+\label{_app___my_app___border_router___b_r_8c}\index{C:/Users/Komputer/Desktop/Praca\_Inzynierska/riim\_sdk/ICI\_Applications/My\_App\_Cloud/SRC/App\_MyApp\_BorderRouter\_BR.c@{C:/Users/Komputer/Desktop/Praca\_Inzynierska/riim\_sdk/ICI\_Applications/My\_App\_Cloud/SRC/App\_MyApp\_BorderRouter\_BR.c}}
+
+
+Documentation for border router functions implemented for wireless sensor mesh network.  
+
+
+{\ttfamily \#include \char`\"{}R\+I\+I\+M\+\_\+\+U\+A\+P\+I.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55ba53ace14c115e45153a1c9105accceb4c}{off}}, 
+\mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55baf3be4933da71233c5904ec919ac1fdb0}{on}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a649dbd4b6ee4fb793277754bb06977b5}{L\+ED}} ()
+\begin{DoxyCompactList}\small\item\em Function using for debugging purposes. Toggle state of L\+ED diode. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a5553c69d2fae77df7274e8fc6015734e}{Read\+User\+Button}} ()
+\begin{DoxyCompactList}\small\item\em Read user button status. Assing corresponding value to user\+Button variable. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a6dffaf3cbd3388363cef56bc3ea0d617}{Read\+Sensor}} ()
+\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a5bef4aac9230c3aed1c5878df9f3acb8}{Button\+Check}} ()
+\begin{DoxyCompactList}\small\item\em Check if button on border router is pushed.~\newline
+ Function set \char`\"{}lights\+On\char`\"{} variable and start one shot timer to register only one light request from user. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a6eb88db76c5691c0d99ead1b891dfc59}{send\+Co\+A\+Pto\+Sensor\+Board}} ()
+\begin{DoxyCompactList}\small\item\em Send Co\+AP message to leaf node with \char`\"{}light O\+N/\+O\+F\+F\char`\"{} request. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a3625454f03ef99ef01e0723c7a84e86e}{send\+Co\+AP}} ()
+\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a48fd4d4e9701126df88b3d153f8216d7}{startup}} ()
+\begin{DoxyCompactList}\small\item\em Startup function used for connect to network and cloud only once at the beginning. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_ac7a582c55ab5c7860fa88f499e065059}{button\+Handler}} ()
+\begin{DoxyCompactList}\small\item\em Button handler called when button push event occurs. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a96a5c4d2e3ed9f72565de62fcaa8e903}{timer\+Handler}} ()
+\begin{DoxyCompactList}\small\item\em Main block of border router code. ~\newline
+ Print avaiable connection between nodes in network to console. ~\newline
+ Connect to cloud and send data about network in J\+S\+ON format. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a8519e78b39e6ebd00a8ae00f6e261148}{response\+Handler}} (const uint8\+\_\+t $\ast$payload, uint8\+\_\+t payload\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Response handler used to check if border router got correct response for \char`\"{}\+Turn on the light\char`\"{} request send to leaf node.~\newline
+ If so, G\+P\+IO corresponding with L\+ED diode is setting in H\+I\+GH state.~\newline
+ Similary, if border router got response for \char`\"{}\+Turn off the light\char`\"{}, corresponding with L\+ED diode G\+P\+IO is setting in L\+OW state.~\newline
+ \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}{R\+I\+I\+M\+\_\+\+S\+E\+T\+UP}} ()
+\begin{DoxyCompactList}\small\item\em Entry point of application. It is called only once during startup. ~\newline
+ It is responsible for setting up callbacks, timers etc. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_aca02a9b2df6d85e35ff2081773d253cc}{resource\+Name2}} \mbox{[}$\,$\mbox{]} =\char`\"{}data\char`\"{}
+\item 
+static const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a01407892d8904df7d3794bc94da7ed9d}{resource\+Name}} \mbox{[}$\,$\mbox{]} =\char`\"{}/api/v1/1Ie\+L\+Mu\+B\+Z6o\+I76p\+Amoskq/telemetry/\char`\"{}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a8f55dc9f252f0349294665ba7f22ee5f}{server\+I\+P4\+Addr}} \mbox{[}4\mbox{]} =\{104,196,24,70\}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a0833ac1ecfa3eddfbb44606e503064a2}{ip\+Mask}} \mbox{[}4\mbox{]} =\{255,255,255,0\}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_aee192298679272908db082a73b7f22a2}{ip\+Gateway}} \mbox{[}4\mbox{]} =\{192,168,100,1\}
+\item 
+const I\+P\+Addr \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a8fd6c37c76826682fd5f1ce52f75bbaa}{child\+Node\+I\+P\+Addr}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a3b142dcd9900d05b670229f774c020d6}{startup\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a51bceb136842b6b6c529f7cfdb44df45}{timer\+Handle}}
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_ad218bafa96c3cdf265a3f0fa9bd772eb}{timer\+Period}} =5000
+\item 
+const uint16\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a9fb7d4b26ee3f55c328424fc1645b869}{button\+Timer\+Period}} =200
+\item 
+const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_aabf7ee7650218355561aba6e0ffa2c1a}{coap\+Timer\+Period}} = 2000
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a72954abf71aadf57818c490057f4da20}{led\+Timer\+Period}} =500
+\item 
+static const uint32\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a8847ac450590bb5d5ae45f7728c8e5d1}{button\+Check\+Timer\+Period}} =4000
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a805c1e481457e2684469b5ee1759f846}{led\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_aaf5a53fd0b892b86b091ccc9834cdd4c}{button\+Check\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_aee09d700217614f0a98dbbbd1a9b1a58}{sensor\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_ab5898c3f66981d5373a88b10b9c5af45}{coap\+Timer\+Handler}}
+\item 
+static uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a6cf3c6f316f74b7a176f23e7257493bf}{one\+Shot\+Timer\+Handler}}
+\item 
+enum  \{ ... \}  \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_aa2296f0117b29f72be17a56f75d9ec0b}{Light\+Button}}
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a0b97e51af45b15f956685e95ba1bc8e0}{user\+Button}}
+\item 
+static uint32\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a7a6d69423a20452689628177ac3bf192}{lights\+On}}
+\item 
+static bool \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_a9703bb3b163145446bf05d3418742344}{connected\+To\+Server}}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{_app___my_app___border_router___b_r_8c_ac84d810022e520ab66971fcffb1e1f9f}{ip\+Addr}} \mbox{[}4\mbox{]} =\{0,0,0,0\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Documentation for border router functions implemented for wireless sensor mesh network. 
+
+\begin{DoxyVersion}{Version}
+2.\+00 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+16.\+10.\+2020 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Wojciech Przybyło 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55b}\label{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55b}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{off@{off}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!off@{off}}}\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55ba53ace14c115e45153a1c9105accceb4c}\label{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55ba53ace14c115e45153a1c9105accceb4c}} 
+off&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{on@{on}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!on@{on}}}\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55baf3be4933da71233c5904ec919ac1fdb0}\label{_app___my_app___border_router___b_r_8c_a06fc87d81c62e9abb8790b6e5713c55baf3be4933da71233c5904ec919ac1fdb0}} 
+on&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a5bef4aac9230c3aed1c5878df9f3acb8}\label{_app___my_app___border_router___b_r_8c_a5bef4aac9230c3aed1c5878df9f3acb8}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ButtonCheck@{ButtonCheck}}
+\index{ButtonCheck@{ButtonCheck}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ButtonCheck()}{ButtonCheck()}}
+{\footnotesize\ttfamily static void Button\+Check (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Check if button on border router is pushed.~\newline
+ Function set \char`\"{}lights\+On\char`\"{} variable and start one shot timer to register only one light request from user. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_ac7a582c55ab5c7860fa88f499e065059}\label{_app___my_app___border_router___b_r_8c_ac7a582c55ab5c7860fa88f499e065059}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!buttonHandler@{buttonHandler}}
+\index{buttonHandler@{buttonHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{buttonHandler()}{buttonHandler()}}
+{\footnotesize\ttfamily void button\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Button handler called when button push event occurs. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a649dbd4b6ee4fb793277754bb06977b5}\label{_app___my_app___border_router___b_r_8c_a649dbd4b6ee4fb793277754bb06977b5}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!LED@{LED}}
+\index{LED@{LED}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{LED()}{LED()}}
+{\footnotesize\ttfamily static void L\+ED (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Function using for debugging purposes. Toggle state of L\+ED diode. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a6dffaf3cbd3388363cef56bc3ea0d617}\label{_app___my_app___border_router___b_r_8c_a6dffaf3cbd3388363cef56bc3ea0d617}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ReadSensor@{ReadSensor}}
+\index{ReadSensor@{ReadSensor}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ReadSensor()}{ReadSensor()}}
+{\footnotesize\ttfamily static void Read\+Sensor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a5553c69d2fae77df7274e8fc6015734e}\label{_app___my_app___border_router___b_r_8c_a5553c69d2fae77df7274e8fc6015734e}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ReadUserButton@{ReadUserButton}}
+\index{ReadUserButton@{ReadUserButton}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ReadUserButton()}{ReadUserButton()}}
+{\footnotesize\ttfamily static void Read\+User\+Button (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Read user button status. Assing corresponding value to user\+Button variable. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a8519e78b39e6ebd00a8ae00f6e261148}\label{_app___my_app___border_router___b_r_8c_a8519e78b39e6ebd00a8ae00f6e261148}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!responseHandler@{responseHandler}}
+\index{responseHandler@{responseHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{responseHandler()}{responseHandler()}}
+{\footnotesize\ttfamily void response\+Handler (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t $\ast$}]{payload,  }\item[{uint8\+\_\+t}]{payload\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Response handler used to check if border router got correct response for \char`\"{}\+Turn on the light\char`\"{} request send to leaf node.~\newline
+ If so, G\+P\+IO corresponding with L\+ED diode is setting in H\+I\+GH state.~\newline
+ Similary, if border router got response for \char`\"{}\+Turn off the light\char`\"{}, corresponding with L\+ED diode G\+P\+IO is setting in L\+OW state.~\newline
+ 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ipv6\+\_\+payload} & response from leaf node. \\
+\hline
+\mbox{\texttt{ in}}  & {\em payload\+\_\+size} & size of response from leaf node. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}\label{_app___my_app___border_router___b_r_8c_a095053b0b8ccc7b97f91a3b2ad86e9f0}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!RIIM\_SETUP@{RIIM\_SETUP}}
+\index{RIIM\_SETUP@{RIIM\_SETUP}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{RIIM\_SETUP()}{RIIM\_SETUP()}}
+{\footnotesize\ttfamily R\+I\+I\+M\+\_\+\+S\+E\+T\+UP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Entry point of application. It is called only once during startup. ~\newline
+ It is responsible for setting up callbacks, timers etc. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em U\+A\+P\+I\+\_\+\+OK} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a3625454f03ef99ef01e0723c7a84e86e}\label{_app___my_app___border_router___b_r_8c_a3625454f03ef99ef01e0723c7a84e86e}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!sendCoAP@{sendCoAP}}
+\index{sendCoAP@{sendCoAP}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{sendCoAP()}{sendCoAP()}}
+{\footnotesize\ttfamily static void send\+Co\+AP (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a6eb88db76c5691c0d99ead1b891dfc59}\label{_app___my_app___border_router___b_r_8c_a6eb88db76c5691c0d99ead1b891dfc59}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!sendCoAPtoSensorBoard@{sendCoAPtoSensorBoard}}
+\index{sendCoAPtoSensorBoard@{sendCoAPtoSensorBoard}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{sendCoAPtoSensorBoard()}{sendCoAPtoSensorBoard()}}
+{\footnotesize\ttfamily static void send\+Co\+A\+Pto\+Sensor\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Send Co\+AP message to leaf node with \char`\"{}light O\+N/\+O\+F\+F\char`\"{} request. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a48fd4d4e9701126df88b3d153f8216d7}\label{_app___my_app___border_router___b_r_8c_a48fd4d4e9701126df88b3d153f8216d7}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!startup@{startup}}
+\index{startup@{startup}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{startup()}{startup()}}
+{\footnotesize\ttfamily static void startup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Startup function used for connect to network and cloud only once at the beginning. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a96a5c4d2e3ed9f72565de62fcaa8e903}\label{_app___my_app___border_router___b_r_8c_a96a5c4d2e3ed9f72565de62fcaa8e903}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!timerHandler@{timerHandler}}
+\index{timerHandler@{timerHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{timerHandler()}{timerHandler()}}
+{\footnotesize\ttfamily static void timer\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Main block of border router code. ~\newline
+ Print avaiable connection between nodes in network to console. ~\newline
+ Connect to cloud and send data about network in J\+S\+ON format. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em void} & \\
+\hline
+\end{DoxyRetVals}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_aaf5a53fd0b892b86b091ccc9834cdd4c}\label{_app___my_app___border_router___b_r_8c_aaf5a53fd0b892b86b091ccc9834cdd4c}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!buttonCheckTimerHandler@{buttonCheckTimerHandler}}
+\index{buttonCheckTimerHandler@{buttonCheckTimerHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{buttonCheckTimerHandler}{buttonCheckTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t button\+Check\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a8847ac450590bb5d5ae45f7728c8e5d1}\label{_app___my_app___border_router___b_r_8c_a8847ac450590bb5d5ae45f7728c8e5d1}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!buttonCheckTimerPeriod@{buttonCheckTimerPeriod}}
+\index{buttonCheckTimerPeriod@{buttonCheckTimerPeriod}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{buttonCheckTimerPeriod}{buttonCheckTimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t button\+Check\+Timer\+Period =4000\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a9fb7d4b26ee3f55c328424fc1645b869}\label{_app___my_app___border_router___b_r_8c_a9fb7d4b26ee3f55c328424fc1645b869}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!buttonTimerPeriod@{buttonTimerPeriod}}
+\index{buttonTimerPeriod@{buttonTimerPeriod}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{buttonTimerPeriod}{buttonTimerPeriod}}
+{\footnotesize\ttfamily const uint16\+\_\+t button\+Timer\+Period =200}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a8fd6c37c76826682fd5f1ce52f75bbaa}\label{_app___my_app___border_router___b_r_8c_a8fd6c37c76826682fd5f1ce52f75bbaa}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!childNodeIPAddr@{childNodeIPAddr}}
+\index{childNodeIPAddr@{childNodeIPAddr}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{childNodeIPAddr}{childNodeIPAddr}}
+{\footnotesize\ttfamily const I\+P\+Addr child\+Node\+I\+P\+Addr}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\{.byte=\{                       }
+\DoxyCodeLine{        0xfe, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,}
+\DoxyCodeLine{        0x00, 0x00, 0x00, 0xff, 0xfe, 0x00, 0xe2, 0x9d\}\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_ab5898c3f66981d5373a88b10b9c5af45}\label{_app___my_app___border_router___b_r_8c_ab5898c3f66981d5373a88b10b9c5af45}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!coapTimerHandler@{coapTimerHandler}}
+\index{coapTimerHandler@{coapTimerHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{coapTimerHandler}{coapTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t coap\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_aabf7ee7650218355561aba6e0ffa2c1a}\label{_app___my_app___border_router___b_r_8c_aabf7ee7650218355561aba6e0ffa2c1a}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!coapTimerPeriod@{coapTimerPeriod}}
+\index{coapTimerPeriod@{coapTimerPeriod}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{coapTimerPeriod}{coapTimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t coap\+Timer\+Period = 2000}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a9703bb3b163145446bf05d3418742344}\label{_app___my_app___border_router___b_r_8c_a9703bb3b163145446bf05d3418742344}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!connectedToServer@{connectedToServer}}
+\index{connectedToServer@{connectedToServer}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{connectedToServer}{connectedToServer}}
+{\footnotesize\ttfamily bool connected\+To\+Server\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_ac84d810022e520ab66971fcffb1e1f9f}\label{_app___my_app___border_router___b_r_8c_ac84d810022e520ab66971fcffb1e1f9f}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ipAddr@{ipAddr}}
+\index{ipAddr@{ipAddr}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ipAddr}{ipAddr}}
+{\footnotesize\ttfamily const uint8\+\_\+t ip\+Addr\mbox{[}4\mbox{]} =\{0,0,0,0\}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_aee192298679272908db082a73b7f22a2}\label{_app___my_app___border_router___b_r_8c_aee192298679272908db082a73b7f22a2}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ipGateway@{ipGateway}}
+\index{ipGateway@{ipGateway}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ipGateway}{ipGateway}}
+{\footnotesize\ttfamily const uint8\+\_\+t ip\+Gateway\mbox{[}4\mbox{]} =\{192,168,100,1\}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a0833ac1ecfa3eddfbb44606e503064a2}\label{_app___my_app___border_router___b_r_8c_a0833ac1ecfa3eddfbb44606e503064a2}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ipMask@{ipMask}}
+\index{ipMask@{ipMask}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ipMask}{ipMask}}
+{\footnotesize\ttfamily const uint8\+\_\+t ip\+Mask\mbox{[}4\mbox{]} =\{255,255,255,0\}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a805c1e481457e2684469b5ee1759f846}\label{_app___my_app___border_router___b_r_8c_a805c1e481457e2684469b5ee1759f846}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ledTimerHandler@{ledTimerHandler}}
+\index{ledTimerHandler@{ledTimerHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ledTimerHandler}{ledTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t led\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a72954abf71aadf57818c490057f4da20}\label{_app___my_app___border_router___b_r_8c_a72954abf71aadf57818c490057f4da20}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!ledTimerPeriod@{ledTimerPeriod}}
+\index{ledTimerPeriod@{ledTimerPeriod}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{ledTimerPeriod}{ledTimerPeriod}}
+{\footnotesize\ttfamily const uint32\+\_\+t led\+Timer\+Period =500\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_aa2296f0117b29f72be17a56f75d9ec0b}\label{_app___my_app___border_router___b_r_8c_aa2296f0117b29f72be17a56f75d9ec0b}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!LightButton@{LightButton}}
+\index{LightButton@{LightButton}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{LightButton}{LightButton}}
+{\footnotesize\ttfamily enum \{ ... \}  Light\+Button}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a7a6d69423a20452689628177ac3bf192}\label{_app___my_app___border_router___b_r_8c_a7a6d69423a20452689628177ac3bf192}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!lightsOn@{lightsOn}}
+\index{lightsOn@{lightsOn}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{lightsOn}{lightsOn}}
+{\footnotesize\ttfamily uint32\+\_\+t lights\+On\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a6cf3c6f316f74b7a176f23e7257493bf}\label{_app___my_app___border_router___b_r_8c_a6cf3c6f316f74b7a176f23e7257493bf}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!oneShotTimerHandler@{oneShotTimerHandler}}
+\index{oneShotTimerHandler@{oneShotTimerHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{oneShotTimerHandler}{oneShotTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t one\+Shot\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a01407892d8904df7d3794bc94da7ed9d}\label{_app___my_app___border_router___b_r_8c_a01407892d8904df7d3794bc94da7ed9d}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!resourceName@{resourceName}}
+\index{resourceName@{resourceName}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{resourceName}{resourceName}}
+{\footnotesize\ttfamily const uint8\+\_\+t resource\+Name\mbox{[}$\,$\mbox{]} =\char`\"{}/api/v1/1Ie\+L\+Mu\+B\+Z6o\+I76p\+Amoskq/telemetry/\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_aca02a9b2df6d85e35ff2081773d253cc}\label{_app___my_app___border_router___b_r_8c_aca02a9b2df6d85e35ff2081773d253cc}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!resourceName2@{resourceName2}}
+\index{resourceName2@{resourceName2}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{resourceName2}{resourceName2}}
+{\footnotesize\ttfamily const uint8\+\_\+t resource\+Name2\mbox{[}$\,$\mbox{]} =\char`\"{}data\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_aee09d700217614f0a98dbbbd1a9b1a58}\label{_app___my_app___border_router___b_r_8c_aee09d700217614f0a98dbbbd1a9b1a58}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!sensorTimerHandler@{sensorTimerHandler}}
+\index{sensorTimerHandler@{sensorTimerHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{sensorTimerHandler}{sensorTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t sensor\+Timer\+Handler\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a8f55dc9f252f0349294665ba7f22ee5f}\label{_app___my_app___border_router___b_r_8c_a8f55dc9f252f0349294665ba7f22ee5f}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!serverIP4Addr@{serverIP4Addr}}
+\index{serverIP4Addr@{serverIP4Addr}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{serverIP4Addr}{serverIP4Addr}}
+{\footnotesize\ttfamily const uint8\+\_\+t server\+I\+P4\+Addr\mbox{[}4\mbox{]} =\{104,196,24,70\}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a3b142dcd9900d05b670229f774c020d6}\label{_app___my_app___border_router___b_r_8c_a3b142dcd9900d05b670229f774c020d6}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!startupTimerHandler@{startupTimerHandler}}
+\index{startupTimerHandler@{startupTimerHandler}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{startupTimerHandler}{startupTimerHandler}}
+{\footnotesize\ttfamily uint8\+\_\+t startup\+Timer\+Handler}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a51bceb136842b6b6c529f7cfdb44df45}\label{_app___my_app___border_router___b_r_8c_a51bceb136842b6b6c529f7cfdb44df45}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!timerHandle@{timerHandle}}
+\index{timerHandle@{timerHandle}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{timerHandle}{timerHandle}}
+{\footnotesize\ttfamily uint8\+\_\+t timer\+Handle\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_ad218bafa96c3cdf265a3f0fa9bd772eb}\label{_app___my_app___border_router___b_r_8c_ad218bafa96c3cdf265a3f0fa9bd772eb}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!timerPeriod@{timerPeriod}}
+\index{timerPeriod@{timerPeriod}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{timerPeriod}{timerPeriod}}
+{\footnotesize\ttfamily const uint16\+\_\+t timer\+Period =5000}
+
+\mbox{\Hypertarget{_app___my_app___border_router___b_r_8c_a0b97e51af45b15f956685e95ba1bc8e0}\label{_app___my_app___border_router___b_r_8c_a0b97e51af45b15f956685e95ba1bc8e0}} 
+\index{App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}!userButton@{userButton}}
+\index{userButton@{userButton}!App\_MyApp\_BorderRouter\_BR.c@{App\_MyApp\_BorderRouter\_BR.c}}
+\doxysubsubsection{\texorpdfstring{userButton}{userButton}}
+{\footnotesize\ttfamily uint32\+\_\+t user\+Button\hspace{0.3cm}{\ttfamily [static]}}
+
