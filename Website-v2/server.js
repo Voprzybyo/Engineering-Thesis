@@ -25,7 +25,7 @@ app.get('/get_data', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
 
-    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp,Light,Button,VOC,LightState,RSSI_Leaf,RSSI_MeshR,NumNodesInNetwork,addr_V4_Border,IP_V6_Border,IP_V6_MeshR" , 
+    fetch("https://demo.thingsboard.io/api/plugins/telemetry/DEVICE/4d320510-d892-11ea-a1c4-b9c8a6e6378a/values/timeseries?keys=Hum,Temp,Light,Button,VOC,LightState,RSSI_Leaf,RSSI_MeshR,NumNodesInNetwork,addr_V4_Border,IP_V6_Border,IP_V6_MeshR,IP_V6_Leaf" , 
 	{
         headers: 
 		{

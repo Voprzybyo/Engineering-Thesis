@@ -143,7 +143,7 @@ a.logo{
 
 .ParameterName
 {
-	width: 240px;
+	width: 254px;
 	font-size: 32px;
 	margin-right: auto;
 	margin-left: auto;
@@ -161,7 +161,7 @@ a.logo{
 	width: 190px;
 	font-size: 32px;
 	margin-right: auto;
-	margin-left: 265px;
+	margin-left: 275px;
 	padding:10px;
 	border-top: 1px solid #99ccff;
 	border-bottom: 1px solid #99ccff;
@@ -207,6 +207,19 @@ a.logo{
 	float: left;
 	font-size:36px;
 	text-align:center;
+
+}
+#dashboard1
+{
+	color:#DCDCDC;
+	float: left;
+	font-size:36px;
+	text-align:center;
+	padding:10px;
+		border-top: 1px solid #99ccff;
+	border-bottom: 1px solid #99ccff;
+	border-right: 1px solid #99ccff;
+	border-left: 1px solid #99ccff;
 }
 
 #temperature
@@ -223,7 +236,7 @@ a.logo{
 }
 #tresc
 {
-	width: 480px;
+	width: 490px;
 	font-size: 32px;
 	margin-right: auto;
 	margin-left: 300px;

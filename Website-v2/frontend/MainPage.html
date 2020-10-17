@@ -87,8 +87,19 @@
 					<div class="location-text" style="margin-left:200px;"><p>Dane w czasie rzeczywistym</p></div>
 			<hr style="width: 70%;margin-left:200px;">
 			
-		<div id="tresc" style = "margin-bottom:30px;margin-top:60px;width:880px;">
-					<div class="ParameterName" > <span style="color: orange;font-size:30px;">Oświetlenie</br>(węzeł końcowy):</span></div>
+			<div style="font-size:34px;float:left;margin-left:300px;margin-top:30px;">Status sieci:</div> <div id="NetStat" style="margin-left:50px;margin-top:30px;font-size:34px;float:left;color:#00ccff;"><script type="text/javascript">getNetworkStatus()</script> </div> 
+		
+				
+			
+				<div style="clear:both; "></div>
+					<div style="margin-top:50px;font-size:18px;margin-left:300px;">
+						*Status sieci przyjmuje stan "OFFLINE", gdy urządzenia przez okres 10 miunt nie wysłały żadnych danych do chmury.
+					</div>
+		<hr style="width: 70%;margin-left:200px;margin-top:50px;">
+			
+		<div id="tresc" style = "margin-bottom:30px;width:880px;margin-top:50px;">
+		
+					<div class="ParameterName" > <span style="color: orange;font-size:30px;padding-bottom:50px;">Oświetlenie</br>(węzeł końcowy):</span></div>
 						<div class="ParameterValue" style="width:610px;padding:0px;">
 							<div id="lightState" style="margin-left:150px;margin-top:25px;"><script type="text/javascript">getLightState()</script> </div> 
 							<div id="bulb" > <script type="text/javascript"></script></div>

@@ -71,6 +71,7 @@ function getDataAll(choiceIn) {
 	var temp10 = obj.addr_V4_Border[0];
 	var temp11 = obj.IP_V6_Border[0];
 	var temp12 = obj.IP_V6_MeshR[0];
+	var temp13 = obj.IP_V6_Leaf[0];
 	
 	
 	switch(choiceIn){
@@ -109,10 +110,10 @@ function getDataAll(choiceIn) {
 			
 			break;
 		case 8:		
-			document.getElementById("RSSI1").innerHTML = temp7.value + " (RSSI)</br>";
+			document.getElementById("RSSI1").innerHTML = temp8.value + " (RSSI)</br>";
 			break;
 		case 9:		
-			document.getElementById("RSSI2").innerHTML = temp8.value + " (RSSI)</br>";
+			document.getElementById("RSSI2").innerHTML = temp7.value + " (RSSI)</br>";
 			break;
 		case 10:		
 			var timestamp = Date.now();
@@ -122,22 +123,30 @@ function getDataAll(choiceIn) {
 			if(temp1.ts > ts_back){
 				document.getElementById("NetStat").innerHTML = "ONLINE</br>";
 				document.getElementById("NetStatB").innerHTML = "ONLINE</br>";
+				document.getElementById("BorderRSSI").innerHTML = temp8.value;
 			}else{
 				document.getElementById("NetStat").innerHTML = "OFFLINE</br>";
 				document.getElementById("NetStatB").innerHTML = "OFFLINE</br>";
+				document.getElementById("BorderRSSI").innerHTML = "Nie połączono</br>";
 			}
 			//Mesh Router
 			if(temp8.ts > ts_back){
 				document.getElementById("NetStatM").innerHTML = "ONLINE</br>";
+				document.getElementById("MeshRSSI1").innerHTML = temp8.value;
+				document.getElementById("MeshRSSI2").innerHTML = temp7.value;
 			}else{
 				document.getElementById("NetStatM").innerHTML = "OFFLINE</br>";
+				document.getElementById("MeshRSSI1").innerHTML = "Nie połączono</br>";
+				document.getElementById("MeshRSSI2").innerHTML = "Nie połączono</br>";
 			}
 			
 			//Leaf Node
 			if(temp8.ts > ts_back){
 				document.getElementById("NetStatL").innerHTML = "ONLINE</br>";
+				document.getElementById("LeafRSSI").innerHTML = temp7.value;
 			}else{
 				document.getElementById("NetStatL").innerHTML = "OFFLINE</br>";
+				document.getElementById("LeafRSSI").innerHTML = "Nie połączono</br>";
 			}
 			
 			if(temp1.ts > ts_back){
@@ -147,7 +156,9 @@ function getDataAll(choiceIn) {
 			}
 			document.getElementById("BorderIPv4").innerHTML = temp10.value  ;
 			document.getElementById("BorderIPv6").innerHTML = temp11.value  ;
+			document.getElementById("BorderIPv6").innerHTML = temp11.value  ;
 			document.getElementById("MeshRIPv6").innerHTML = temp12.value  ;
+			document.getElementById("LeafRIPv6").innerHTML = temp13.value  ;
 			break;
 		default:
 
