@@ -47,14 +47,13 @@ const IPAddr childNodeIPAddr={.byte={						// Address of leaf node
         0x00, 0x00, 0x00, 0xff, 0xfe, 0x00, 0xe2, 0x9d}};
 
 uint8_t startupTimerHandler;
-static uint8_t timerHandle;
 const uint16_t timerPeriod=30000;
 const uint16_t buttonTimerPeriod=200;
 const uint32_t coapTimerPeriod = 2000;
 static const uint32_t ledTimerPeriod=500; 
 static const uint32_t buttonCheckTimerPeriod=4000; 
 
-static uint8_t ledTimerHandler, buttonCheckTimerHandler, sensorTimerHandler, oneShotTimerHandler;
+static uint8_t buttonCheckTimerHandler, sensorTimerHandler, oneShotTimerHandler, timerHandle; // ,ledTimerHandler;
 
 
 static uint32_t userButton;
@@ -67,13 +66,14 @@ static bool connectedToServer;
 * @brief Function using for debugging purposes. Toggle state of LED diode.
 * @retval void
 */
+/*
 static void LED()
 {
 	// GPIO.toggle(GPIO_0);
 	// GPIO.toggle(GPIO_1);
 	return;
 }
-
+*/
 
 /**
 * @brief Read user button status. Assing corresponding value to userButton variable.
@@ -82,7 +82,15 @@ static void LED()
 static void ReadUserButton()
 {
     userButton=GPIO.getValue(GPIO_2);	
-    return;
+   if(userButton==0) {
+		Util.printf("Pushed");
+		lightsOn = 1;
+		Timer.start(oneShotTimerHandler);
+	}else{ 
+		lightsOn = 0;
+	}
+	
+	return;
 }
 
 
@@ -91,6 +99,7 @@ static void ReadUserButton()
 * Function set "lightsOn" variable and start one shot timer to register only one light request from user.
 * @retval void
 */
+/*
 static void ButtonCheck()
 {
     if(userButton==0) {
@@ -103,7 +112,7 @@ static void ButtonCheck()
 	
 	return;
 }
-
+*/
 
 /**
 * @brief Send CoAP message to leaf node with "light ON/OFF" request.
@@ -112,7 +121,7 @@ static void ButtonCheck()
 static void sendCoAPtoSensorBoard()
 {
     CoAP.connectToServer6(childNodeIPAddr, false);
-
+Util.printf("SENDING!!!!");
     uint8_t payload[100];
     int payloadLength;
     payloadLength=Util.sprintf((char*)payload, "%i", lightsOn);
@@ -195,7 +204,7 @@ static void timerHandler()
 	
 	// Get and format board IPv4 addr. It is sending to cloud to inform user that network status is OK. (if node's ipv4 addr is 0.0.0.0 => network is down)
 	Network.getAddress4(addr);
-	Util.snprintf((char*)address_v4, sizeof(address_v4), "%d.%d.%d.%d\n", addr[0], addr[1], addr[2], addr[3]);
+	Util.snprintf((char*)address_v4, sizeof(address_v4), "%d.%d.%d.%d", addr[0], addr[1], addr[2], addr[3]);
 	//Util.printf("%s",address_v4);
 	
 	/*
@@ -232,7 +241,7 @@ static void timerHandler()
             Debug.printSetup();
         }
 		
-        payloadSize=Util.snprintf((char*)payload, sizeof(payload), "{ \"NumNodesInNetwork\":%i, \"addr_V4_Border\":%s, \"IP_V6_Border\":%s }", numNodes, address_v4, address_v6);
+        payloadSize=Util.snprintf((char*)payload, sizeof(payload), "{\"NumNodesInNetwork\":%i, \"addr_V4_Border\":%s, \"IP_V6_Border\":%s}", numNodes, address_v4, address_v6);
         //Util.printf("Sending CoAP message : %s\n",payload);
         CoAP.send(CoAP_POST, false, resourceName, payload, payloadSize); 
 		
@@ -265,8 +274,6 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
 		GPIO.setValue(GPIO_1, HIGH);
 		//GPIO.setValue(GPIO_0, HIGH);	
 		Util.printf("Light: ON\n");
-	}else{
-		Util.printf("Otrzymalem: %s", payload);
 	}
 	return;
 }
@@ -321,19 +328,15 @@ RIIM_SETUP()
     // Setup timers
     timerHandle=Timer.create(PERIODIC, timerPeriod, timerHandler);
 		sensorTimerHandler = Timer.create(PERIODIC, 100*MILLISECOND, ReadUserButton); // TO DO
-		ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
-		buttonCheckTimerHandler=Timer.create(PERIODIC, 100*MILLISECOND, ButtonCheck);
 		oneShotTimerHandler = Timer.create(ONE_SHOT, 1*SECOND, sendCoAPtoSensorBoard);
+		//ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
 		
-		CoAP.registerResponseHandler(responseHandler);
-		//CoAP.registerResource(resourceName3,1,coapHandler);
-				
+		CoAP.registerResponseHandler(responseHandler);					
 			
 	// Start timers
     Timer.start(timerHandle);
     Timer.start(sensorTimerHandler);
-	Timer.start(buttonCheckTimerHandler);
-	Timer.start(ledTimerHandler);
+	//Timer.start(ledTimerHandler);
 	
     Debug.printSetup();		//Print information about node to console
     
