@@ -1,63 +1,63 @@
-
+// Setup declaration and definition
 var choice = 1;
 var timeSpan= 1;
 var howMany = 0;
 var xAxe = 0;
-var obj2 = "";
+var obj = "";
 
 
+// Parsing corresponding part of data from node.js server
 function getChartData(timeSpanIn, paramChoice) {
     $.get("/get_data_chart_" + paramChoice,  { timeSpan: timeSpanIn } , function (data) {	
 	
-console.log(paramChoice);
-	
         if(!data){
             alert("NO DATA!");
-        }
-		
-		
+        }		
 		if(paramChoice == 'hum'){
-				obj2 = JSON.parse(data);
-				howMany = Object.keys(obj2.Hum).length;
-        DrawChartHum(data);	
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.Hum).length;
+			DrawChartHum(data);	
 		}
 		if(paramChoice == 'temp'){
-				obj2 = JSON.parse(data);
-				howMany = Object.keys(obj2.Temp).length;
-        DrawChartTemp(data);	
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.Temp).length;
+			DrawChartTemp(data);	
 		}
 		if(paramChoice == 'light'){
-				obj2 = JSON.parse(data);
-				howMany = Object.keys(obj2.Light).length;
-        DrawChartLight(data);	
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.Light).length;
+			DrawChartLight(data);	
 		}
 		if(paramChoice == 'pollution'){
-				obj2 = JSON.parse(data);
-				howMany = Object.keys(obj2.VOC).length;
-        DrawChartPollution(data);	
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.VOC).length;
+			DrawChartPollution(data);	
 		}
 		if(paramChoice == 'humPtemp'){
-				obj2 = JSON.parse(data);
-				howMany = Object.keys(obj2.Hum).length;
-        DrawChartHumPTemp(data);	
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.Hum).length;
+			DrawChartHumPTemp(data);	
 		}
 		if(paramChoice == 'lightPtemp'){
-				obj2 = JSON.parse(data);
-				howMany = Object.keys(obj2.Light).length;
-        DrawChartLightPTemp(data);	
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.Light).length;
+			DrawChartLightPTemp(data);	
 		}
 		if(paramChoice == 'lightPlightState'){
-				obj2 = JSON.parse(data);
-				howMany = Object.keys(obj2.Light).length;
-        DrawChartLightPLightState(data);	
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.Light).length;
+			DrawChartLightPLightState(data);	
 		}
-
     })
 }
 
+//TO DO!!! -> Wyskalować oś X w każdym wykresie! Gdy węzęł jest nieaktywny to się sypie.
 
-function getDataAll(choiceIn) {
+// Parse data from cloud, format objects and put into certain cells in html file
+function getDataFromCloud(choiceIn) {
     $.get("/get_data", function (data) {
+		
+	//Parse all available data to useful format
 	var obj = JSON.parse(data);
 	var temp1 = obj.Hum[0];
 	var temp2 = obj.Temp[0];
@@ -75,47 +75,40 @@ function getDataAll(choiceIn) {
 	
 	
 	switch(choiceIn){
+		
 		case 1:	
-			document.getElementById("temperature").innerHTML = temp2.value + " °C</br>";		
-			break;
-		case 2:		
-			document.getElementById("humidity").innerHTML = temp1.value + " %</br>";
-			break;
-		case 3:		
-			document.getElementById("light").innerHTML = temp3.value + " mV</br>";
-			break;
-		case 4:		
+			document.getElementById("temperature").innerHTML = temp2.value + " °C</br>";					
+			document.getElementById("humidity").innerHTML = temp1.value + " %</br>";				
+			document.getElementById("light").innerHTML = temp3.value + " mV</br>";			
 			document.getElementById("voc").innerHTML = temp4.value + " (VOC)</br>";
+		
+			if(temp5.value == 0){
+				document.getElementById("boardButton").innerHTML = "Wciśnięty ";
+			}else{
+				document.getElementById("boardButton").innerHTML = "Nie wciśnięty ";		
+			}
+			
+			if(temp6.value == 0){
+				document.getElementById("lightState").innerHTML = "Wyłączone";
+				document.getElementById("bulb").innerHTML = "<img src=bulb_off2.png>";		
+			}else{
+				document.getElementById("lightState").innerHTML = "Włączone";
+				document.getElementById("bulb").innerHTML = "<img src=bulb_on2.png>";	
+			}
 			break;
-		case 5:	
-				if(temp5.value == 0){
-			document.getElementById("boardButton").innerHTML = "Wciśnięty ";
-				}else{
-			document.getElementById("boardButton").innerHTML = "Nie wciśnięty ";		
-				}
-			break;
-		case 6:	
+			
+		case 2:	
 			var s1 = new Date(temp1.ts).toLocaleDateString("en-US")
 			var s2 = new Date(temp1.ts).toLocaleTimeString("nb-NO")
 			document.getElementById("timest").innerHTML = s2 + "</br>" + s1 +"</br>";
 			break;
-		case 7:	
-			if(temp6.value == 0){
-			document.getElementById("lightState").innerHTML = "Wyłączone";
-			document.getElementById("bulb").innerHTML = "<img src=bulb_off2.png>";		
-				}else{
-			document.getElementById("lightState").innerHTML = "Włączone";
-			document.getElementById("bulb").innerHTML = "<img src=bulb_on2.png>";	
-				}
-			
-			break;
-		case 8:		
-			document.getElementById("RSSI1").innerHTML = temp8.value + " (RSSI)</br>";
-			break;
-		case 9:		
+
+		case 3:		
+			document.getElementById("RSSI1").innerHTML = temp8.value + " (RSSI)</br>";		
 			document.getElementById("RSSI2").innerHTML = temp7.value + " (RSSI)</br>";
 			break;
-		case 10:		
+			
+		case 4:		
 			var timestamp = Date.now();
 	
 			var ts_back = timestamp - (3600*0.15*1000);
@@ -169,11 +162,11 @@ function getDataAll(choiceIn) {
 	setTimeout("getDataAll()",30000);
 }
 
-
+// Draw humidity chart in given timespan
 function DrawChartHum(data) {
 	
-	var obj2 = JSON.parse(data);
-	var tem = obj2.Hum[0];
+	var obj = JSON.parse(data);
+	var tem = obj.Hum[0];
 	
 	var lebels = [];
     var data_chart = [];
@@ -181,7 +174,7 @@ function DrawChartHum(data) {
 		if(howMany < 200){
 	xAxe = 60;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj2.Hum[i];
+			var tem = obj.Hum[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
@@ -191,7 +184,7 @@ function DrawChartHum(data) {
 	xAxe = 180;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
-			var tem = obj2.Hum[i];			
+			var tem = obj.Hum[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=3;
@@ -202,7 +195,7 @@ function DrawChartHum(data) {
 	xAxe = 6; //co 15 min
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.Hum[i];			
+			var tem = obj.Hum[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -214,7 +207,7 @@ function DrawChartHum(data) {
 	xAxe = 12;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.Hum[i];			
+			var tem = obj.Hum[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -226,7 +219,7 @@ function DrawChartHum(data) {
 	xAxe = 24;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
-			var tem = obj2.Hum[i];			
+			var tem = obj.Hum[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -237,7 +230,7 @@ function DrawChartHum(data) {
 	xAxe = 48;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
-			var tem = obj2.Hum[i];			
+			var tem = obj.Hum[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -302,9 +295,10 @@ function DrawChartHum(data) {
 	setTimeout("DrawChartHum()",30000);
 }
 
+// Draw temperature chart in given timespan
 function DrawChartTemp(data) {
-  var obj2 = JSON.parse(data);
-	var tem = obj2.Temp[0];
+  var obj = JSON.parse(data);
+	var tem = obj.Temp[0];
 	
 	var lebels = [];
     var data_chart = [];
@@ -312,7 +306,7 @@ function DrawChartTemp(data) {
 		if(howMany < 200){
 	xAxe = 60;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj2.Temp[i];
+			var tem = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
@@ -322,7 +316,7 @@ function DrawChartTemp(data) {
 	xAxe = 180;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
-			var tem = obj2.Temp[i];			
+			var tem = obj.Temp[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=3;
@@ -333,7 +327,7 @@ function DrawChartTemp(data) {
 	xAxe = 6; //co 15 min
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.Temp[i];			
+			var tem = obj.Temp[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -345,7 +339,7 @@ function DrawChartTemp(data) {
 	xAxe = 12;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.Temp[i];			
+			var tem = obj.Temp[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -357,7 +351,7 @@ function DrawChartTemp(data) {
 	xAxe = 24;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
-			var tem = obj2.Temp[i];			
+			var tem = obj.Temp[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -368,7 +362,7 @@ function DrawChartTemp(data) {
 	xAxe = 48;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
-			var tem = obj2.Temp[i];			
+			var tem = obj.Temp[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -434,9 +428,10 @@ function DrawChartTemp(data) {
 	setTimeout("DrawChartTemp()",30000);
 }
 
+// Draw light chart in given timespan
 function DrawChartLight(data) {
-    var obj2 = JSON.parse(data);
-	var tem = obj2.Light[0];
+    var obj = JSON.parse(data);
+	var tem = obj.Light[0];
 	
 	var lebels = [];
     var data_chart = [];
@@ -444,7 +439,7 @@ function DrawChartLight(data) {
 	if(howMany < 200){
 	xAxe = 60;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj2.Light[i];
+			var tem = obj.Light[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
@@ -454,7 +449,7 @@ function DrawChartLight(data) {
 	xAxe = 180;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
-			var tem = obj2.Light[i];			
+			var tem = obj.Light[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=3;
@@ -465,7 +460,7 @@ function DrawChartLight(data) {
 	xAxe = 6; //co 15 min
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.Light[i];			
+			var tem = obj.Light[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -477,7 +472,7 @@ function DrawChartLight(data) {
 	xAxe = 12;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.Light[i];			
+			var tem = obj.Light[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -489,7 +484,7 @@ function DrawChartLight(data) {
 	xAxe = 24;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
-			var tem = obj2.Light[i];			
+			var tem = obj.Light[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -500,7 +495,7 @@ function DrawChartLight(data) {
 	xAxe = 48;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
-			var tem = obj2.Light[i];			
+			var tem = obj.Light[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -562,9 +557,10 @@ function DrawChartLight(data) {
 	setTimeout("DrawChartLight()",30000);
 }
 
+// Draw pollution chart in given timespan
 function DrawChartPollution(data) {
-    var obj2 = JSON.parse(data);
-	var tem = obj2.VOC[0];
+    var obj = JSON.parse(data);
+	var tem = obj.VOC[0];
 	
 	var lebels = [];
     var data_chart = [];
@@ -572,7 +568,7 @@ function DrawChartPollution(data) {
 		if(howMany < 200){
 	xAxe = 60;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj2.VOC[i];
+			var tem = obj.VOC[i];
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe--;
@@ -582,7 +578,7 @@ function DrawChartPollution(data) {
 	xAxe = 180;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
-			var tem = obj2.VOC[i];			
+			var tem = obj.VOC[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=3;
@@ -593,7 +589,7 @@ function DrawChartPollution(data) {
 	xAxe = 6; //co 15 min
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.VOC[i];			
+			var tem = obj.VOC[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -605,7 +601,7 @@ function DrawChartPollution(data) {
 	xAxe = 12;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem = obj2.VOC[i];			
+			var tem = obj.VOC[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -617,7 +613,7 @@ function DrawChartPollution(data) {
 	xAxe = 24;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
-			var tem = obj2.VOC[i];			
+			var tem = obj.VOC[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -628,7 +624,7 @@ function DrawChartPollution(data) {
 	xAxe = 48;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
-			var tem = obj2.VOC[i];			
+			var tem = obj.VOC[i];			
 			lebels.push(-xAxe);
 			data_chart.push(tem.value);
 			xAxe-=0.25;
@@ -690,11 +686,12 @@ function DrawChartPollution(data) {
 	setTimeout("DrawChartLight()",30000);
 }
 
+// Draw temperature and humidity chart in given timespan
 function DrawChartHumPTemp(data) {
 	
-	var obj2 = JSON.parse(data);
-	var tem1 = obj2.Hum[0];
-	var tem2 = obj2.Temp[0];
+	var obj = JSON.parse(data);
+	var tem1 = obj.Hum[0];
+	var tem2 = obj.Temp[0];
 	
 	var lebels = [];
     var data_chartHum = [];
@@ -703,8 +700,8 @@ function DrawChartHumPTemp(data) {
 	if(howMany < 300){
 	xAxe = 60;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem1 = obj2.Hum[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Hum[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartHum.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -716,8 +713,8 @@ function DrawChartHumPTemp(data) {
 	xAxe = 180;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
-			var tem1 = obj2.Hum[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Hum[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartHum.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -729,8 +726,8 @@ function DrawChartHumPTemp(data) {
 	xAxe = 6;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem1 = obj2.Hum[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Hum[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartHum.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -743,8 +740,8 @@ function DrawChartHumPTemp(data) {
 	xAxe = 12;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem1 = obj2.Hum[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Hum[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartHum.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -757,8 +754,8 @@ function DrawChartHumPTemp(data) {
 			xAxe = 24;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
-			var tem1 = obj2.Hum[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Hum[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartHum.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -771,8 +768,8 @@ function DrawChartHumPTemp(data) {
 			xAxe = 48;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
-			var tem1 = obj2.Hum[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Hum[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartHum.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -846,11 +843,12 @@ function DrawChartHumPTemp(data) {
 	setTimeout("DrawChartHumPTemp()",30000);
 }
 
+// Draw temperature and light chart in given timespan
 function DrawChartLightPTemp(data) {
 	
-	var obj2 = JSON.parse(data);
-	var tem1 = obj2.Light[0];
-	var tem2 = obj2.Temp[0];
+	var obj = JSON.parse(data);
+	var tem1 = obj.Light[0];
+	var tem2 = obj.Temp[0];
 	
 	var lebels = [];
     var data_chartLight = [];
@@ -859,8 +857,8 @@ function DrawChartLightPTemp(data) {
 	if(howMany < 200){
 	xAxe = 60;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -872,8 +870,8 @@ function DrawChartLightPTemp(data) {
 	xAxe = 180;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -885,8 +883,8 @@ function DrawChartLightPTemp(data) {
 	xAxe = 6;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -899,8 +897,8 @@ function DrawChartLightPTemp(data) {
 	xAxe = 12;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -912,8 +910,8 @@ function DrawChartLightPTemp(data) {
 			xAxe = 24;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -926,8 +924,8 @@ function DrawChartLightPTemp(data) {
 			xAxe = 48;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.Temp[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.Temp[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartTemp.push(tem2.value);
@@ -1001,11 +999,12 @@ function DrawChartLightPTemp(data) {
 	setTimeout("DrawChartLightPTemp()",30000);
 }
 
+// Draw light and light state chart in given timespan
 function DrawChartLightPLightState(data) {
 	
-	var obj2 = JSON.parse(data);
-	var tem1 = obj2.Light[0];
-	var tem2 = obj2.LightState[0];
+	var obj = JSON.parse(data);
+	var tem1 = obj.Light[0];
+	var tem2 = obj.LightState[0];
 	
 	var lebels = [];
     var data_chartLight = [];
@@ -1014,8 +1013,8 @@ function DrawChartLightPLightState(data) {
 	if(howMany < 300){
 	xAxe = 60;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.LightState[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartLightState.push(tem2.value*100);
@@ -1027,8 +1026,8 @@ function DrawChartLightPLightState(data) {
 	xAxe = 180;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.LightState[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartLightState.push(tem2.value*100);
@@ -1040,8 +1039,8 @@ function DrawChartLightPLightState(data) {
 	xAxe = 6;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.LightState[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartLightState.push(tem2.value*100);
@@ -1053,8 +1052,8 @@ function DrawChartLightPLightState(data) {
 	xAxe = 12;
 		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.LightState[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartLightState.push(tem2.value*100);
@@ -1066,8 +1065,8 @@ function DrawChartLightPLightState(data) {
 			xAxe = 24;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.LightState[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartLightState.push(tem2.value*100);
@@ -1080,8 +1079,8 @@ function DrawChartLightPLightState(data) {
 			xAxe = 48;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
 			
-			var tem1 = obj2.Light[i];
-			var tem2 = obj2.LightState[i];
+			var tem1 = obj.Light[i];
+			var tem2 = obj.LightState[i];
 			lebels.push(-xAxe);
 			data_chartLight.push(tem1.value);
 			data_chartLightState.push(tem2.value*100);
@@ -1157,58 +1156,36 @@ function DrawChartLightPLightState(data) {
 
 
 
-function getTemperature() {
+// "Main_Page.html" and "All_Sensors.html" 
+function getAllSensors() {
 choice=1;
-getDataAll(choice);
-setTimeout("getTemperature()",30000);
+getDataFromCloud(choice);
+setTimeout("getAllSensors()",30000);
 }
-function getHumidity() {
-choice=2;
-getDataAll(choice);
-setTimeout("getHumidity()",30000);
-}
-function getLight() {
-choice=3;
-getDataAll(choice);
-setTimeout("getLight()",30000);
-}
-function getVoc() {
-choice=4;
-getDataAll(choice);
-setTimeout("getVoc()",30000);
-}
-function getButton() {
-choice=5;
-getDataAll(choice);
-setTimeout("getButton()",30000);
-}
-function getTimeSt() {
-choice=6;
-getDataAll(choice);
-setTimeout("getTimeSt()",30000);
 
+// Timestamp -> last data update
+function getTimeSt() {
+choice=2;
+getDataFromCloud(choice);
+setTimeout("getTimeSt()",30000);
 }
-function getLightState() {
-choice=7;
-getDataAll(choice);
-setTimeout("getLightState()",30000);
+
+// "Dashboard.html" and "Dashboard_detailed.html"
+function getRSSI() {
+choice=3;
+getDataFromCloud(choice);
+setTimeout("getRSSI()",30000);
 }
-function getRSSI1() {
-choice=8;
-getDataAll(choice);
-setTimeout("getRSSI1()",30000);
-}
-function getRSSI2() {
-choice=9;
-getDataAll(choice);
-setTimeout("getRSSI2()",30000);
-}
+
+// "Main_Page.html" , "Dashboard.html" and "Dashboard_detailed.html"
 function getNetworkStatus() {
-choice=10;
-getDataAll(choice);
+choice=4;
+getDataFromCloud(choice);
 setTimeout("getNetworkStatus()",30000);
 }
 
+
+// The following functions set up time span and call "getChartData()" function
 function getData1h(paramChoice) {
     timeSpan = 1;
     getChartData(timeSpan,paramChoice);

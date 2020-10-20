@@ -3,24 +3,15 @@
 	const fetch = require('node-fetch');
 	var fs = require('fs');
 	var PORT = process.env.PORT || 8080;
-	var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3by5wcnp5YnlvQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2RjNmQ0OTAtZDFjMC0xMWVhLThjMzYtODdhODUyZTM5NTJjIiwiZmlyc3ROYW1lIjoiV29qY2llY2giLCJsYXN0TmFtZSI6IlByenliecWCbyIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjdjMDgwZDkwLWQxYzAtMTFlYS04YzM2LTg3YTg1MmUzOTUyYyIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTYwMTI4MDU3MSwiZXhwIjoxNjAzMDgwNTcxfQ.lamK7aHsWw-UKlVje1qncl--77yki5Prnr4eMGRt2hKiQDp5gJu2vfEM8na_ZOeV-Kb1rsqSFs7HSXNslyw14Q";
+	
+	//Access token -> it has to be changed from time to time
+	var token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ3by5wcnp5YnlvQGdtYWlsLmNvbSIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2RjNmQ0OTAtZDFjMC0xMWVhLThjMzYtODdhODUyZTM5NTJjIiwiZmlyc3ROYW1lIjoiV29qY2llY2giLCJsYXN0TmFtZSI6IlByenliecWCbyIsImVuYWJsZWQiOnRydWUsInByaXZhY3lQb2xpY3lBY2NlcHRlZCI6dHJ1ZSwiaXNQdWJsaWMiOmZhbHNlLCJ0ZW5hbnRJZCI6IjdjMDgwZDkwLWQxYzAtMTFlYS04YzM2LTg3YTg1MmUzOTUyYyIsImN1c3RvbWVySWQiOiIxMzgxNDAwMC0xZGQyLTExYjItODA4MC04MDgwODA4MDgwODAiLCJpc3MiOiJ0aGluZ3Nib2FyZC5pbyIsImlhdCI6MTYwMzE4ODE4OCwiZXhwIjoxNjA0OTg4MTg4fQ.3bLyfWfzDp6Ub6KhfAd9bqPlJBxtYF-wtiHZcaab6AS19JG7XZAw8PyjB3Mg9Jp3BHLi-Rxhj15Ul3KVITadow";
 	
 	
 app.use(express.static(__dirname ) )
 
-app.get('/', function (request, response) {
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    fs.readFile('/frontend/AllSensors.html', null, function (err, data) {
-       if(err){
-           response.write("Error occured during loading html file");
-       }else{
-           response.write(data);
-       }
-       response.end();
-    });
-});
 	
-
+// Get all data now
 app.get('/get_data', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
@@ -43,6 +34,7 @@ app.get('/get_data', function (request, response) {
   
 })
 
+// Get humidity data from cloud
 app.get('/get_data_chart_hum', function (request, response) {
     console.log("Pozyskiwanie danych z chmury");
 	var timestamp = Date.now();
@@ -72,7 +64,7 @@ app.get('/get_data_chart_hum', function (request, response) {
   
 })
 
-
+// Get temperature data from cloud
 app.get('/get_data_chart_temp', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
@@ -101,7 +93,7 @@ app.get('/get_data_chart_temp', function (request, response) {
   
 })
 
-
+// Get light data from cloud
 app.get('/get_data_chart_light', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
@@ -130,6 +122,7 @@ app.get('/get_data_chart_light', function (request, response) {
   
 })
 
+// Get pollution data from cloud
 app.get('/get_data_chart_pollution', function (request, response) {
 
     console.log("Pozyskiwanie danych z chmury");
@@ -157,7 +150,7 @@ app.get('/get_data_chart_pollution', function (request, response) {
   
 })
 
-
+// Get humidity and temperature data from cloud
 app.get('/get_data_chart_humPtemp', function (request, response) {
     console.log("Pozyskiwanie danych z chmury");
 	var timestamp = Date.now();
@@ -187,7 +180,7 @@ app.get('/get_data_chart_humPtemp', function (request, response) {
   
 })
 
-
+// Get temperature and light data from cloud
 app.get('/get_data_chart_lightPtemp', function (request, response) {
     console.log("Pozyskiwanie danych z chmury");
 	var timestamp = Date.now();
@@ -217,6 +210,7 @@ app.get('/get_data_chart_lightPtemp', function (request, response) {
   
 })
 
+// Get light and light state data from cloud
 app.get('/get_data_chart_lightPlightState', function (request, response) {
     console.log("Pozyskiwanie danych z chmury");
 	var timestamp = Date.now();
@@ -246,8 +240,7 @@ app.get('/get_data_chart_lightPlightState', function (request, response) {
   
 })
 
-
+// Put some info to localhost server (console) to inform that everything is OK -> debugging purposes
 app.listen(PORT, function(){
-
     console.log("Serwer lokalny został uruchomiony na porcie 8080");
 });
