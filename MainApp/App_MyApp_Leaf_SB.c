@@ -34,7 +34,7 @@
 
 //static const uint8_t resourceName[] = "/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
 static const uint8_t resourceName[] = "/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";
-static const uint8_t resourceName2[] = "data";
+static const char resourceName2[] = "data";
 
 const uint8_t serverIP4Addr[4] = { 104,196,24,70 };
 
@@ -44,7 +44,7 @@ static const uint32_t ledTimerPeriod=500;
 static const uint32_t sensorTimerPeriod=100; 
 
 static const uint32_t timerPeriod = 20000;
-static uint8_t coapTimerHandler, sensorTimerHandler, ledTimerHandler, printoutTimerHandler;
+static uint8_t coapTimerHandler, sensorTimerHandler, ledTimerHandler; // , printoutTimerHandler;
 static const uint32_t printoutTimerPeriod=2000; 
 
 static uint16_t temp, tempFraction, humidity;
@@ -187,27 +187,28 @@ static void sendCoAP()
 		Util.printf("Not part of network yet\n");
 		return;
 	}
-	uint8_t payload[100];
+	uint8_t payload[150];
 	int payloadLength;
 	int RSSI = 0;
 	
-	//static uint8_t address_v6[100];
-    //uint16_t shortAddr;
+	static uint8_t address_v6[50];
+    uint16_t shortAddr;
 
-	//IPAddr adres;
-	//Network.getAddress(&adres);
-	//shortAddr=(adres.byte[14]<<8) | adres.byte[15];
+	IPAddr adres;
+	Network.getAddress(&adres);
+	shortAddr=(adres.byte[14]<<8) | adres.byte[15];
 
-	//Util.snprintf((char*)address_v6, sizeof(address_v6), "%.04x", shortAddr);
+	Util.snprintf((char*)address_v6, sizeof(address_v6), "%.04x", shortAddr);
 	
 	RSSI = Network.getParentRSSI();
 	Util.printf("RSSI: %i\n",RSSI);
-	payloadLength = Util.sprintf((char*)payload, "{\"Temp\": %i.%i, \"Hum\": %i,\"Light\": %i,\"VOC\": %i, \"Button\": %i, \"LightState\": %i,\"RSSI_Leaf\": %d}",
-	temp, tempFraction, humidity, light,vocValue, userButton, lightState, RSSI);
+	
+	payloadLength = Util.sprintf((char*)payload, "{\"Temp\": %i.%i, \"Hum\": %i,\"Light\": %i,\"VOC\": %i, \"Button\": %i, \"LightState\": %i,\"RSSI_Leaf\": %d, \"IP_V6_Leaf\": %s}",
+	temp, tempFraction, humidity, light,vocValue, userButton, lightState, RSSI, address_v6);
 
 	CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
 		
-	//payloadLength = Util.sprintf((char*)payload, "\"IP_V6_Leaf\":%s}", address_v6);
+	//payloadLength = Util.sprintf((char*)payload, "{\"IP_V6_Leaf\": %s}", address_v6);
 
 	//CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
 	
@@ -235,6 +236,7 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
  * Function used for debugging purposes.
  * @retval void
  */
+ /*
  static void Printout()
 {
     Util.printf("\n\n");
@@ -248,7 +250,7 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
         else Util.printf("Not Pushed");
     return;
 }
- 
+*/
  
  /**
 * @brief Startup function used for connect to network and cloud only once at the beginning.

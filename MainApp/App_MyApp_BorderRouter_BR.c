@@ -34,6 +34,8 @@
 
 static const uint8_t resourceName2[]="data";				// Resource name used to communicate with leaf node
 static const uint8_t resourceName[]="/api/v1/1IeLMuBZ6oI76pAmoskq/telemetry/";	// Cloud resource
+//static const uint8_t resourceName3[]="/api/v1/1IeLMuBZ6oI76pAmoskq/attributes/";	// Cloud resource
+
 
 
 const uint8_t serverIP4Addr[4]={104,196,24,70};				// Cloud IPv4 adress
@@ -46,15 +48,13 @@ const IPAddr childNodeIPAddr={.byte={						// Address of leaf node
 
 uint8_t startupTimerHandler;
 static uint8_t timerHandle;
-const uint16_t timerPeriod=5000;
+const uint16_t timerPeriod=30000;
 const uint16_t buttonTimerPeriod=200;
 const uint32_t coapTimerPeriod = 2000;
 static const uint32_t ledTimerPeriod=500; 
 static const uint32_t buttonCheckTimerPeriod=4000; 
 
-static uint8_t ledTimerHandler, buttonCheckTimerHandler, sensorTimerHandler, coapTimerHandler, oneShotTimerHandler;
-
- enum {off, on} LightButton; // TO DO
+static uint8_t ledTimerHandler, buttonCheckTimerHandler, sensorTimerHandler, oneShotTimerHandler;
 
 
 static uint32_t userButton;
@@ -83,13 +83,6 @@ static void ReadUserButton()
 {
     userButton=GPIO.getValue(GPIO_2);	
     return;
-}
-
-//NIEPOTRZEBNE - WYRZUCIĆ TO!
-static void ReadSensor()
-{
-		ReadUserButton();
-	return;
 }
 
 
@@ -130,6 +123,7 @@ static void sendCoAPtoSensorBoard()
 
 // TO DO - Potrzebne lub nie (zal od tego czy router musi cos wysylac do chmury)
 // wsadzić tu część funkcji timerHandler
+/*
 static void sendCoAP()
 {
 
@@ -140,11 +134,14 @@ static void sendCoAP()
 	//CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
 	return;
 }
+*/
+
 
 /**
 * @brief Startup function used for connect to network and cloud only once at the beginning.
 * @retval void
 */
+/*
 static void startup()
 {
 	Util.printf("We are connected to the network!\n");
@@ -160,19 +157,9 @@ static void startup()
 
 	return;
 }
-
-
-/**
-* @brief Button handler called when button push event occurs.
-* @retval void
 */
-void buttonHandler()
-{
-	//Util.printf("# Button Handler! \n");
-	sendCoAPtoSensorBoard();
-	
-	return;
-}
+
+
 
 /**
 * @brief Main block of border router code. <br>
@@ -186,7 +173,7 @@ static void timerHandler()
     uint8_t addr[4];
     static Link nwLinks[50];
     static uint16_t numLinks;
-    static uint16_t i,j;
+    //static uint16_t i,j;
     static uint8_t payload[100];
 	static uint8_t address_v4[100];
     static uint8_t payloadSize;
@@ -194,7 +181,7 @@ static void timerHandler()
 	static uint8_t address_v6[100];
     uint16_t shortAddr;
 
-    static uint16_t linkIndex;
+    //static uint16_t linkIndex;
 	
 
 	IPAddr adresV6;
@@ -209,8 +196,9 @@ static void timerHandler()
 	// Get and format board IPv4 addr. It is sending to cloud to inform user that network status is OK. (if node's ipv4 addr is 0.0.0.0 => network is down)
 	Network.getAddress4(addr);
 	Util.snprintf((char*)address_v4, sizeof(address_v4), "%d.%d.%d.%d\n", addr[0], addr[1], addr[2], addr[3]);
-	Util.printf("%s",address_v4);
+	//Util.printf("%s",address_v4);
 	
+	/*
 	// Print all links to UART
 	Util.printf("\nLinks:\n");
     linkIndex=0;
@@ -229,7 +217,7 @@ static void timerHandler()
             Util.printf("\n");
         }
     }while(numLinks > 0);
-
+	*/
 
     //////////////////////////////////////////////////////
     // Prepare and send CoAP message
@@ -245,8 +233,9 @@ static void timerHandler()
         }
 		
         payloadSize=Util.snprintf((char*)payload, sizeof(payload), "{ \"NumNodesInNetwork\":%i, \"addr_V4_Border\":%s, \"IP_V6_Border\":%s }", numNodes, address_v4, address_v6);
-        Util.printf("Sending CoAP message : %s\n",payload);
+        //Util.printf("Sending CoAP message : %s\n",payload);
         CoAP.send(CoAP_POST, false, resourceName, payload, payloadSize); 
+		
     } else {
         Util.printf("No IPv4 address yet....\n");
     }
@@ -266,18 +255,19 @@ static void timerHandler()
 void responseHandler(const uint8_t *payload, uint8_t payload_size)
 {
 	
-	Util.printf("%s\n", payload);
-	
 	char * key = "Light: OFF";
-		
+	char * key2 = "Light: ON";	
 	if(strcmp((const char *)payload,key) == 0) {
 		GPIO.setValue(GPIO_1, LOW);
 		//GPIO.setValue(GPIO_0, LOW);
-	}else{
+		Util.printf("Light: OFF\n");
+	}else if (strcmp((const char *)payload,key2) == 0){
 		GPIO.setValue(GPIO_1, HIGH);
 		//GPIO.setValue(GPIO_0, HIGH);	
+		Util.printf("Light: ON\n");
+	}else{
+		Util.printf("Otrzymalem: %s", payload);
 	}
-	
 	return;
 }
 
@@ -306,7 +296,6 @@ RIIM_SETUP()
 	
     // Initialize variables
     connectedToServer=false;
-    LightButton = off;
 	userButton = 0;
 	lightsOn = 0;
 	
@@ -317,9 +306,9 @@ RIIM_SETUP()
 	
 	
 	// Setup LEDs
-    GPIO.setDirection(GPIO_0, OUTPUT);
+    //GPIO.setDirection(GPIO_0, OUTPUT);
     GPIO.setDirection(GPIO_1, OUTPUT);
-    GPIO.setValue(GPIO_0, LOW);
+    //GPIO.setValue(GPIO_0, LOW);
     GPIO.setValue(GPIO_1, LOW);
 	
 	
@@ -329,10 +318,23 @@ RIIM_SETUP()
     Network.startBorderRouter(NULL,ipAddr,ipMask,ipGateway);
     Network.setChannel(18);
 
-    // Setup timer
+    // Setup timers
     timerHandle=Timer.create(PERIODIC, timerPeriod, timerHandler);
+		sensorTimerHandler = Timer.create(PERIODIC, 100*MILLISECOND, ReadUserButton); // TO DO
+		ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
+		buttonCheckTimerHandler=Timer.create(PERIODIC, 100*MILLISECOND, ButtonCheck);
+		oneShotTimerHandler = Timer.create(ONE_SHOT, 1*SECOND, sendCoAPtoSensorBoard);
+		
+		CoAP.registerResponseHandler(responseHandler);
+		//CoAP.registerResource(resourceName3,1,coapHandler);
+				
+			
+	// Start timers
     Timer.start(timerHandle);
-    
+    Timer.start(sensorTimerHandler);
+	Timer.start(buttonCheckTimerHandler);
+	Timer.start(ledTimerHandler);
+	
     Debug.printSetup();		//Print information about node to console
     
     return UAPI_OK;
