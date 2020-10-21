@@ -48,6 +48,11 @@ function getChartData(timeSpanIn, paramChoice) {
 			howMany = Object.keys(obj.Light).length;
 			DrawChartLightPLightState(data);	
 		}
+		if(paramChoice == 'RSSIChart'){
+			obj = JSON.parse(data);
+			howMany = Object.keys(obj.RSSI_Leaf).length;
+			DrawChartRSSI(data);	
+		}
     })
 }
 
@@ -104,14 +109,17 @@ function getDataFromCloud(choiceIn) {
 			break;
 
 		case 3:		
+			
 			document.getElementById("RSSI1").innerHTML = temp8.value + " (RSSI)</br>";		
 			document.getElementById("RSSI2").innerHTML = temp7.value + " (RSSI)</br>";
+
 			break;
 			
 		case 4:		
 			var timestamp = Date.now();
 	
 			var ts_back = timestamp - (3600*0.15*1000);
+			
 			//Border Router
 			if(temp1.ts > ts_back){
 				document.getElementById("NetStat").innerHTML = "ONLINE</br>";
@@ -122,6 +130,7 @@ function getDataFromCloud(choiceIn) {
 				document.getElementById("NetStatB").innerHTML = "OFFLINE</br>";
 				document.getElementById("BorderRSSI").innerHTML = "Nie połączono</br>";
 			}
+			
 			//Mesh Router
 			if(temp8.ts > ts_back){
 				document.getElementById("NetStatM").innerHTML = "ONLINE</br>";
@@ -240,7 +249,7 @@ function DrawChartHum(data) {
 	
 
     var ctx = document.getElementById("ChartHum");
-    LAeqChart = new Chart(ctx, {
+    SensorDataChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -370,7 +379,7 @@ function DrawChartTemp(data) {
 	}
 	
     var ctx = document.getElementById("ChartTemp");
-    LAeqChart = new Chart(ctx, {
+    SensorDataChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -503,7 +512,7 @@ function DrawChartLight(data) {
 	}
 	
     var ctx = document.getElementById("ChartLight");
-    LAeqChart = new Chart(ctx, {
+    SensorDataChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -632,7 +641,7 @@ function DrawChartPollution(data) {
 	}
 	
     var ctx = document.getElementById("ChartPollution");
-    LAeqChart = new Chart(ctx, {
+    SensorDataChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -780,7 +789,7 @@ function DrawChartHumPTemp(data) {
 
 
     var ctx = document.getElementById("ChartHumPTemp");
-    LAeqChart = new Chart(ctx, {
+    SensorDataChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -936,7 +945,7 @@ function DrawChartLightPTemp(data) {
 	
 
     var ctx = document.getElementById("ChartLightPTemp");
-    LAeqChart = new Chart(ctx, {
+    SensorDataChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -1091,7 +1100,7 @@ function DrawChartLightPLightState(data) {
 	
 
     var ctx = document.getElementById("ChartLightPlightState");
-    LAeqChart = new Chart(ctx, {
+    SensorDataChart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -1154,6 +1163,160 @@ function DrawChartLightPLightState(data) {
 	setTimeout("DrawChartLightPLightState()",30000);
 }
 
+// Draw light and light state chart in given timespan
+function DrawChartRSSI(data) {
+	
+	var obj = JSON.parse(data);
+	var ChartRSSI1 = obj.RSSI_MeshR[0];
+	var ChartRSSI2 = obj.RSSI_Leaf[0];
+	
+	var lebels = [];
+    var data_chartRSSI_MeshR = [];
+	var data_chartRSSI_Leaf = [];
+	
+	if(howMany < 300){
+	xAxe = 60;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+			var ChartRSSI1 = obj.RSSI_MeshR[i];
+			var ChartRSSI2 = obj.RSSI_Leaf[i];
+			lebels.push(-xAxe);
+			data_chartRSSI_MeshR.push(ChartRSSI1.value);
+			data_chartRSSI_Leaf.push(ChartRSSI2.value);
+			xAxe--;
+		}
+	}
+	
+	if(howMany > 300 &&  howMany <700){
+	xAxe = 180;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+			
+			var ChartRSSI1 = obj.RSSI_MeshR[i];
+			var ChartRSSI2 = obj.RSSI_Leaf[i];
+			lebels.push(-xAxe);
+			data_chartRSSI_MeshR.push(ChartRSSI1.value);
+			data_chartRSSI_Leaf.push(ChartRSSI2.value);
+			xAxe-=3;
+		}
+	
+	}
+	if(howMany > 700 &&  howMany <1400){
+	xAxe = 6;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+			
+			var ChartRSSI1 = obj.RSSI_MeshR[i];
+			var ChartRSSI2 = obj.RSSI_Leaf[i];
+			lebels.push(-xAxe);
+			data_chartRSSI_MeshR.push(ChartRSSI1.value);
+			data_chartRSSI_Leaf.push(ChartRSSI2.value);
+			xAxe-=0.25;
+		}
+	}
+	
+		if(howMany > 1400 &&  howMany <3000){
+	xAxe = 12;
+		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+			
+			var ChartRSSI1 = obj.RSSI_MeshR[i];
+			var ChartRSSI2 = obj.RSSI_Leaf[i];
+			lebels.push(-xAxe);
+			data_chartRSSI_MeshR.push(ChartRSSI1.value);
+			data_chartRSSI_Leaf.push(ChartRSSI2.value);
+			xAxe-=0.25;
+		}
+	}
+	
+		if(howMany > 3000 &&  howMany < 7000){
+			xAxe = 24;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
+			
+			var ChartRSSI1 = obj.RSSI_MeshR[i];
+			var ChartRSSI2 = obj.RSSI_Leaf[i];
+			lebels.push(-xAxe);
+			data_chartRSSI_MeshR.push(ChartRSSI1.value);
+			data_chartRSSI_Leaf.push(ChartRSSI2.value);
+			xAxe-=0.25;
+		}
+	
+	}
+	
+		if(howMany > 7000){
+			xAxe = 48;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
+			
+			var ChartRSSI1 = obj.RSSI_MeshR[i];
+			var ChartRSSI2 = obj.RSSI_Leaf[i];
+			lebels.push(-xAxe);
+			data_chartRSSI_MeshR.push(ChartRSSI1.value);
+			data_chartRSSI_Leaf.push(ChartRSSI2.value);
+			xAxe-=0.25;
+		}
+	
+	}
+	
+
+    var ctx = document.getElementById("ChartRSSI");
+    SensorDataChart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+
+
+        data: {
+            labels: lebels,
+            datasets: [{
+                backgroundColor: '#DCDCDC',
+                borderColor: '#FF6C00',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartRSSI_MeshR,
+				fill:false,						
+            },{
+				backgroundColor: '#DCDCDC',
+                borderColor: '#00A4FF',
+                label: 'test',
+                lineTension: 0.5,
+                data: data_chartRSSI_Leaf,
+				fill:false,				
+				
+			}]
+        },
+        options: {
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+				fontColor: 'white',
+				fontSize: 32
+            },
+			 scales: {
+           	xAxes: [ {
+            scaleLabel: {
+			display: true,
+            labelString: '[min] / [h]'
+          },
+          ticks: {
+            major: {
+              fontStyle: 'bold',
+              fontColor: '#FF0000'
+            }
+          }
+        } ],
+            yAxes: [{				
+                ticks: {
+					suggestedMin: 100,		
+					suggestedMax: 0						
+                },
+				scaleLabel: {
+				display: true,
+				labelString: '[RSSI]'
+				}				
+            }]
+        }
+        }
+    });
+		
+	setTimeout("DrawChartRSSI()",30000);
+}
 
 
 // "Main_Page.html" and "All_Sensors.html" 

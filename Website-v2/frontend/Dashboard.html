@@ -16,10 +16,12 @@
 	<link href="fontello/css/fontello.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="timer.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="Chart/chart.js/dist/Chart.js"></script>
 	<script src="script.js"></script>
+	<script src="sticky.js"></script>
 </head>
 
-<body onload = "counting();">
+<body onload = "counting();sticky();">
 
 	<div class="wrapper">
 		<div class="header">
@@ -156,6 +158,32 @@
 				
 	<div style="clear:both;margin-bottom:100px;"></div>		
 		
+		<div id="rightside" style="margin-left:200px;"> 
+			
+			<div class = "ChartHeader"> <span>Jakość połączenia</span></div>
+			<div id="buttonPanel">
+				<p id ="Buttons">
+                    <button class="button" onclick="getData1h('RSSIChart');getTimeSt();">1h</button>
+                    <button class="button" onclick="getData3h('RSSIChart');getTimeSt();">3h</button>
+                    <button class="button" onclick="getData6h('RSSIChart');getTimeSt();">6h</button>
+					<button class="button" onclick="getData12h('RSSIChart');getTimeSt();">12h</button>
+					<button class="button" onclick="getData24h('RSSIChart');getTimeSt();">24h</button>
+					<button class="button" onclick="getData48h('RSSIChart');getTimeSt();">48h</button>
+                </p>
+			</div>
+
+				<canvas id="ChartRSSI"><script>getData1h('RSSIChart')</script></canvas>
+				
+			<div id="updateTime">
+			<div style="color:#DCDCDC"> Legenda:</div> 
+			
+			<div id="timest"> <span style="color:#00A4FF;">Mesh Router</span> <span style="color:#DCDCDC">|</span> <span style="color:#FF6C00">Leaf Node</span> </div> 
+			</div>
+		</div>
+		
+		
+		<div style="clear:both;margin-bottom:100px;"></div>	
+		
 		</div>
 		
 
@@ -175,8 +203,8 @@
 		<div class="footer">Wojciech Przybyło - Praca inżynierska &copy; 2020 </div>
 		
 	</div>
-	<script src="jquery-3.5.1.min.js"></script>
-	
+	<script src="jquery-3.5.1.min.js"></script
+	<script src="Chart.js"></script>
 
 </body>
 </html>
