@@ -4,7 +4,8 @@ var timeSpan= 1;
 var howMany = 0;
 var xAxe = 0;
 var obj = "";
-
+var isOnline = 1;	// Flag using to sygnalize status of network
+var SensorDataChart = null;
 
 // Parsing corresponding part of data from node.js server
 function getChartData(timeSpanIn, paramChoice) {
@@ -56,13 +57,11 @@ function getChartData(timeSpanIn, paramChoice) {
     })
 }
 
-//TO DO!!! -> Wyskalować oś X w każdym wykresie! Gdy węzęł jest nieaktywny to się sypie.
-
 // Parse data from cloud, format objects and put into certain cells in html file
 function getDataFromCloud(choiceIn) {
     $.get("/get_data", function (data) {
 		
-	//Parse all available data to useful format
+	//Parse and format all available data
 	var obj = JSON.parse(data);
 	var temp1 = obj.Hum[0];
 	var temp2 = obj.Temp[0];
@@ -79,8 +78,21 @@ function getDataFromCloud(choiceIn) {
 	var temp13 = obj.IP_V6_Leaf[0];
 	
 	
+	
+	// Checking if network is online
+	var timestamp = Date.now();	
+	var ts_back = timestamp - (3600*0.15*1000);
+			
+	if(temp8.ts > ts_back){
+		isOnline = 1;
+	}else{
+		isOnline = 0;
+	}
+	
+	//Insert data to certain cells in HTML file	
 	switch(choiceIn){
 		
+		// Main_Page.html and All_Sensors.html
 		case 1:	
 			document.getElementById("temperature").innerHTML = temp2.value + " °C</br>";					
 			document.getElementById("humidity").innerHTML = temp1.value + " %</br>";				
@@ -101,23 +113,31 @@ function getDataFromCloud(choiceIn) {
 				document.getElementById("bulb").innerHTML = "<img src=bulb_on2.png>";	
 			}
 			break;
-			
+		
+		// Get timestamp
 		case 2:	
 			var s1 = new Date(temp1.ts).toLocaleDateString("en-US")
 			var s2 = new Date(temp1.ts).toLocaleTimeString("nb-NO")
 			document.getElementById("timest").innerHTML = s2 + "</br>" + s1 +"</br>";
 			break;
 
+		// Dashboard.html
 		case 3:		
+			var timestamp = Date.now();
+			var ts_back = timestamp - (3600*0.15*1000);
 			
-			document.getElementById("RSSI1").innerHTML = temp8.value + " (RSSI)</br>";		
-			document.getElementById("RSSI2").innerHTML = temp7.value + " (RSSI)</br>";
-
+			if(temp8.ts > ts_back){				
+				document.getElementById("RSSI1").innerHTML = temp8.value + " (RSSI)</br>";		
+				document.getElementById("RSSI2").innerHTML = temp7.value + " (RSSI)</br>";
+			}else{				
+				document.getElementById("RSSI1").innerHTML = "Nie połączono</br>";
+				document.getElementById("RSSI2").innerHTML = "Nie połączono</br>";
+			}
 			break;
 			
+		// Dashboard_detailed.html
 		case 4:		
 			var timestamp = Date.now();
-	
 			var ts_back = timestamp - (3600*0.15*1000);
 			
 			//Border Router
@@ -171,6 +191,8 @@ function getDataFromCloud(choiceIn) {
 	setTimeout("getDataAll()",30000);
 }
 
+/*************DRAW CHARTS****************/
+
 // Draw humidity chart in given timespan
 function DrawChartHum(data) {
 	
@@ -180,86 +202,101 @@ function DrawChartHum(data) {
 	var lebels = [];
     var data_chart = [];
 	
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
+	
+	//Check if network is online
+	if(isOnline){
+	
+		// 1h
 		if(howMany < 200){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj.Hum[i];
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe--;
+		xAxe = 60;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+				var tem = obj.Hum[i];
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe--;
+			}
 		}
-	}
-	if(howMany > 200 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
-			
-			var tem = obj.Hum[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=3;
+		
+		// 3h
+		if(howMany > 200 &&  howMany <700){
+		xAxe = 180;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+				
+				var tem = obj.Hum[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=3;
+			}	
 		}
-	
-	}
-	if( howMany > 700 &&  howMany <1400){
-	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem = obj.Hum[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 6h
+		if( howMany > 700 &&  howMany <1400){
+		xAxe = 6; //co 15 min
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem = obj.Hum[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
 		}
-	
-	}
-	
-	if( howMany > 1400 &&  howMany <3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem = obj.Hum[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 12h
+		if( howMany > 1400 &&  howMany <3000){
+		xAxe = 12;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem = obj.Hum[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
+		
 		}
-	
-	}
-	
-	if( howMany > 3000 &&  howMany <7000){
-	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
-			
-			var tem = obj.Hum[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 24h
+		if( howMany > 3000 &&  howMany <7000){
+		xAxe = 24;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
+				
+				var tem = obj.Hum[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
 		}
-	}
-	
-		if( howMany > 7000 ){
-	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
-			
-			var tem = obj.Hum[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
-		}
-	}
-	
-	
 
+		// 48h
+		if( howMany > 7000 ){
+		xAxe = 48;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
+				
+				var tem = obj.Hum[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
+		}
+	
+	}else{
+		alert("Network is offline!");
+	}
+	
     var ctx = document.getElementById("ChartHum");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
+		
         type: 'line',
-
 
         data: {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: '#00ccff',
-                label: 'test',
+                label: 'Wilgotność',
                 lineTension: 0.5,
                 data: data_chart,
 				fill:false,						
@@ -299,8 +336,7 @@ function DrawChartHum(data) {
             }]
         }
         }
-    });
-		
+    });		
 	setTimeout("DrawChartHum()",30000);
 }
 
@@ -312,84 +348,100 @@ function DrawChartTemp(data) {
 	var lebels = [];
     var data_chart = [];
 	
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
+	
+	//Check if network is online
+	if(isOnline){
+	
+		// 1h
 		if(howMany < 200){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe--;
+		xAxe = 60;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+				var tem = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe--;
+			}
 		}
-	}
-	if(howMany > 200 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
-			
-			var tem = obj.Temp[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=3;
+		
+		// 3h
+		if(howMany > 200 &&  howMany <700){
+		xAxe = 180;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+				
+				var tem = obj.Temp[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=3;
+			}
 		}
-	
-	}
-	if( howMany > 700 &&  howMany <1400){
-	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem = obj.Temp[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 6h
+		if( howMany > 700 &&  howMany <1400){
+		xAxe = 6; //co 15 min
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem = obj.Temp[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}	
 		}
-	
-	}
-	
-	if( howMany > 1400 &&  howMany <3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem = obj.Temp[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 12h
+		if( howMany > 1400 &&  howMany <3000){
+		xAxe = 12;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem = obj.Temp[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
 		}
-	
-	}
-	
-	if( howMany > 3000 &&  howMany <7000){
-	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
-			
-			var tem = obj.Temp[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 24h
+		if( howMany > 3000 &&  howMany <7000){
+		xAxe = 24;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
+				
+				var tem = obj.Temp[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
 		}
-	}
-	
+		
+		// 48h
 		if( howMany > 7000 ){
-	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
-			
-			var tem = obj.Temp[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		xAxe = 48;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
+				
+				var tem = obj.Temp[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
 		}
+	
+	}else{
+		alert("Network is offline!");
 	}
 	
     var ctx = document.getElementById("ChartTemp");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
+		
         type: 'line',
 
-        // The data for our dataset
         data: {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: 'red',
-                label: 'test',
+                label: 'Temperatura',
                 lineTension: 0.5,
                 data: data_chart,
 				fill:false,		
@@ -439,90 +491,106 @@ function DrawChartTemp(data) {
 
 // Draw light chart in given timespan
 function DrawChartLight(data) {
+	
     var obj = JSON.parse(data);
 	var tem = obj.Light[0];
 	
 	var lebels = [];
     var data_chart = [];
 	
-	if(howMany < 200){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj.Light[i];
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe--;
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
+	
+	//Check if network is online
+	if(isOnline){
+	
+		// 1h
+		if(howMany < 200){
+		xAxe = 60;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+				var tem = obj.Light[i];
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe--;
+			}
 		}
-	}
-	if(howMany > 200 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
-			
-			var tem = obj.Light[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=3;
+		
+		// 3h
+		if(howMany > 200 &&  howMany <700){
+		xAxe = 180;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+				
+				var tem = obj.Light[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=3;
+			}
 		}
-	
-	}
-	if( howMany > 700 &&  howMany <1400){
-	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem = obj.Light[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 6h
+		if( howMany > 700 &&  howMany <1400){
+		xAxe = 6; //co 15 min
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem = obj.Light[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}		
 		}
-	
-	}
-	
-	if( howMany > 1400 &&  howMany <3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem = obj.Light[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 12h
+		if( howMany > 1400 &&  howMany <3000){
+		xAxe = 12;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem = obj.Light[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}		
 		}
-	
-	}
-	
-	if( howMany > 3000 &&  howMany <7000){
-	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
-			
-			var tem = obj.Light[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		
+		// 24h
+		if( howMany > 3000 &&  howMany <7000){
+		xAxe = 24;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
+				
+				var tem = obj.Light[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
 		}
-	}
-	
+		
+		// 48h
 		if( howMany > 7000 ){
-	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
-			
-			var tem = obj.Light[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
+		xAxe = 48;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
+				
+				var tem = obj.Light[i];			
+				lebels.push(-xAxe);
+				data_chart.push(tem.value);
+				xAxe-=0.25;
+			}
 		}
+	
+	}else{
+		alert("Network is offline!");
 	}
 	
     var ctx = document.getElementById("ChartLight");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
         type: 'line',
 
-        // The data for our dataset
         data: {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: '#FF8900',
-                label: 'test',
+                label: 'Światło',
                 lineTension: 0.5,
                 data: data_chart,
 				fill:false,		
@@ -532,22 +600,18 @@ function DrawChartLight(data) {
         options: {
             legend: {
                 display: false
-
             },
             title: {
                 display: true,
 				fontColor: 'white',
 				fontSize: 32
-            },
-			
-
+            },	
 			 scales: {
 				xAxes: [ {
             scaleLabel: {
 			display: true,
             labelString: '[min] / [h]'
           },
-
         } ],
             yAxes: [{				
                 ticks: {
@@ -556,102 +620,116 @@ function DrawChartLight(data) {
 				scaleLabel: {
 				display: true,
 				labelString: '[mV]'
-				}
-				
+				}			
             }]
         }
         }
-    });
-			
+    });		
 	setTimeout("DrawChartLight()",30000);
 }
 
 // Draw pollution chart in given timespan
 function DrawChartPollution(data) {
-    var obj = JSON.parse(data);
+    
+	var obj = JSON.parse(data);
 	var tem = obj.VOC[0];
 	
 	var lebels = [];
     var data_chart = [];
 	
-		if(howMany < 200){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem = obj.VOC[i];
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe--;
-		}
-	}
-	if(howMany > 200 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
+	
+	//Check if network is online
+	if(isOnline){
+		
+			// 1h
+			if(howMany < 200){
+			xAxe = 60;
+				for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+					var tem = obj.VOC[i];
+					lebels.push(-xAxe);
+					data_chart.push(tem.value);
+					xAxe--;
+				}
+			}
 			
-			var tem = obj.VOC[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=3;
-		}
-	
-	}
-	if( howMany > 700 &&  howMany <1400){
-	xAxe = 6; //co 15 min
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+			// 3h
+			if(howMany > 200 &&  howMany <700){
+			xAxe = 180;
+				for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+					
+					var tem = obj.VOC[i];			
+					lebels.push(-xAxe);
+					data_chart.push(tem.value);
+					xAxe-=3;
+				}
+			}
 			
-			var tem = obj.VOC[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
-		}
-	
-	}
-	
-	if( howMany > 1400 &&  howMany <3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+			// 6h
+			if( howMany > 700 &&  howMany <1400){
+			xAxe = 6; //co 15 min
+				for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+					
+					var tem = obj.VOC[i];			
+					lebels.push(-xAxe);
+					data_chart.push(tem.value);
+					xAxe-=0.25;
+				}		
+			}
 			
-			var tem = obj.VOC[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
-		}
-	
-	}
-	
-	if( howMany > 3000 &&  howMany <7000){
-	xAxe = 24;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
+			// 12h
+			if( howMany > 1400 &&  howMany <3000){
+			xAxe = 12;
+				for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+					
+					var tem = obj.VOC[i];			
+					lebels.push(-xAxe);
+					data_chart.push(tem.value);
+					xAxe-=0.25;
+				}			
+			}
 			
-			var tem = obj.VOC[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
-		}
-	}
-	
-		if( howMany > 7000 ){
-	xAxe = 48;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
+			// 24h
+			if( howMany > 3000 &&  howMany <7000){
+			xAxe = 24;
+				for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
+					
+					var tem = obj.VOC[i];			
+					lebels.push(-xAxe);
+					data_chart.push(tem.value);
+					xAxe-=0.25;
+				}
+			}
 			
-			var tem = obj.VOC[i];			
-			lebels.push(-xAxe);
-			data_chart.push(tem.value);
-			xAxe-=0.25;
-		}
+			// 48h
+			if( howMany > 7000 ){
+			xAxe = 48;
+				for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
+					
+					var tem = obj.VOC[i];			
+					lebels.push(-xAxe);
+					data_chart.push(tem.value);
+					xAxe-=0.25;
+				}
+			}
+	}else{
+		alert("Network is offline!");
 	}
 	
     var ctx = document.getElementById("ChartPollution");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
+
         type: 'line',
 
-        // The data for our dataset
         data: {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: '#DCDCDC',
-                label: 'test',
+                label: 'Zanieczyszczenie',
                 lineTension: 0.5,
                 data: data_chart,
 				fill:false,		
@@ -661,22 +739,18 @@ function DrawChartPollution(data) {
         options: {
             legend: {
                 display: false
-
             },
             title: {
                 display: true,
 				fontColor: 'white',
 				fontSize: 32
             },
-			
-
 			 scales: {
 				xAxes: [ {
             scaleLabel: {
 			display: true,
             labelString: '[min] / [h]'
           },
-
         } ],
             yAxes: [{				
                 ticks: {
@@ -685,13 +759,11 @@ function DrawChartPollution(data) {
 				scaleLabel: {
 				display: true,
 				labelString: '[VOC]'
-				}
-				
+				}		
             }]
         }
         }
-    });
-			
+    });		
 	setTimeout("DrawChartLight()",30000);
 }
 
@@ -706,107 +778,119 @@ function DrawChartHumPTemp(data) {
     var data_chartHum = [];
 	var data_chartTemp = [];
 	
-	if(howMany < 300){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem1 = obj.Hum[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartHum.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe--;
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
+	
+	//Check if network is online
+	if(isOnline){
+	
+		// 1h
+		if(howMany < 300){
+		xAxe = 60;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+				var tem1 = obj.Hum[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartHum.push(tem1.value);
+				data_chartTemp.push(tem2.value);
+				xAxe--;
+			}
 		}
-	}
-	
-	if(howMany > 300 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
-			
-			var tem1 = obj.Hum[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartHum.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=3;
+		
+		// 3h
+		if(howMany > 300 &&  howMany <700){
+		xAxe = 180;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+				
+				var tem1 = obj.Hum[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartHum.push(tem1.value);
+				data_chartTemp.push(tem2.value);
+				xAxe-=3;
+			}	
 		}
-	
-	}
-	if(howMany > 700 &&  howMany < 1400){
-	xAxe = 6;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem1 = obj.Hum[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartHum.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+		
+		// 6h
+		if(howMany > 700 &&  howMany < 1400){
+			xAxe = 6;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem1 = obj.Hum[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartHum.push(tem1.value);
+				data_chartTemp.push(tem2.value);
+				xAxe-=0.25;
+			}		
 		}
-	
-	}
-	
+		
+		// 12h
 		if(howMany > 1400 &&  howMany < 3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem1 = obj.Hum[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartHum.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+			xAxe = 12;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+					
+				var tem1 = obj.Hum[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartHum.push(tem1.value);
+				data_chartTemp.push(tem2.value);
+				xAxe-=0.25;
+			}	
 		}
-	
-	}
-	
-	if(howMany > 3000 &&  howMany < 7000){
+		
+		// 24h
+		if(howMany > 3000 &&  howMany < 7000){
 			xAxe = 24;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
-			
-			var tem1 = obj.Hum[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartHum.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+				
+				var tem1 = obj.Hum[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartHum.push(tem1.value);
+				data_chartTemp.push(tem2.value);
+				xAxe-=0.25;
+			}		
 		}
-	
-	}
-	
+		
+		// 48h
 		if(howMany > 7000){
 			xAxe = 48;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
-			
-			var tem1 = obj.Hum[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartHum.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+				
+				var tem1 = obj.Hum[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartHum.push(tem1.value);
+				data_chartTemp.push(tem2.value);
+				xAxe-=0.25;
+			}
 		}
-	
+		
+	}else{
+		alert("Network is offline!");
 	}
-
 
     var ctx = document.getElementById("ChartHumPTemp");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
+		
         type: 'line',
-
 
         data: {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: '#00ccff',
-                label: 'test',
+                label: 'Wilgotność',
                 lineTension: 0.5,
                 data: data_chartHum,
 				fill:false,						
             },{
 				backgroundColor: '#DCDCDC',
                 borderColor: 'red',
-                label: 'test',
+                label: 'Temperatura',
                 lineTension: 0.5,
                 data: data_chartTemp,
 				fill:false,				
@@ -863,106 +947,120 @@ function DrawChartLightPTemp(data) {
     var data_chartLight = [];
 	var data_chartTemp = [];
 	
-	if(howMany < 200){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem1 = obj.Light[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe--;
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
+	
+	//Check if network is online
+	if(isOnline){
+		
+		// 1h
+		if(howMany < 200 ){
+			xAxe = 60;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+				var tem1 = obj.Light[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartTemp.push(tem2.value*10);
+				xAxe--;
+			}
 		}
-	}
-	
-	if(howMany > 200 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=3;
+		
+		// 3h
+		if(howMany > 200 && howMany <700){
+			xAxe = 180;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartTemp.push(tem2.value*10);
+				xAxe-=3;
+			}
 		}
-	
-	}
-	if(howMany > 700 &&  howMany <1400){
-	xAxe = 6;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+		
+		// 6h
+		if(howMany > 700 &&  howMany <1400){
+			xAxe = 6;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartTemp.push(tem2.value*10);
+				xAxe-=0.25;
+			}	
 		}
-	
-	}
-	
+		
+		// 12h
 		if(howMany > 1400 &&  howMany <3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+			xAxe = 12;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartTemp.push(tem2.value*10);
+				xAxe-=0.25;
+			}
+		
 		}
-	
-	}
+		
+		// 24h
 		if(howMany > 3000 &&  howMany < 7000){
 			xAxe = 24;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartTemp.push(tem2.value*10);
+				xAxe-=0.25;
+			}		
 		}
-	
-	}
-	
+		
+		// 48h
 		if(howMany > 7000){
 			xAxe = 48;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.Temp[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartTemp.push(tem2.value);
-			xAxe-=0.25;
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.Temp[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartTemp.push(tem2.value*10);
+				xAxe-=0.25;
+			}
 		}
-	
+	}else{
+		alert("Network is offline!");
 	}
 	
 
     var ctx = document.getElementById("ChartLightPTemp");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
+        
         type: 'line',
-
 
         data: {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: '#FF8900',
-                label: 'test',
+                label: 'Światło',
                 lineTension: 0.5,
                 data: data_chartLight,
 				fill:false,						
             },{
 				backgroundColor: '#DCDCDC',
                 borderColor: 'red',
-                label: 'test',
+                label: 'Temperatura',
                 lineTension: 0.5,
                 data: data_chartTemp,
 				fill:false,				
@@ -1019,89 +1117,104 @@ function DrawChartLightPLightState(data) {
     var data_chartLight = [];
 	var data_chartLightState = [];
 	
-	if(howMany < 300){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var tem1 = obj.Light[i];
-			var tem2 = obj.LightState[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value*100);
-			xAxe--;
-		}
-	}
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
 	
-	if(howMany > 300 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.LightState[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value*100);
-			xAxe-=3;
+	//Check if network is online
+	if(isOnline){
+		
+		// 1h
+		if(howMany < 300){
+			xAxe = 60;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+				var tem1 = obj.Light[i];
+				var tem2 = obj.LightState[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartLightState.push(tem2.value*100);
+				xAxe--;
+			}
 		}
-	
-	}
-	if(howMany > 700 &&  howMany <1400){
-	xAxe = 6;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.LightState[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value*100);
-			xAxe-=0.25;
+		
+		// 3h
+		if(howMany > 300 &&  howMany <700){
+			xAxe = 180;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.LightState[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartLightState.push(tem2.value*100);
+				xAxe-=3;
+			}		
 		}
-	}
-	
+		
+		// 6h
+		if(howMany > 700 &&  howMany <1400){
+			xAxe = 6;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.LightState[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartLightState.push(tem2.value*100);
+				xAxe-=0.25;
+			}
+		}
+		
+		// 12h
 		if(howMany > 1400 &&  howMany <3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.LightState[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value*100);
-			xAxe-=0.25;
+			xAxe = 12;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.LightState[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartLightState.push(tem2.value*100);
+				xAxe-=0.25;
+			}
 		}
-	}
-	
+		
+		// 24h
 		if(howMany > 3000 &&  howMany < 7000){
 			xAxe = 24;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.LightState[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value*100);
-			xAxe-=0.25;
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.LightState[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartLightState.push(tem2.value*100);
+				xAxe-=0.25;
+			}	
 		}
-	
-	}
-	
+		
+		// 48h
 		if(howMany > 7000){
 			xAxe = 48;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
-			
-			var tem1 = obj.Light[i];
-			var tem2 = obj.LightState[i];
-			lebels.push(-xAxe);
-			data_chartLight.push(tem1.value);
-			data_chartLightState.push(tem2.value*100);
-			xAxe-=0.25;
+				
+				var tem1 = obj.Light[i];
+				var tem2 = obj.LightState[i];
+				lebels.push(-xAxe);
+				data_chartLight.push(tem1.value);
+				data_chartLightState.push(tem2.value*100);
+				xAxe-=0.25;
+			}	
 		}
-	
+		
+	}else{
+	alert("Network is offline!");
 	}
-	
 
     var ctx = document.getElementById("ChartLightPlightState");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
+
         type: 'line',
 
 
@@ -1110,14 +1223,14 @@ function DrawChartLightPLightState(data) {
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: '#FF8900',
-                label: 'test',
+                label: 'Światło',
                 lineTension: 0.5,
                 data: data_chartLight,
 				fill:false,						
             },{
 				backgroundColor: '#DCDCDC',
                 borderColor: '#DCDCDC',
-                label: 'test',
+                label: 'Oświetlenie',
                 lineTension: 0.5,
                 data: data_chartLightState,
 				fill:false,				
@@ -1158,8 +1271,7 @@ function DrawChartLightPLightState(data) {
             }]
         }
         }
-    });
-		
+    });		
 	setTimeout("DrawChartLightPLightState()",30000);
 }
 
@@ -1174,105 +1286,118 @@ function DrawChartRSSI(data) {
     var data_chartRSSI_MeshR = [];
 	var data_chartRSSI_Leaf = [];
 	
-	if(howMany < 300){
-	xAxe = 60;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
-			var ChartRSSI1 = obj.RSSI_MeshR[i];
-			var ChartRSSI2 = obj.RSSI_Leaf[i];
-			lebels.push(-xAxe);
-			data_chartRSSI_MeshR.push(ChartRSSI1.value);
-			data_chartRSSI_Leaf.push(ChartRSSI2.value);
-			xAxe--;
-		}
-	}
+	// Clear background -> remove previous chart
+    if(SensorDataChart!=null){
+        SensorDataChart.destroy();
+    }
 	
-	if(howMany > 300 &&  howMany <700){
-	xAxe = 180;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
-			
-			var ChartRSSI1 = obj.RSSI_MeshR[i];
-			var ChartRSSI2 = obj.RSSI_Leaf[i];
-			lebels.push(-xAxe);
-			data_chartRSSI_MeshR.push(ChartRSSI1.value);
-			data_chartRSSI_Leaf.push(ChartRSSI2.value);
-			xAxe-=3;
+	//Check if network is online
+	if(isOnline){
+		
+		// 1h
+		if(howMany < 300){
+			xAxe = 60;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=3){
+				var ChartRSSI1 = obj.RSSI_MeshR[i];
+				var ChartRSSI2 = obj.RSSI_Leaf[i];
+				lebels.push(-xAxe);
+				data_chartRSSI_MeshR.push(ChartRSSI1.value);
+				data_chartRSSI_Leaf.push(ChartRSSI2.value);
+				xAxe--;
+			}
 		}
-	
-	}
-	if(howMany > 700 &&  howMany <1400){
-	xAxe = 6;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var ChartRSSI1 = obj.RSSI_MeshR[i];
-			var ChartRSSI2 = obj.RSSI_Leaf[i];
-			lebels.push(-xAxe);
-			data_chartRSSI_MeshR.push(ChartRSSI1.value);
-			data_chartRSSI_Leaf.push(ChartRSSI2.value);
-			xAxe-=0.25;
+		
+		// 3h
+		if(howMany > 300 &&  howMany <700){
+			xAxe = 180;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=9){
+				
+				var ChartRSSI1 = obj.RSSI_MeshR[i];
+				var ChartRSSI2 = obj.RSSI_Leaf[i];
+				lebels.push(-xAxe);
+				data_chartRSSI_MeshR.push(ChartRSSI1.value);
+				data_chartRSSI_Leaf.push(ChartRSSI2.value);
+				xAxe-=3;
+			}		
 		}
-	}
-	
+		
+		// 6h
+		if(howMany > 700 &&  howMany <1400){
+			xAxe = 6;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var ChartRSSI1 = obj.RSSI_MeshR[i];
+				var ChartRSSI2 = obj.RSSI_Leaf[i];
+				lebels.push(-xAxe);
+				data_chartRSSI_MeshR.push(ChartRSSI1.value);
+				data_chartRSSI_Leaf.push(ChartRSSI2.value);
+				xAxe-=0.25;
+			}
+		}
+		
+		// 12h
 		if(howMany > 1400 &&  howMany <3000){
-	xAxe = 12;
-		for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
-			
-			var ChartRSSI1 = obj.RSSI_MeshR[i];
-			var ChartRSSI2 = obj.RSSI_Leaf[i];
-			lebels.push(-xAxe);
-			data_chartRSSI_MeshR.push(ChartRSSI1.value);
-			data_chartRSSI_Leaf.push(ChartRSSI2.value);
-			xAxe-=0.25;
+			xAxe = 12;
+			for(var i = howMany-1; i > 0 && xAxe > 0; i-=44){
+				
+				var ChartRSSI1 = obj.RSSI_MeshR[i];
+				var ChartRSSI2 = obj.RSSI_Leaf[i];
+				lebels.push(-xAxe);
+				data_chartRSSI_MeshR.push(ChartRSSI1.value);
+				data_chartRSSI_Leaf.push(ChartRSSI2.value);
+				xAxe-=0.25;
+			}
 		}
-	}
-	
+		
+		// 24h
 		if(howMany > 3000 &&  howMany < 7000){
 			xAxe = 24;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=42){
-			
-			var ChartRSSI1 = obj.RSSI_MeshR[i];
-			var ChartRSSI2 = obj.RSSI_Leaf[i];
-			lebels.push(-xAxe);
-			data_chartRSSI_MeshR.push(ChartRSSI1.value);
-			data_chartRSSI_Leaf.push(ChartRSSI2.value);
-			xAxe-=0.25;
+				
+				var ChartRSSI1 = obj.RSSI_MeshR[i];
+				var ChartRSSI2 = obj.RSSI_Leaf[i];
+				lebels.push(-xAxe);
+				data_chartRSSI_MeshR.push(ChartRSSI1.value);
+				data_chartRSSI_Leaf.push(ChartRSSI2.value);
+				xAxe-=0.25;
+			}	
 		}
-	
-	}
-	
+		
+		// 48h
 		if(howMany > 7000){
 			xAxe = 48;
 			for(var i = howMany-1; i > 0 && xAxe > 0; i-=43){
-			
-			var ChartRSSI1 = obj.RSSI_MeshR[i];
-			var ChartRSSI2 = obj.RSSI_Leaf[i];
-			lebels.push(-xAxe);
-			data_chartRSSI_MeshR.push(ChartRSSI1.value);
-			data_chartRSSI_Leaf.push(ChartRSSI2.value);
-			xAxe-=0.25;
+				
+				var ChartRSSI1 = obj.RSSI_MeshR[i];
+				var ChartRSSI2 = obj.RSSI_Leaf[i];
+				lebels.push(-xAxe);
+				data_chartRSSI_MeshR.push(ChartRSSI1.value);
+				data_chartRSSI_Leaf.push(ChartRSSI2.value);
+				xAxe-=0.25;
+			}	
 		}
-	
+	}else{
+		alert("Network is ofline!");
 	}
-	
 
     var ctx = document.getElementById("ChartRSSI");
     SensorDataChart = new Chart(ctx, {
-        // The type of chart we want to create
+		
         type: 'line',
-
 
         data: {
             labels: lebels,
             datasets: [{
                 backgroundColor: '#DCDCDC',
                 borderColor: '#FF6C00',
-                label: 'test',
+                label: 'Mesh Router (RSSI)',
                 lineTension: 0.5,
                 data: data_chartRSSI_MeshR,
 				fill:false,						
             },{
 				backgroundColor: '#DCDCDC',
                 borderColor: '#00A4FF',
-                label: 'test',
+                label: 'Leaf Node (RSSI)',
                 lineTension: 0.5,
                 data: data_chartRSSI_Leaf,
 				fill:false,				
@@ -1318,6 +1443,7 @@ function DrawChartRSSI(data) {
 	setTimeout("DrawChartRSSI()",30000);
 }
 
+/**************PARSE DATA***************/
 
 // "Main_Page.html" and "All_Sensors.html" 
 function getAllSensors() {
@@ -1347,6 +1473,7 @@ getDataFromCloud(choice);
 setTimeout("getNetworkStatus()",30000);
 }
 
+/**************SET TIMESPAN*************/
 
 // The following functions set up time span and call "getChartData()" function
 function getData1h(paramChoice) {
