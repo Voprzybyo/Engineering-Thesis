@@ -90,7 +90,6 @@ static void ReadSHT()
  */
 static void ReadLight()
 {
-
     ADC.convertToMicroVolts(ADC0, &light);
     light /= 1000;
 	//Util.printf("Light sensor read:  Light[mV]: %i\n", light);
@@ -224,7 +223,9 @@ static void sendCoAP()
  */
 void responseHandler(const uint8_t *payload, uint8_t payload_size)
 {
-	
+	return;
+}
+
 	//Util.printf("Otrzymalem: %s\n", payload);
 	
 	return;
@@ -236,7 +237,7 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
  * Function used for debugging purposes.
  * @retval void
  */
- /*
+ 
  static void Printout()
 {
     Util.printf("\n\n");
@@ -250,7 +251,7 @@ void responseHandler(const uint8_t *payload, uint8_t payload_size)
         else Util.printf("Not Pushed");
     return;
 }
-*/
+
  
  /**
 * @brief Startup function used for connect to network and cloud only once at the beginning.
@@ -291,8 +292,6 @@ static void startup()
 * @brief CoapHandler to capture request from other nodes in network. In this case handler is used to turn on/off light by leaf node
 * @retval void
 */
-
-//TO DO - zmienić to na "0" i "1" zamiast "Light: OFF", "Light: ON"
 static void coapHandler(RequestType type, IPAddr srcAddr, uint8_t *payload, uint8_t payloadSize, uint8_t *response, uint8_t *responseSize)
 {
 	char * key = "0";
@@ -363,7 +362,6 @@ RIIM_SETUP()
 		
     I2C.transfer(SGPC3_I2C_ADDRESS, wbuf, 2, NULL, 0);
 	
-	//
 	ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
 	//printoutTimerHandler=Timer.create(PERIODIC, printoutTimerPeriod, Printout);
 	startupTimerHandler = Timer.create(PERIODIC, 30000, startup);

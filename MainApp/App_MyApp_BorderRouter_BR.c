@@ -66,14 +66,14 @@ static bool connectedToServer;
 * @brief Function using for debugging purposes. Toggle state of LED diode.
 * @retval void
 */
-/*
+
 static void LED()
 {
 	// GPIO.toggle(GPIO_0);
 	// GPIO.toggle(GPIO_1);
 	return;
 }
-*/
+
 
 /**
 * @brief Read user button status. Assing corresponding value to userButton variable.
@@ -82,7 +82,7 @@ static void LED()
 static void ReadUserButton()
 {
     userButton=GPIO.getValue(GPIO_2);	
-   if(userButton==0) {
+    if(userButton==0) {
 		Util.printf("Pushed");
 		lightsOn = 1;
 		Timer.start(oneShotTimerHandler);
@@ -95,88 +95,29 @@ static void ReadUserButton()
 
 
 /**
-* @brief Check if button on border router is pushed.<br>
-* Function set "lightsOn" variable and start one shot timer to register only one light request from user.
-* @retval void
-*/
-/*
-static void ButtonCheck()
-{
-    if(userButton==0) {
-		//Util.printf("Pushed");
-		lightsOn = 1;
-		Timer.start(oneShotTimerHandler);
-	}else{ 
-		lightsOn = 0;
-	}
-	
-	return;
-}
-*/
-
-/**
 * @brief Send CoAP message to leaf node with "light ON/OFF" request.
 * @retval void
 */
 static void sendCoAPtoSensorBoard()
 {
-    CoAP.connectToServer6(childNodeIPAddr, false);
-Util.printf("SENDING!!!!");
-    uint8_t payload[100];
+	uint8_t payload[100];
     int payloadLength;
+	
+    CoAP.connectToServer6(childNodeIPAddr, false);
+
     payloadLength=Util.sprintf((char*)payload, "%i", lightsOn);
     CoAP.send(CoAP_PUT, false, resourceName2, payload, payloadLength);
     
     return;
 }
 
-// TO DO - Potrzebne lub nie (zal od tego czy router musi cos wysylac do chmury)
-// wsadzić tu część funkcji timerHandler
-/*
-static void sendCoAP()
-{
-
-	//uint8_t payload[100];
-	//int payloadLength;
-	//payloadLength = Util.sprintf((char*)payload, "{LLL:1}");
-	//Util.printf("Wysylam do chmury...\n");
-	//CoAP.send(CoAP_POST, false, resourceName, payload, payloadLength);
-	return;
-}
-*/
-
-
-/**
-* @brief Startup function used for connect to network and cloud only once at the beginning.
-* @retval void
-*/
-/*
-static void startup()
-{
-	Util.printf("We are connected to the network!\n");
-	Util.printf("Connecting to CoAP server\n");
-
-	if (CoAP.connectToServer4(serverIP4Addr, false) != UAPI_OK) {
-		Util.printf("FAILED to connect4 to server\n");
-		return;
-	}
-
-	Timer.stop(startupTimerHandler);
-	Timer.start(coapTimerHandler);
-
-	return;
-}
-*/
-
-
 
 /**
 * @brief Main block of border router code. <br>
 * Print avaiable connection between nodes in network to console. <br>
 * Connect to cloud and send data about network in JSON format.
-* @retval void*/
-
-//TO DO - rozdzielić to na kilka mniejszych funkcji (zwiększyć czytelność kodu)
+* @retval void
+*/
 static void timerHandler()
 {
     uint8_t addr[4];
@@ -192,7 +133,6 @@ static void timerHandler()
 
     //static uint16_t linkIndex;
 	
-
 	IPAddr adresV6;
 	Network.getAddress(&adresV6);
 	shortAddr=(adresV6.byte[14]<<8) | adresV6.byte[15];
@@ -327,11 +267,11 @@ RIIM_SETUP()
 
     // Setup timers
     timerHandle=Timer.create(PERIODIC, timerPeriod, timerHandler);
-		sensorTimerHandler = Timer.create(PERIODIC, 100*MILLISECOND, ReadUserButton); // TO DO
-		oneShotTimerHandler = Timer.create(ONE_SHOT, 1*SECOND, sendCoAPtoSensorBoard);
-		//ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
+	sensorTimerHandler = Timer.create(PERIODIC, 100*MILLISECOND, ReadUserButton); // TO DO
+	oneShotTimerHandler = Timer.create(ONE_SHOT, 1*SECOND, sendCoAPtoSensorBoard);
+	//ledTimerHandler=Timer.create(PERIODIC, ledTimerPeriod, LED);
 		
-		CoAP.registerResponseHandler(responseHandler);					
+	CoAP.registerResponseHandler(responseHandler);					
 			
 	// Start timers
     Timer.start(timerHandle);
